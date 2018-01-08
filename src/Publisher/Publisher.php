@@ -114,6 +114,7 @@ class Publisher implements PublisherInterface, SetupInterface
      */
     public function publish($content, array $headers = []): void
     {
+        $this->setup();
         $content = $this->beforePublishContent($content);
         $headers = $this->beforePublishHeaders($headers);
 
@@ -136,15 +137,18 @@ class Publisher implements PublisherInterface, SetupInterface
         // Exchange declare
         // Binding
         $this->logger->info('Rabbit MQ setup.');
-        $this->client = $this->connectionManager->getClient();
 
         try {
-            /**
-             * @var Channel $channel
-             */
-            $channel = $this->client->connect()->channel();
 
-            $this->channel = $channel;
+            if ($this->client === NULL) {
+                $this->client = $this->connectionManager->getClient();
+                /**
+                 * @var Channel $channel
+                 */
+                $channel = $this->client->connect()->channel();
+
+                $this->channel = $channel;
+            }
 
             $this->channel->queueDeclare($this->routingKey);
             $this->channel->exchangeDeclare($this->exchange);
