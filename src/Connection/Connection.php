@@ -86,6 +86,7 @@ class Connection
             $this->getClient()->connect();
             /** @var Channel $channel */
             $channel             = $this->client->channel();
+            $id                  = $channel->getChannelId();
             $this->channels[$id] = $channel;
         }
 
