@@ -43,7 +43,7 @@ class RabbitMqCompilerPass implements CompilerPassInterface
 
         // Publishers
         foreach ($config['publishers'] as $key => $publisher) {
-            $publisherName = $this->createKey('producer.' . $key);
+            $publisherName = $this->createKey('publisher.' . $key);
             $publisherDef  = new Definition($config['publisher'], [
                 new Reference($this->createKey('connection_manager')),
                 $publisher['routing_key'],
