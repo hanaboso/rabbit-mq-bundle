@@ -136,19 +136,26 @@ class Consumer implements ConsumerInterface, SetupInterface
      */
     public function consume(): void
     {
-        $this->getChannel()->consume(
-            function (Message $message, Channel $channel, Client $client): void {
-                $this->callback->processMessage($message, $channel, $client);
-            },
-            $this->queue,
-            $this->consumerTag,
-            $this->noLocal,
-            $this->noAck,
-            $this->exclusive,
-            $this->nowait,
-            $this->arguments
-        );
-        $this->connectionManager->getConnection()->getClient()->run();
+        try {
+            $this->getChannel()->consume(
+                function (Message $message, Channel $channel, Client $client): void {
+                    $this->callback->processMessage($message, $channel, $client);
+                },
+                $this->queue,
+                $this->consumerTag,
+                $this->noLocal,
+                $this->noAck,
+                $this->exclusive,
+                $this->nowait,
+                $this->arguments
+            );
+            $this->connectionManager->getConnection()->getClient()->run();
+        } catch (Throwable $e) {
+            //@todo add logger
+            $this->connectionManager->getConnection()->reconnect();
+            $this->setup();
+            $this->consume();
+        }
     }
 
     /**
@@ -180,7 +187,7 @@ class Consumer implements ConsumerInterface, SetupInterface
             $this->getChannel()->queueDeclare($this->queue);
             $this->getChannel()->qos($this->prefetchSize, $this->prefetchCount);
         } catch (Throwable $e) {
-            // reconnect
+            //@todo add logger
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
         }

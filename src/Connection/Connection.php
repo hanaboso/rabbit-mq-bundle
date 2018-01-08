@@ -12,6 +12,7 @@ namespace RabbitMqBundle\Connection;
 use Bunny\Channel;
 use Bunny\Client;
 use Bunny\Exception\ClientException;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -34,7 +35,7 @@ class Connection
     private $clientFactory;
 
     /**
-     * @var Client
+     * @var Client|null
      */
     private $client;
 
@@ -74,21 +75,35 @@ class Connection
     }
 
     /**
+     *
+     */
+    public function removeClient(): void
+    {
+        var_dump('remove client - disconnect');
+
+        if ($this->client !== NULL) {
+            $this->client->disconnect();
+            $this->client = NULL;
+        }
+    }
+
+    /**
      * @param int|null $id
      *
      * @return Channel
-     * @throws \Exception
      */
-    public function getChannel(int $id = NULL): Channel
+    public function getChannel(?int $id = NULL): Channel
     {
         if (!$this->getClient()->isConnected()) {
+            $this->connect();
             /** @var Channel $channel */
-            $channel             = $this->getClient()->connect()->channel();
+            $channel             = $this->getClient()->channel();
             $id                  = $channel->getChannelId();
             $this->channels[$id] = $channel;
         }
 
         if (!array_key_exists($id, $this->channels)) {
+            /** @var Channel $channel */
             $channel             = $this->getClient()->channel();
             $id                  = $channel->getChannelId();
             $this->channels[$id] = $channel;
@@ -100,14 +115,59 @@ class Connection
     /**
      *
      */
+    public function connect(): void
+    {
+        try {
+            $this->getClient()->connect();
+        } catch (Exception $clientException) {
+            $this->internalReconnect(function (): void {
+                // close old client
+                $this->removeClient();
+
+                // create new client
+                $this->getClient()->connect();
+
+                // recreate all channels
+                foreach (array_keys($this->channels) as $id) {
+                    $this->getChannel($id);
+                }
+            });
+        }
+    }
+
+    /**
+     *
+     */
     public function reconnect(): void
+    {
+        $this->internalReconnect(function (): void {
+            // close old client
+            $this->removeClient();
+
+            // create new client
+            $this->getClient();
+
+            // recreate all channels
+            foreach (array_keys($this->channels) as $id) {
+                $this->getChannel($id);
+            }
+        });
+    }
+
+    /**
+     * @param callable $reconnect
+     */
+    private function internalReconnect(callable $reconnect): void
     {
         do {
             $wait = 2;
             sleep($wait);
             $this->logger->info(sprintf('Waiting for %ss.', $wait));
             try {
-                var_dump(array_keys($this->channels));
+                var_dump('reconnect');
+
+                $reconnect();
+
                 $connect = TRUE;
                 $this->logger->info('RabbitMQ is connected.');
             } catch (ClientException $e) {

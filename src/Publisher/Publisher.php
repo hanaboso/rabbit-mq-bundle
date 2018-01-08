@@ -139,14 +139,20 @@ class Publisher implements PublisherInterface, SetupInterface
         $content = $this->beforePublishContent($content);
         $headers = $this->beforePublishHeaders($headers);
 
-        $this->getChannel()->publish(
-            $content,
-            $headers,
-            $this->exchange,
-            $this->routingKey,
-            $this->mandatory,
-            $this->immediate
-        );
+        try {
+            $this->getChannel()->publish(
+                $content,
+                $headers,
+                $this->exchange,
+                $this->routingKey,
+                $this->mandatory,
+                $this->immediate
+            );
+        } catch (Throwable $e) {
+            $this->connectionManager->getConnection()->reconnect();
+            $this->setup();
+            $this->publish($content, $headers);
+        }
     }
 
     /**
@@ -154,6 +160,7 @@ class Publisher implements PublisherInterface, SetupInterface
      */
     public function setup(): void
     {
+        $this->setUp = FALSE;
         // Queue declare
         // Exchange declare
         // Binding
@@ -168,6 +175,7 @@ class Publisher implements PublisherInterface, SetupInterface
             }
         } catch (Throwable $e) {
             // reconnect
+            //@todo add logger
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
         }
