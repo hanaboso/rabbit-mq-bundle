@@ -9,12 +9,16 @@
 
 namespace RabbitMqBundle\Connection;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+
 /**
  * Class ConnectionStore
  *
  * @package RabbitMqBundle\Connection
  */
-class ConnectionManager
+class ConnectionManager implements LoggerAwareInterface
 {
 
     /**
@@ -28,6 +32,11 @@ class ConnectionManager
     private $connections = [];
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * ConnectionStore constructor.
      *
      * @param ClientFactory $clientFactory
@@ -35,6 +44,7 @@ class ConnectionManager
     public function __construct(ClientFactory $clientFactory)
     {
         $this->clientFactory = $clientFactory;
+        $this->logger        = new NullLogger();
     }
 
     /**
@@ -44,7 +54,18 @@ class ConnectionManager
      */
     private function createConnection(string $name): Connection
     {
-        return new Connection($name, $this->clientFactory);
+        $conn = new Connection($name, $this->clientFactory);
+        $conn->setLogger($this->logger);
+
+        return $conn;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
     }
 
     /**

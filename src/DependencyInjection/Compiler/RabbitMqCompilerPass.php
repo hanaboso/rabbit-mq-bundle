@@ -39,6 +39,12 @@ class RabbitMqCompilerPass implements CompilerPassInterface
         $container->setDefinition($this->createKey('client_factory'), $clientFactory);
 
         $connectionManager = new Definition($config['connection_manager'], [new Reference('rabbit_mq.client_factory')]);
+
+        // Add logger
+        if ($config['logger'] !== NULL) {
+            $connectionManager->addMethodCall('setLogger', [new Reference($config['logger'])]);
+        }
+
         $container->setDefinition($this->createKey('connection_manager'), $connectionManager);
 
         // Publishers
@@ -51,6 +57,12 @@ class RabbitMqCompilerPass implements CompilerPassInterface
                 $publisher['mandatory'],
                 $publisher['immediate'],
             ]);
+
+            // Add logger
+            if ($config['logger'] !== NULL) {
+                $publisherDef->addMethodCall('setLogger', [new Reference($config['logger'])]);
+            }
+
             $container->setDefinition($publisherName, $publisherDef);
 
             $publisherCommand = new Definition(PublisherCommand::class, [new Reference($publisherName)]);
@@ -79,6 +91,12 @@ class RabbitMqCompilerPass implements CompilerPassInterface
                 $consumer['prefetch_count'],
                 $consumer['prefetch_size'],
             ]);
+
+            // Add logger
+            if ($config['logger'] !== NULL) {
+                $consumerDef->addMethodCall('setLogger', [new Reference($config['logger'])]);
+            }
+
             $container->setDefinition($consumerName, $consumerDef);
 
             $consumerCommand = new Definition($config['consumer_command'], [new Reference($consumerName)]);

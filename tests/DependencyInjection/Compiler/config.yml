@@ -35,7 +35,6 @@ rabbit_mq:
             exchange: 'my-exchange'
             mandatory: false
             immediate: false
-            logger: 'rabbit-mq.logger'
 
     consumers:
         my-consumer:

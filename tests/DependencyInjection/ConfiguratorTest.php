@@ -55,7 +55,7 @@ class ConfiguratorTest extends TestCase
         $config = $container->getParameter('rabbit_mq');
 
         // Test default keys
-        $this->assertCount(10, $config);
+        $this->assertCount(11, $config);
         $this->assertArrayHasKey('connections', $config);
         $this->assertArrayHasKey('queues', $config);
         $this->assertArrayHasKey('exchanges', $config);
@@ -73,6 +73,8 @@ class ConfiguratorTest extends TestCase
         $this->assertSame(ConsumerCommand::class, $config['consumer_command']);
         $this->assertArrayHasKey('publisher', $config);
         $this->assertSame(Publisher::class, $config['publisher']);
+        $this->assertArrayHasKey('logger', $config);
+        $this->assertNull($config['logger']);
 
         // Test connections
         $connection = [
@@ -143,7 +145,6 @@ class ConfiguratorTest extends TestCase
             'exchange'    => 'my-exchange',
             'mandatory'   => FALSE,
             'immediate'   => FALSE,
-            'logger'      => 'rabbit-mq.logger',
             'class'       => Publisher::class,
             'connection'  => 'default',
         ];
@@ -167,7 +168,6 @@ class ConfiguratorTest extends TestCase
             'tick_seconds'   => NULL,
             'max_messages'   => NULL,
             'max_seconds'    => NULL,
-            'logger'         => NULL,
             'arguments'      => [],
         ];
         $this->assertArrayHasKey('my-consumer', $config['consumers']);

@@ -10,6 +10,7 @@
 namespace RabbitMqBundle\Publisher;
 
 use Bunny\Channel;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RabbitMqBundle\Connection\ConnectionManager;
@@ -21,7 +22,7 @@ use Throwable;
  *
  * @package RabbitMqBundle\Publisher
  */
-class Publisher implements PublisherInterface, SetupInterface
+class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterface
 {
 
     /**
@@ -87,6 +88,14 @@ class Publisher implements PublisherInterface, SetupInterface
         $this->mandatory         = $mandatory;
         $this->immediate         = $immediate;
         $this->logger            = new NullLogger();
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
     }
 
     /**

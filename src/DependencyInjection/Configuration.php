@@ -59,6 +59,7 @@ class Configuration implements ConfigurationInterface
         $rootNode->children()->scalarNode("consumer")->defaultValue(Consumer::class);
         $rootNode->children()->scalarNode("consumer_command")->defaultValue(ConsumerCommand::class);
         $rootNode->children()->scalarNode("publisher")->defaultValue(Publisher::class);
+        $rootNode->children()->scalarNode('logger')->defaultNull();
 
         $rootNode->append($this->getConnections());
         $rootNode->append($this->getQueues());
@@ -198,7 +199,6 @@ class Configuration implements ConfigurationInterface
         $publishers->children()->scalarNode('routing_key')->defaultValue('');
         $publishers->children()->booleanNode('mandatory')->defaultFalse();
         $publishers->children()->booleanNode('immediate')->defaultFalse();
-        $publishers->children()->scalarNode('logger')->defaultNull();
 
         return $node;
     }
@@ -231,7 +231,6 @@ class Configuration implements ConfigurationInterface
         $consumers->children()->scalarNode('tick_seconds')->defaultNull();
         $consumers->children()->scalarNode('max_messages')->defaultNull();
         $consumers->children()->scalarNode('max_seconds')->defaultNull();
-        $consumers->children()->scalarNode('logger')->defaultNull();
         $consumers->append($this->getArguments());
 
         return $node;

@@ -12,6 +12,7 @@ namespace RabbitMqBundle\Consumer;
 use Bunny\Channel;
 use Bunny\Client;
 use Bunny\Message;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RabbitMqBundle\Connection\ConnectionManager;
@@ -23,7 +24,7 @@ use Throwable;
  *
  * @package RabbitMqBundle\Consumer
  */
-class Consumer implements ConsumerInterface, SetupInterface
+class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterface
 {
 
     /**
@@ -129,6 +130,14 @@ class Consumer implements ConsumerInterface, SetupInterface
         $this->prefetchCount     = $prefetchCount;
         $this->prefetchSize      = $prefetchSize;
         $this->logger            = new NullLogger();
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
     }
 
     /**

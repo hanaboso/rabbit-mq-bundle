@@ -13,6 +13,7 @@ use Bunny\Channel;
 use Bunny\Client;
 use Bunny\Exception\ClientException;
 use Exception;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -21,7 +22,7 @@ use Psr\Log\NullLogger;
  *
  * @package RabbitMqBundle\Connection
  */
-class Connection
+class Connection implements LoggerAwareInterface
 {
 
     /**
@@ -60,6 +61,14 @@ class Connection
         $this->name          = $name;
         $this->clientFactory = $clientFactory;
         $this->logger        = new NullLogger();
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
     }
 
     /**
