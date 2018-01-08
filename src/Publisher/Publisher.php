@@ -153,7 +153,10 @@ class Publisher implements PublisherInterface, SetupInterface
             }
 
             $this->channel->queueDeclare($this->routingKey);
-            $this->channel->exchangeDeclare($this->exchange);
+
+            if($this->exchange !== '') {
+                $this->channel->exchangeDeclare($this->exchange);
+            }
         } catch (Throwable $e) {
             // reconnect
         }
