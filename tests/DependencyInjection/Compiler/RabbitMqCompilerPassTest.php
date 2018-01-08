@@ -45,7 +45,7 @@ class RabbitMqCompilerPassTest extends TestCase
 
         $container->compile();
 
-        $this->assertCount(10, $container->getRemovedIds());
+        $this->assertCount(11, $container->getRemovedIds());
     }
 
 }

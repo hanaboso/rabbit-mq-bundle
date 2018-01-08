@@ -9,6 +9,7 @@
 
 namespace RabbitMqBundle\DependencyInjection\Compiler;
 
+use RabbitMqBundle\Command\PublisherCommand;
 use RabbitMqBundle\Consumer\Callback\DumpCallback;
 use RabbitMqBundle\Consumer\Callback\NullCallback;
 use RabbitMqBundle\RabbitMqBundle;
@@ -40,6 +41,7 @@ class RabbitMqCompilerPass implements CompilerPassInterface
         $connectionManager = new Definition($config['connection_manager'], [new Reference('rabbit_mq.client_factory')]);
         $container->setDefinition($this->createKey('connection_manager'), $connectionManager);
 
+        // Publishers
         foreach ($config['publishers'] as $key => $publisher) {
             $publisherName = $this->createKey('producer.' . $key);
             $publisherDef  = new Definition($config['publisher'], [
@@ -50,6 +52,10 @@ class RabbitMqCompilerPass implements CompilerPassInterface
                 $publisher['immediate'],
             ]);
             $container->setDefinition($publisherName, $publisherDef);
+
+            $publisherCommand = new Definition(PublisherCommand::class, [new Reference($publisherName)]);
+            $publisherCommand->addTag('console.command', ['command' => 'rabbit_mq:publisher:' . $key]);
+            $container->setDefinition('rabbit_mq.publisher.command.' . $key, $publisherCommand);
         }
 
         // Callbacks
@@ -58,6 +64,7 @@ class RabbitMqCompilerPass implements CompilerPassInterface
         $dumpCallback = new Definition(DumpCallback::class);
         $container->setDefinition($this->createKey('dump_callback'), $dumpCallback);
 
+        // Consumers
         foreach ($config['consumers'] as $key => $consumer) {
             $consumerName = $this->createKey('consumer.' . $key);
             $consumerDef  = new Definition($config['consumer'], [
