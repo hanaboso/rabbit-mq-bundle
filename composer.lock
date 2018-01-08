@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "49cad466d2830753e6dc22feca0a4fad",
+    "content-hash": "64fcc72b1166c704208321234740d11c",
     "packages": [
         {
             "name": "bunny/bunny",
@@ -1267,6 +1267,34 @@
                 "instantiate"
             ],
             "time": "2017-07-22T11:58:36+00:00"
+        },
+        {
+            "name": "hanaboso/php-check-utils",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.hanaboso.net:hanaboso/php-check-utils.git",
+                "reference": "6bc28d2ae89a6a0a01828c186262cbaff0deb913"
+            },
+            "require": {
+                "php": ">=7.1",
+                "phpstan/phpstan": "^0.9",
+                "phpunit/phpunit": "^6.5",
+                "slevomat/coding-standard": "^4.0",
+                "squizlabs/php_codesniffer": "^3.2"
+            },
+            "type": "library",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Venca Krecl",
+                    "email": "venca.email@gmail.com"
+                }
+            ],
+            "description": "PHP check utils",
+            "time": "2018-01-08T09:35:53+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -2727,37 +2755,6 @@
             "time": "2018-01-06T05:45:45+00:00"
         },
         {
-            "name": "pipes/php-check-utils",
-            "version": "1.0.6",
-            "dist": {
-                "type": "path",
-                "url": "../libs/php-check-utils",
-                "reference": "766ed5a6597e266f6295455c3df01e86fbd7771d",
-                "shasum": null
-            },
-            "require": {
-                "php": ">=7.1",
-                "phpstan/phpstan": "^0.9",
-                "phpunit/phpunit": "^6.5",
-                "slevomat/coding-standard": "^4.0",
-                "squizlabs/php_codesniffer": "3.1.1"
-            },
-            "type": "library",
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Venca Krecl",
-                    "email": "venca.email@gmail.com"
-                }
-            ],
-            "description": "PHP check utils",
-            "transport-options": {
-                "symlink": false
-            }
-        },
-        {
             "name": "sebastian/code-unit-reverse-lookup",
             "version": "1.0.1",
             "source": {
@@ -3355,16 +3352,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.1.1",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "d667e245d5dcd4d7bf80f26f2c947d476b66213e"
+                "reference": "d7c00c3000ac0ce79c96fcbfef86b49a71158cd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d667e245d5dcd4d7bf80f26f2c947d476b66213e",
-                "reference": "d667e245d5dcd4d7bf80f26f2c947d476b66213e",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d7c00c3000ac0ce79c96fcbfef86b49a71158cd1",
+                "reference": "d7c00c3000ac0ce79c96fcbfef86b49a71158cd1",
                 "shasum": ""
             },
             "require": {
@@ -3402,7 +3399,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-10-16T22:40:25+00:00"
+            "time": "2017-12-19T21:44:46+00:00"
         },
         {
             "name": "symfony/console",

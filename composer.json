@@ -18,15 +18,12 @@
     "bunny/bunny": "^0.2.4"
   },
   "require-dev": {
-    "pipes/php-check-utils": "^1.0"
+    "hanaboso/php-check-utils": "^1.0"
   },
   "repositories": [
     {
-      "type": "path",
-      "url": "../libs/php-check-utils",
-      "options": {
-        "symlink": false
-      }
+      "type": "git",
+      "url": "git@gitlab.hanaboso.net:hanaboso/php-check-utils.git"
     }
   ]
 }

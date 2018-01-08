@@ -8,4 +8,9 @@ services:
         user: ${DEV_UID}:${DEV_GID}
         volumes:
           - ./:/var/www/html
-          - ../:/var/www/libs
+          - ${SSH_AUTH_SOCK}:/tmp/bound-ssh-agent
+          - ${HOME}/.composer:/srv/.composer
+        environment:
+          - DEV_UID=${DEV_UID}
+          - DEV_GID=${DEV_GID}
+          - COMPOSER_HOME=/home/dev/.composer
