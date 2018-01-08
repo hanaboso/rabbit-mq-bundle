@@ -79,13 +79,17 @@ class Connection
      * @return Channel
      * @throws \Exception
      */
-    public function getChannel(?int $id = NULL): Channel
+    public function getChannel(int $id = NULL): Channel
     {
         if (!$this->getClient()->isConnected()) {
-            //@todo add reconnect
-            $this->getClient()->connect();
             /** @var Channel $channel */
-            $channel             = $this->client->channel();
+            $channel             = $this->getClient()->connect()->channel();
+            $id                  = $channel->getChannelId();
+            $this->channels[$id] = $channel;
+        }
+
+        if (!array_key_exists($id, $this->channels)) {
+            $channel             = $this->getClient()->channel();
             $id                  = $channel->getChannelId();
             $this->channels[$id] = $channel;
         }
@@ -103,7 +107,7 @@ class Connection
             sleep($wait);
             $this->logger->info(sprintf('Waiting for %ss.', $wait));
             try {
-
+                var_dump(array_keys($this->channels));
                 $connect = TRUE;
                 $this->logger->info('RabbitMQ is connected.');
             } catch (ClientException $e) {
