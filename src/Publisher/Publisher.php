@@ -10,7 +10,6 @@
 namespace RabbitMqBundle\Publisher;
 
 use Bunny\Channel;
-use Bunny\Client;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RabbitMqBundle\Connection\ConnectionManager;
@@ -36,14 +35,14 @@ class Publisher implements PublisherInterface, SetupInterface
     private $logger;
 
     /**
-     * @var Client
+     * @var int
      */
-    private $client;
+    private $channelId;
 
-    /**
-     * @var Channel
+    /***
+     * @var bool
      */
-    private $channel;
+    private $setUp = FALSE;
 
     /**
      * @var bool
@@ -111,16 +110,36 @@ class Publisher implements PublisherInterface, SetupInterface
     }
 
     /**
+     * @return Channel
+     * @throws \Exception
+     */
+    private function getChannel(): Channel
+    {
+        $channel = $this->connectionManager->getConnection()->getChannel($this->channelId);
+
+        if ($this->channelId === NULL) {
+            $this->channelId = $channel->getChannelId();
+        }
+
+        return $channel;
+    }
+
+    /**
      * @param mixed $content
      * @param array $headers
+     *
+     * @throws \Exception
      */
     public function publish($content, array $headers = []): void
     {
-        $this->setup();
+        if ($this->setUp === FALSE) {
+            $this->setup();
+        }
+
         $content = $this->beforePublishContent($content);
         $headers = $this->beforePublishHeaders($headers);
 
-        $this->channel->publish(
+        $this->getChannel()->publish(
             $content,
             $headers,
             $this->exchange,
@@ -142,24 +161,18 @@ class Publisher implements PublisherInterface, SetupInterface
 
         try {
 
-            if ($this->client === NULL) {
-                $this->client = $this->connectionManager->getClient();
-                /**
-                 * @var Channel $channel
-                 */
-                $channel = $this->client->connect()->channel();
+            $this->getChannel()->queueDeclare($this->routingKey);
 
-                $this->channel = $channel;
-            }
-
-            $this->channel->queueDeclare($this->routingKey);
-
-            if($this->exchange !== '') {
-                $this->channel->exchangeDeclare($this->exchange);
+            if ($this->exchange !== '') {
+                $this->getChannel()->exchangeDeclare($this->exchange);
             }
         } catch (Throwable $e) {
             // reconnect
+            $this->connectionManager->getConnection()->reconnect();
+            $this->setup();
         }
+
+        $this->setUp = TRUE;
     }
 
 }

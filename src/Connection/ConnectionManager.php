@@ -9,11 +9,6 @@
 
 namespace RabbitMqBundle\Connection;
 
-use Bunny\Client;
-use Bunny\Exception\ClientException;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
-
 /**
  * Class ConnectionStore
  *
@@ -28,14 +23,9 @@ class ConnectionManager
     private $clientFactory;
 
     /**
-     * @var array
+     * @var array|Connection
      */
-    private $clients = [];
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private $connections = [];
 
     /**
      * ConnectionStore constructor.
@@ -45,42 +35,30 @@ class ConnectionManager
     public function __construct(ClientFactory $clientFactory)
     {
         $this->clientFactory = $clientFactory;
-        $this->logger        = new NullLogger();
     }
 
     /**
      * @param string $name
      *
-     * @return Client
+     * @return Connection
      */
-    public function getClient(string $name = 'default'): Client
+    private function createConnection(string $name): Connection
     {
-        if (!array_key_exists($name, $this->clients)) {
-            $this->clients[$name] = $this->clientFactory->create();
-        }
-
-        return $this->clients[$name];
+        return new Connection($name, $this->clientFactory);
     }
 
     /**
+     * @param string $name
      *
+     * @return Connection
      */
-    public function reconnect(): void
+    public function getConnection(string $name = 'default'): Connection
     {
-        do {
-            $wait = 2;
-            sleep($wait);
-            $this->logger->info(sprintf('Waiting for %ss.', $wait));
-            try {
+        if (!array_key_exists($name, $this->connections)) {
+            $this->connections[$name] = $this->createConnection($name);
+        }
 
-                $connect = TRUE;
-                $this->logger->info('RabbitMQ is connected.');
-            } catch (ClientException $e) {
-                $connect = FALSE;
-                $this->logger->info('RabbitMQ is not connected.', ['exception' => $e]);
-            }
-
-        } while (!$connect);
+        return $this->connections[$name];
     }
 
 }

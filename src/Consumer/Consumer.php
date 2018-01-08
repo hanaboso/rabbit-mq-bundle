@@ -37,14 +37,9 @@ class Consumer implements ConsumerInterface, SetupInterface
     private $logger;
 
     /**
-     * @var Client
+     * @var int
      */
-    private $client;
-
-    /**
-     * @var Channel
-     */
-    private $channel;
+    private $channelId;
 
     /**
      * @var CallbackInterface
@@ -137,11 +132,11 @@ class Consumer implements ConsumerInterface, SetupInterface
     }
 
     /**
-     *
+     * @throws \Exception
      */
     public function consume(): void
     {
-        $this->channel->consume(
+        $this->getChannel()->consume(
             function (Message $message, Channel $channel, Client $client): void {
                 $this->callback->processMessage($message, $channel, $client);
             },
@@ -153,7 +148,22 @@ class Consumer implements ConsumerInterface, SetupInterface
             $this->nowait,
             $this->arguments
         );
-        $this->client->run();
+        $this->connectionManager->getConnection()->getClient()->run();
+    }
+
+    /**
+     * @return Channel
+     * @throws \Exception
+     */
+    private function getChannel(): Channel
+    {
+        $channel = $this->connectionManager->getConnection()->getChannel($this->channelId);
+
+        if ($this->channelId === NULL) {
+            $this->channelId = $channel->getChannelId();
+        }
+
+        return $channel;
     }
 
     /**
@@ -165,20 +175,14 @@ class Consumer implements ConsumerInterface, SetupInterface
         // Exchange declare
         // Binding
         $this->logger->info('Rabbit MQ setup.');
-        $this->client = $this->connectionManager->getClient();
 
         try {
-            /**
-             * @var Channel $channel
-             */
-            $channel = $this->client->connect()->channel();
-
-            $this->channel = $channel;
-
-            $this->channel->queueDeclare($this->queue);
-            $this->channel->qos($this->prefetchSize, $this->prefetchCount);
+            $this->getChannel()->queueDeclare($this->queue);
+            $this->getChannel()->qos($this->prefetchSize, $this->prefetchCount);
         } catch (Throwable $e) {
             // reconnect
+            $this->connectionManager->getConnection()->reconnect();
+            $this->setup();
         }
     }
 
