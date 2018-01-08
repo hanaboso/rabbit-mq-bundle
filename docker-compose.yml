@@ -1,0 +1,11 @@
+---
+version: '3'
+
+services:
+    php-dev:
+        image: dkr.hanaboso.net/pipes/pipes/php-dev:dev
+        working_dir: /var/www/html
+        user: ${DEV_UID}:${DEV_GID}
+        volumes:
+          - ./:/var/www/html
+          - ../:/var/www/libs

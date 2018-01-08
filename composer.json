@@ -1,0 +1,32 @@
+{
+  "name": "hanaboso/rabbit-mq-bundle",
+  "license": "proprietary",
+  "version": "0.0.1",
+  "autoload": {
+    "psr-4": {
+      "RabbitMqBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "symfony/framework-bundle": "~3.4|~4.0",
+    "symfony/yaml": "~3.4|~4.0",
+    "bunny/bunny": "^0.2.4"
+  },
+  "require-dev": {
+    "pipes/php-check-utils": "^1.0"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../libs/php-check-utils",
+      "options": {
+        "symlink": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+# Exclude IDE
+.idea
+
+# Exclude temp files
+.env
+/vendor
