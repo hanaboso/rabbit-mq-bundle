@@ -9,9 +9,8 @@
 
 namespace RabbitMqBundle\Consumer;
 
-use Bunny\Channel;
-use Bunny\Client;
 use Bunny\Message;
+use RabbitMqBundle\Connection\Connection;
 
 /**
  * Interface CallbackInterface
@@ -22,10 +21,10 @@ interface CallbackInterface
 {
 
     /**
-     * @param Message $message
-     * @param Channel $channel
-     * @param Client  $client
+     * @param Message    $message
+     * @param Connection $connection
+     * @param int        $channelId
      */
-    public function processMessage(Message $message, Channel $channel, Client $client): void;
+    public function processMessage(Message $message, Connection $connection, int $channelId): void;
 
 }

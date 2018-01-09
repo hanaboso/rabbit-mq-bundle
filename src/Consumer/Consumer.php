@@ -10,7 +10,6 @@
 namespace RabbitMqBundle\Consumer;
 
 use Bunny\Channel;
-use Bunny\Client;
 use Bunny\Message;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -147,8 +146,12 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
     {
         try {
             $this->getChannel()->consume(
-                function (Message $message, Channel $channel, Client $client): void {
-                    $this->callback->processMessage($message, $channel, $client);
+                function (Message $message): void {
+                    $this->callback->processMessage(
+                        $message,
+                        $this->connectionManager->getConnection(),
+                        $this->channelId
+                    );
                 },
                 $this->queue,
                 $this->consumerTag,
@@ -173,13 +176,11 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
      */
     private function getChannel(): Channel
     {
-        $channel = $this->connectionManager->getConnection()->getChannel($this->channelId);
-
         if ($this->channelId === NULL) {
-            $this->channelId = $channel->getChannelId();
+            $this->channelId = $this->connectionManager->getConnection()->createChannel();
         }
 
-        return $channel;
+        return $channel = $this->connectionManager->getConnection()->getChannel($this->channelId);
     }
 
     /**

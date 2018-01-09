@@ -124,13 +124,11 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      */
     private function getChannel(): Channel
     {
-        $channel = $this->connectionManager->getConnection()->getChannel($this->channelId);
-
         if ($this->channelId === NULL) {
-            $this->channelId = $channel->getChannelId();
+            $this->channelId = $this->connectionManager->getConnection()->createChannel();
         }
 
-        return $channel;
+        return $channel = $this->connectionManager->getConnection()->getChannel($this->channelId);
     }
 
     /**

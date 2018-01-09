@@ -9,9 +9,8 @@
 
 namespace RabbitMqBundle\Consumer\Callback;
 
-use Bunny\Channel;
-use Bunny\Client;
 use Bunny\Message;
+use RabbitMqBundle\Connection\Connection;
 use RabbitMqBundle\Consumer\CallbackInterface;
 
 /**
@@ -23,15 +22,15 @@ class DumpCallback implements CallbackInterface
 {
 
     /**
-     * @param Message $message
-     * @param Channel $channel
-     * @param Client  $client
+     * @param Message    $message
+     * @param Connection $connection
+     * @param int        $channelId
      */
-    public function processMessage(Message $message, Channel $channel, Client $client): void
+    public function processMessage(Message $message, Connection $connection, int $channelId): void
     {
         var_dump($message);
 
-        $channel->ack($message);
+        $connection->getChannel($channelId)->ack($message);
     }
 
 }

@@ -13,6 +13,7 @@ use Bunny\Channel;
 use Bunny\Client;
 use Bunny\Exception\ClientException;
 use Exception;
+use InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -84,62 +85,52 @@ class Connection implements LoggerAwareInterface
     }
 
     /**
-     *
-     */
-    public function removeClient(): void
-    {
-        var_dump('remove client - disconnect');
-
-        if ($this->client !== NULL) {
-            $this->client->disconnect();
-            $this->client = NULL;
-        }
-    }
-
-    /**
-     * @param int|null $id
+     * @param int $id
      *
      * @return Channel
      */
-    public function getChannel(?int $id = NULL): Channel
+    public function getChannel(int $id): Channel
     {
         if (!$this->getClient()->isConnected()) {
             $this->connect();
-            /** @var Channel $channel */
-            $channel             = $this->getClient()->channel();
-            $id                  = $channel->getChannelId();
-            $this->channels[$id] = $channel;
         }
 
         if (!array_key_exists($id, $this->channels)) {
-            /** @var Channel $channel */
-            $channel             = $this->getClient()->channel();
-            $id                  = $channel->getChannelId();
-            $this->channels[$id] = $channel;
+            throw new InvalidArgumentException(
+                sprintf('The channel with id "%s" does not exist. You must call createChannel.', $id)
+            );
         }
 
         return $this->channels[$id];
     }
 
     /**
+     * @return int Channel ID
+     */
+    public function createChannel(): int
+    {
+        if (!$this->getClient()->isConnected()) {
+            $this->connect();
+        }
+
+        /** @var Channel $channel */
+        $channel                                  = $this->getClient()->channel();
+        $this->channels[$channel->getChannelId()] = $channel;
+
+        return $channel->getChannelId();
+    }
+
+    /**
      *
      */
-    public function connect(): void
+    private function connect(): void
     {
         try {
             $this->getClient()->connect();
-        } catch (Exception $clientException) {
+        } catch (Exception $e) {
             $this->internalReconnect(function (): void {
-                // close old client
-                $this->removeClient();
-
-                // create new client
-                $this->getClient()->connect();
-
-                // recreate all channels
-                foreach (array_keys($this->channels) as $id) {
-                    $this->getChannel($id);
-                }
+                $this->close();
+                $this->restore();
             });
         }
     }
@@ -150,17 +141,44 @@ class Connection implements LoggerAwareInterface
     public function reconnect(): void
     {
         $this->internalReconnect(function (): void {
-            // close old client
-            $this->removeClient();
-
-            // create new client
-            $this->getClient();
-
-            // recreate all channels
-            foreach (array_keys($this->channels) as $id) {
-                $this->getChannel($id);
-            }
+            $this->close();
+            $this->restore();
         });
+    }
+
+    /**
+     * Close connection and its channels
+     */
+    private function close(): void
+    {
+        // Close client and channel
+        if ($this->client !== NULL) {
+            $this->client->disconnect();
+            $this->client = NULL;
+        }
+
+        // Remove channels
+        $ids            = array_keys($this->channels);
+        $this->channels = [];
+        foreach ($ids as $id) {
+            $this->channels[$id] = NULL;
+        }
+    }
+
+    /**
+     *
+     */
+    private function restore(): void
+    {
+        if (!$this->getClient()->isConnected()) {
+            $this->connect();
+        }
+
+        foreach (array_keys($this->channels) as $id) {
+            /** @var Channel $channel */
+            $channel             = $this->getClient()->channel();
+            $this->channels[$id] = $channel;
+        }
     }
 
     /**
@@ -173,8 +191,6 @@ class Connection implements LoggerAwareInterface
             sleep($wait);
             $this->logger->info(sprintf('Waiting for %ss.', $wait));
             try {
-                var_dump('reconnect');
-
                 $reconnect();
 
                 $connect = TRUE;
