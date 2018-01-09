@@ -1,10 +1,15 @@
 RABBITMQ BUNDLE
 ===============
 
+Logger
+------
+* default stdout logger - monolog.logger.rabbit_mq
+
 Config
 ------
 ```yaml
 rabbit_mq:
+    logger: 'monolog.logger.rabbit_mq'
     connections:
         default:
             host: rabbitmq
@@ -39,9 +44,6 @@ rabbit_mq:
        my-publisher:
             routing_key: 'routing-key' # queue name or routing key
             exchange: 'my-exchange'
-            mandatory: false
-            immediate: false
-            logger: 'rabbit-mq.logger'
 
     consumers:
         my-consumer:

@@ -11,6 +11,7 @@ namespace RabbitMqBundle;
 
 use RabbitMqBundle\DependencyInjection\Compiler\MonologCompilerPass;
 use RabbitMqBundle\DependencyInjection\Compiler\RabbitMqCompilerPass;
+use Symfony\Bundle\MonologBundle\DependencyInjection\Compiler\LoggerChannelPass;
 use Symfony\Component\Console\DependencyInjection\AddConsoleCommandPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -31,7 +32,12 @@ class RabbitMqBundle extends Bundle
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
-        $container->addCompilerPass(new MonologCompilerPass());
+
+        if ($container->hasExtension('monolog')) {
+            $container->addCompilerPass(new MonologCompilerPass());
+            $container->addCompilerPass(new LoggerChannelPass());
+        }
+
         $container->addCompilerPass(new RabbitMqCompilerPass());
         $container->addCompilerPass(new AddConsoleCommandPass());
     }
