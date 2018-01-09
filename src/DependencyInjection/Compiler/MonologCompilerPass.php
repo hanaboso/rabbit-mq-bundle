@@ -38,7 +38,6 @@ class MonologCompilerPass implements CompilerPassInterface
                                 'type'     => 'stream',
                                 'path'     => 'php://stdout',
                                 'level'    => 'info',
-                                'channels' => ['rabbit_mq'],
                             ],
                         ],
                     ],
