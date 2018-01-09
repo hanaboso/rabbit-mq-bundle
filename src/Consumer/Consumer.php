@@ -164,6 +164,7 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
             $this->connectionManager->getConnection()->getClient()->run();
         } catch (Throwable $e) {
             //@todo add logger
+            $this->logger->error('Consume error: ' . $e->getMessage(), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
             $this->consume();
@@ -191,13 +192,13 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
         // Queue declare
         // Exchange declare
         // Binding
-        $this->logger->info('Rabbit MQ setup.');
+        $this->logger->info('Rabbit MQ setup - consumer.');
 
         try {
             $this->getChannel()->queueDeclare($this->queue);
             $this->getChannel()->qos($this->prefetchSize, $this->prefetchCount);
         } catch (Throwable $e) {
-            //@todo add logger
+            $this->logger->error('Consumer setup error: ' . $e->getMessage(), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
         }

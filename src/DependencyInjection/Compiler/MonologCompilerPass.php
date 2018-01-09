@@ -30,11 +30,13 @@ class MonologCompilerPass implements CompilerPassInterface
         if ($container->hasExtension('monolog')) {
 
             $container->getExtension('monolog')->load([
-                'handlers' => [
-                    'rabbit_mq' => [
-                        'type'  => 'stream',
-                        'path'  => 'php://stdout',
-                        'level' => 'info',
+                'monolog' => [
+                    'handlers' => [
+                        'rabbit_mq' => [
+                            'type'  => 'stream',
+                            'path'  => 'php://stdout',
+                            'level' => 'info',
+                        ],
                     ],
                 ],
             ], $container);

@@ -120,7 +120,6 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
 
     /**
      * @return Channel
-     * @throws \Exception
      */
     private function getChannel(): Channel
     {
@@ -134,8 +133,6 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     /**
      * @param mixed $content
      * @param array $headers
-     *
-     * @throws \Exception
      */
     public function publish($content, array $headers = []): void
     {
@@ -156,6 +153,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
                 $this->immediate
             );
         } catch (Throwable $e) {
+            $this->logger->error('Publish error: ' . $e->getMessage(), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
             $this->publish($content, $headers);
@@ -171,7 +169,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
         // Queue declare
         // Exchange declare
         // Binding
-        $this->logger->info('Rabbit MQ setup.');
+        $this->logger->info('Rabbit MQ setup - publisher.');
 
         try {
 
@@ -182,7 +180,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
             }
         } catch (Throwable $e) {
             // reconnect
-            //@todo add logger
+            $this->logger->error('Publisher setup error: ' . $e->getMessage(), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
         }
