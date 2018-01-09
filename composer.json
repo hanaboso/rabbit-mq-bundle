@@ -15,7 +15,8 @@
   "require": {
     "symfony/framework-bundle": "~3.4|~4.0",
     "symfony/yaml": "~3.4|~4.0",
-    "bunny/bunny": "^0.2.4"
+    "bunny/bunny": "^0.2.4",
+    "symfony/monolog-bundle": "^3.1"
   },
   "require-dev": {
     "hanaboso/php-check-utils": "^1.0"
