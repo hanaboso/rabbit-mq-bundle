@@ -55,7 +55,7 @@ class ConnectionTest extends TestCase
 
             TRUE, // getChannel - 1
             FALSE, // getChannel - 2
-            FALSE, // restore
+            TRUE, // restore
             TRUE, // getChannel - 3
 
             TRUE, // getChannel - 1 - after reconnect

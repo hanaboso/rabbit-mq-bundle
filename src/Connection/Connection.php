@@ -17,6 +17,7 @@ use InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use RuntimeException;
 
 /**
  * Class Connection
@@ -121,32 +122,6 @@ class Connection implements LoggerAwareInterface
     }
 
     /**
-     *
-     */
-    private function connect(): void
-    {
-        try {
-            $this->getClient()->connect();
-        } catch (Exception $e) {
-            $this->internalReconnect(function (): void {
-                $this->close();
-                $this->restore();
-            });
-        }
-    }
-
-    /**
-     *
-     */
-    public function reconnect(): void
-    {
-        $this->internalReconnect(function (): void {
-            $this->close();
-            $this->restore();
-        });
-    }
-
-    /**
      * Close connection and its channels
      */
     private function close(): void
@@ -171,7 +146,7 @@ class Connection implements LoggerAwareInterface
     private function restore(): void
     {
         if (!$this->getClient()->isConnected()) {
-            $this->connect();
+            throw new RuntimeException('Restore error - the rabbit mq is not connected.');
         }
 
         foreach (array_keys($this->channels) as $id) {
@@ -182,20 +157,36 @@ class Connection implements LoggerAwareInterface
     }
 
     /**
-     * @param callable $reconnect
+     *
      */
-    private function internalReconnect(callable $reconnect): void
+    private function connect(): void
+    {
+        try {
+            $this->getClient()->connect();
+        } catch (Exception $e) {
+            $this->logger->info('RabbitMQ is not connected.', ['exception' => $e]);
+            $this->reconnect();
+        }
+    }
+
+    /**
+     *
+     */
+    public function reconnect(): void
     {
         do {
             $wait = 2;
             sleep($wait);
             $this->logger->info(sprintf('Waiting for %ss.', $wait));
             try {
-                $reconnect();
+
+                $this->close();
+                $this->getClient()->connect();
+                $this->restore();
 
                 $connect = TRUE;
                 $this->logger->info('RabbitMQ is connected.');
-            } catch (ClientException $e) {
+            } catch (ClientException | Exception $e) {
                 $connect = FALSE;
                 $this->logger->info('RabbitMQ is not connected.', ['exception' => $e]);
             }
