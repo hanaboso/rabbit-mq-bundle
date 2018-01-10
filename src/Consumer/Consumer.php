@@ -164,7 +164,11 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
                             $this->channelId
                         );
                     } catch (Throwable $e) {
-                        throw new CallbackException('RabbitMq callback error:' . $e->getMessage(), $e->getCode(), $e);
+                        throw new CallbackException(
+                            sprintf('RabbitMq callback error: %s', $e->getMessage()),
+                            $e->getCode(),
+                            $e
+                        );
                     }
                 },
                 $this->queue,
