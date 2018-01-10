@@ -13,6 +13,7 @@ use Bunny\Channel;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
 use RabbitMqBundle\Connection\SetupInterface;
 use Throwable;
@@ -31,6 +32,11 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     private $connectionManager;
 
     /**
+     * @var Configurator
+     */
+    private $configurator;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -39,11 +45,6 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      * @var int
      */
     private $channelId;
-
-    /***
-     * @var bool
-     */
-    private $setUp = FALSE;
 
     /**
      * @var bool
@@ -69,6 +70,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      * Publisher constructor.
      *
      * @param ConnectionManager $connectionManager
+     * @param Configurator      $configurator
      * @param string            $routingKey
      * @param string            $exchange
      * @param bool              $mandatory
@@ -76,6 +78,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      */
     public function __construct(
         ConnectionManager $connectionManager,
+        Configurator $configurator,
         string $routingKey = '',
         string $exchange = '',
         bool $mandatory = FALSE,
@@ -83,6 +86,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     )
     {
         $this->connectionManager = $connectionManager;
+        $this->configurator      = $configurator;
         $this->routingKey        = $routingKey;
         $this->exchange          = $exchange;
         $this->mandatory         = $mandatory;
@@ -136,9 +140,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      */
     public function publish($content, array $headers = []): void
     {
-        if ($this->setUp === FALSE) {
-            $this->setup();
-        }
+        $this->setup();
 
         $content = $this->beforePublishContent($content);
         $headers = $this->beforePublishHeaders($headers);
@@ -155,6 +157,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
         } catch (Throwable $e) {
             $this->logger->error('Publish error: ' . $e->getMessage(), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
+            $this->configurator->setConfigured(FALSE);
             $this->setup();
             $this->publish($content, $headers);
         }
@@ -165,27 +168,16 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      */
     public function setup(): void
     {
-        $this->setUp = FALSE;
-        // Queue declare
-        // Exchange declare
-        // Binding
         $this->logger->info('Rabbit MQ setup - publisher.');
 
         try {
-
-            $this->getChannel()->queueDeclare($this->routingKey);
-
-            if ($this->exchange !== '') {
-                $this->getChannel()->exchangeDeclare($this->exchange);
-            }
+            $this->configurator->setup($this->getChannel());
         } catch (Throwable $e) {
             // reconnect
             $this->logger->error('Publisher setup error: ' . $e->getMessage(), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
         }
-
-        $this->setUp = TRUE;
     }
 
 }

@@ -14,6 +14,7 @@ use Bunny\Message;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
 use RabbitMqBundle\Connection\SetupInterface;
 use Throwable;
@@ -30,6 +31,11 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
      * @var ConnectionManager
      */
     private $connectionManager;
+
+    /**
+     * @var Configurator
+     */
+    private $configurator;
 
     /**
      * @var LoggerInterface
@@ -95,6 +101,7 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
      * Consumer constructor.
      *
      * @param ConnectionManager $connectionManager
+     * @param Configurator      $configurator
      * @param CallbackInterface $callback
      * @param string            $queue
      * @param string            $consumerTag
@@ -107,6 +114,7 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
      */
     public function __construct(
         ConnectionManager $connectionManager,
+        Configurator $configurator,
         CallbackInterface $callback,
         string $queue = '',
         string $consumerTag = '',
@@ -119,6 +127,7 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
     )
     {
         $this->connectionManager = $connectionManager;
+        $this->configurator      = $configurator;
         $this->callback          = $callback;
         $this->queue             = $queue;
         $this->consumerTag       = $consumerTag;
@@ -163,9 +172,9 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
             );
             $this->connectionManager->getConnection()->getClient()->run();
         } catch (Throwable $e) {
-            //@todo add logger
             $this->logger->error('Consume error: ' . $e->getMessage(), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
+            $this->configurator->setConfigured(FALSE);
             $this->setup();
             $this->consume();
         }
@@ -189,13 +198,10 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
      */
     public function setup(): void
     {
-        // Queue declare
-        // Exchange declare
-        // Binding
         $this->logger->info('Rabbit MQ setup - consumer.');
 
         try {
-            $this->getChannel()->queueDeclare($this->queue);
+            $this->configurator->setup($this->getChannel());
             $this->getChannel()->qos($this->prefetchSize, $this->prefetchCount);
         } catch (Throwable $e) {
             $this->logger->error('Consumer setup error: ' . $e->getMessage(), ['exception' => $e]);

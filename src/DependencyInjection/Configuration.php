@@ -11,6 +11,7 @@ namespace RabbitMqBundle\DependencyInjection;
 
 use RabbitMqBundle\Command\ConsumerCommand;
 use RabbitMqBundle\Connection\ClientFactory;
+use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
 use RabbitMqBundle\Consumer\Consumer;
 use RabbitMqBundle\Publisher\Publisher;
@@ -60,6 +61,7 @@ class Configuration implements ConfigurationInterface
         $rootNode->children()->scalarNode("consumer_command")->defaultValue(ConsumerCommand::class);
         $rootNode->children()->scalarNode("publisher")->defaultValue(Publisher::class);
         $rootNode->children()->scalarNode('logger')->defaultNull();
+        $rootNode->children()->scalarNode('configurator')->defaultValue(Configurator::class);
 
         $rootNode->append($this->getConnections());
         $rootNode->append($this->getQueues());
@@ -135,6 +137,7 @@ class Configuration implements ConfigurationInterface
 
         $bindings->children()->scalarNode("exchange")->isRequired();
         $bindings->children()->scalarNode("routing_key")->defaultValue("");
+        $bindings->children()->scalarNode("no_wait")->defaultFalse();
         $bindings->append($this->getArguments());
 
         return $node;

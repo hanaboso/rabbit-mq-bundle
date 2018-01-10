@@ -39,19 +39,25 @@ class RabbitMqCompilerPass implements CompilerPassInterface
         $container->setDefinition($this->createKey('client_factory'), $clientFactory);
 
         $connectionManager = new Definition($config['connection_manager'], [new Reference('rabbit_mq.client_factory')]);
-
         // Add logger
         if ($config['logger'] !== NULL) {
             $connectionManager->addMethodCall('setLogger', [new Reference($config['logger'])]);
         }
-
         $container->setDefinition($this->createKey('connection_manager'), $connectionManager);
+
+        $configurator = new Definition($config['configurator'], [$config]);
+        // Add logger
+        if ($config['logger'] !== NULL) {
+            $configurator->addMethodCall('setLogger', [new Reference($config['logger'])]);
+        }
+        $container->setDefinition($this->createKey('configurator'), $configurator);
 
         // Publishers
         foreach ($config['publishers'] as $key => $publisher) {
             $publisherName = $this->createKey('publisher.' . $key);
             $publisherDef  = new Definition($config['publisher'], [
                 new Reference($this->createKey('connection_manager')),
+                new Reference($this->createKey('configurator')),
                 $publisher['routing_key'],
                 $publisher['exchange'],
                 $publisher['mandatory'],
@@ -81,6 +87,7 @@ class RabbitMqCompilerPass implements CompilerPassInterface
             $consumerName = $this->createKey('consumer.' . $key);
             $consumerDef  = new Definition($config['consumer'], [
                 new Reference($this->createKey('connection_manager')),
+                new Reference($this->createKey('configurator')),
                 new Reference($consumer['callback']),
                 $consumer['queue'],
                 $consumer['consumer_tag'],

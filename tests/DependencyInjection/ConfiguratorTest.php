@@ -12,6 +12,7 @@ namespace Tests\DependencyInjection;
 use PHPUnit\Framework\TestCase;
 use RabbitMqBundle\Command\ConsumerCommand;
 use RabbitMqBundle\Connection\ClientFactory;
+use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
 use RabbitMqBundle\Consumer\Consumer;
 use RabbitMqBundle\DependencyInjection\Configuration;
@@ -55,7 +56,7 @@ class ConfiguratorTest extends TestCase
         $config = $container->getParameter('rabbit_mq');
 
         // Test default keys
-        $this->assertCount(11, $config);
+        $this->assertCount(12, $config);
         $this->assertArrayHasKey('connections', $config);
         $this->assertArrayHasKey('queues', $config);
         $this->assertArrayHasKey('exchanges', $config);
@@ -75,6 +76,8 @@ class ConfiguratorTest extends TestCase
         $this->assertSame(Publisher::class, $config['publisher']);
         $this->assertArrayHasKey('logger', $config);
         $this->assertNull($config['logger']);
+        $this->assertArrayHasKey('configurator', $config);
+        $this->assertSame(Configurator::class, $config['configurator']);
 
         // Test connections
         $connection = [
@@ -104,6 +107,7 @@ class ConfiguratorTest extends TestCase
                     'arguments'   => [
                         'my-arg' => 'my-value',
                     ],
+                    'no_wait'     => FALSE,
                 ],
             ],
             'durable'     => FALSE,
@@ -133,6 +137,7 @@ class ConfiguratorTest extends TestCase
                     'arguments'   => [
                         'my-arg' => 'my-value',
                     ],
+                    'no_wait'     => FALSE,
                 ],
             ],
         ];

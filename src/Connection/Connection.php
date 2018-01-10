@@ -128,6 +128,7 @@ class Connection implements LoggerAwareInterface
     {
         // Close client and channel
         if ($this->client !== NULL) {
+            $this->logger->info('Close connection and its channels.');
             $this->client->disconnect();
             $this->client = NULL;
         }
@@ -177,7 +178,7 @@ class Connection implements LoggerAwareInterface
         do {
             $wait = 2;
             sleep($wait);
-            $this->logger->info(sprintf('Waiting for %ss.', $wait));
+            $this->logger->info(sprintf('Waiting for reconnect %ss.', $wait));
             try {
 
                 $this->close();
