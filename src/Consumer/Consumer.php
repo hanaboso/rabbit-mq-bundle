@@ -17,6 +17,7 @@ use Psr\Log\NullLogger;
 use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
 use RabbitMqBundle\Connection\SetupInterface;
+use RabbitMqBundle\Consumer\Callback\Exception\CallbackException;
 use Throwable;
 
 /**
@@ -156,11 +157,15 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
         try {
             $this->getChannel()->consume(
                 function (Message $message): void {
-                    $this->callback->processMessage(
-                        $message,
-                        $this->connectionManager->getConnection(),
-                        $this->channelId
-                    );
+                    try {
+                        $this->callback->processMessage(
+                            $message,
+                            $this->connectionManager->getConnection(),
+                            $this->channelId
+                        );
+                    } catch (Throwable $e) {
+                        throw new CallbackException('RabbitMq callback error:' . $e->getMessage(), $e->getCode(), $e);
+                    }
                 },
                 $this->queue,
                 $this->consumerTag,
@@ -171,6 +176,8 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
                 $this->arguments
             );
             $this->connectionManager->getConnection()->getClient()->run();
+        } catch (CallbackException $e) {
+            throw $e;
         } catch (Throwable $e) {
             $this->logger->error('Consume error: ' . $e->getMessage(), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
