@@ -80,7 +80,7 @@ class Configurator implements LoggerAwareInterface
         }
 
         foreach ($this->config['exchanges'] as $name => $exchange) {
-            $this->logger->info(sprintf('RabbitMQ setup: declare exchange "%s".', $this->config['name']));
+            $this->logger->info(sprintf('RabbitMQ setup: declare exchange "%s".', $name));
             $channel->exchangeDeclare(
                 $name,
                 $exchange['type'] ?? 'direct',
@@ -112,7 +112,7 @@ class Configurator implements LoggerAwareInterface
         }
 
         foreach ($this->config['queues'] as $name => $queue) {
-            $this->logger->info(sprintf('RabbitMQ setup: declare queue "%s".', $this->config['name']));
+            $this->logger->info(sprintf('RabbitMQ setup: declare queue "%s".', $name));
             $channel->queueDeclare(
                 $name,
                 $queue['passive'] ?? FALSE,
