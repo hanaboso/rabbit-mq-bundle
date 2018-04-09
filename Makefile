@@ -8,13 +8,17 @@ DE= docker-compose exec php-dev
 		-e "s|{DEV_GID}|$(shell id -u)|g" \
 		.env.dist >> .env;
 
+docker-up-force: .env
+	$(DC) pull
+	$(DC) up -d --force-recreate --remove-orphans
+
 composer-update:
 	$(DE) composer update
 
-init: .env
-	$(DC) pull
-	$(DC) up -d --force-recreate
+composer-install:
 	$(DE) composer install
+
+init: docker-up-force composer-install
 
 codesniffer:
 	$(DE) ./vendor/bin/phpcs --standard=./ruleset.xml --colors -p src/ tests/
@@ -29,4 +33,4 @@ phpunit:
 	$(DE) rm -rf ./temp/cache
 	$(DE) ./vendor/bin/phpunit
 
-test: codesniffer phpstan phpunit
+test: docker-up-force composer-install codesniffer phpstan phpunit
