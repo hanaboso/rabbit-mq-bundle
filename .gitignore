@@ -4,3 +4,5 @@
 # Exclude temp files
 .env
 /vendor
+/temp
+/tests/log

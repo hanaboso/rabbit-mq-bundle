@@ -30,12 +30,17 @@ class PublisherCommand extends Command
     /**
      * PublisherCommand constructor.
      *
-     * @param Publisher $publisher
+     * @param Publisher   $publisher
+     * @param null|string $name
      */
-    public function __construct(Publisher $publisher)
+    public function __construct(Publisher $publisher, ?string $name = NULL)
     {
         parent::__construct();
         $this->publisher = $publisher;
+
+        if ($name) {
+            $this->setName($name);
+        }
     }
 
     /**

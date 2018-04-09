@@ -15,7 +15,6 @@ use RabbitMqBundle\Connection\ClientFactory;
 use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
 use RabbitMqBundle\Consumer\Consumer;
-use RabbitMqBundle\DependencyInjection\Configuration;
 use RabbitMqBundle\DependencyInjection\RabbitMqExtension;
 use RabbitMqBundle\Publisher\Publisher;
 use RabbitMqBundle\RabbitMqBundle;

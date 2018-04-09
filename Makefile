@@ -26,6 +26,7 @@ phpstan:
 	$(DE) ./vendor/bin/phpstan analyse -c phpstan.neon -l 7 src/ tests/
 
 phpunit:
+	$(DE) rm -rf ./temp/cache
 	$(DE) ./vendor/bin/phpunit
 
 test: codesniffer phpstan phpunit

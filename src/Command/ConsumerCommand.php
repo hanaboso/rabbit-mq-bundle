@@ -30,12 +30,17 @@ class ConsumerCommand extends Command
     /**
      * ConsumerCommand constructor.
      *
-     * @param Consumer $consumer
+     * @param Consumer    $consumer
+     * @param null|string $name
      */
-    public function __construct(Consumer $consumer)
+    public function __construct(Consumer $consumer, ?string $name = NULL)
     {
         parent::__construct();
         $this->consumer = $consumer;
+
+        if ($name) {
+            $this->setName($name);
+        }
     }
 
     /**
