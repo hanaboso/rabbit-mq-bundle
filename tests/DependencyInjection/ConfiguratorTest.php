@@ -55,7 +55,7 @@ class ConfiguratorTest extends TestCase
         $config = $container->getParameter('rabbit_mq');
 
         // Test default keys
-        $this->assertCount(12, $config);
+        $this->assertCount(13, $config);
         $this->assertArrayHasKey('connections', $config);
         $this->assertArrayHasKey('queues', $config);
         $this->assertArrayHasKey('exchanges', $config);
