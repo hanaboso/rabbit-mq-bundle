@@ -18,7 +18,7 @@ use RabbitMqBundle\RabbitMqBundle;
  *
  * @package Tests
  */
-class RabbitMqBundleTest extends TestCase
+final class RabbitMqBundleTest extends TestCase
 {
 
     /**

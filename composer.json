@@ -13,14 +13,13 @@
   },
   "require": {
     "bunny/bunny": "^0.4",
-    "symfony/framework-bundle": "~3.4|~4.0",
-    "symfony/monolog-bundle": "^3.2",
-    "symfony/yaml": "~3.4|~4.0",
+    "kdyby/monolog": "^1.3",
     "nette/di": "^2.4",
     "nette/neon": "^2.4",
-    "kdyby/monolog": "^1.3"
+    "symfony/monolog-bundle": "^3.3"
   },
   "require-dev": {
-    "hanaboso/php-check-utils": "^1.0"
+    "hanaboso/php-check-utils": "^1.0",
+    "symfony/symfony": "^4.1"
   }
 }

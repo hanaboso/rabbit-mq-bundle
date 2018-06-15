@@ -17,7 +17,7 @@ use RabbitMqBundle\DependencyInjection\RabbitMqExtension;
  *
  * @package Tests\DependencyInjection
  */
-class RabbitMqExtensionTest extends TestCase
+final class RabbitMqExtensionTest extends TestCase
 {
 
     /**

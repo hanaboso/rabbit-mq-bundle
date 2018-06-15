@@ -22,7 +22,7 @@ use RabbitMqBundle\Connection\Connection;
  *
  * @package Tests\Connection
  */
-class ConnectionTest extends TestCase
+final class ConnectionTest extends TestCase
 {
 
     /**

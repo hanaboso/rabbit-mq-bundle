@@ -26,7 +26,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  * @package Tests\DependencyInjection\Compiler
  */
-class ConfiguratorTest extends TestCase
+final class ConfiguratorTest extends TestCase
 {
 
     /**

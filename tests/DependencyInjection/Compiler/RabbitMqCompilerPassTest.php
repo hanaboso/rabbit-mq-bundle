@@ -20,7 +20,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  * @package Tests\DependencyInjection\Compiler
  */
-class RabbitMqCompilerPassTest extends TestCase
+final class RabbitMqCompilerPassTest extends TestCase
 {
 
     /**
