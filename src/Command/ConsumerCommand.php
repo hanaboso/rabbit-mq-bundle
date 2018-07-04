@@ -9,6 +9,7 @@
 
 namespace RabbitMqBundle\Command;
 
+use Exception;
 use RabbitMqBundle\Consumer\Consumer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,6 +49,7 @@ class ConsumerCommand extends Command
      * @param OutputInterface $output
      *
      * @return int|null|void
+     * @throws Exception
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {

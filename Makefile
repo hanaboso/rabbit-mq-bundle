@@ -27,7 +27,7 @@ codefixer:
 	$(DE) ./vendor/bin/phpcbf --standard=./ruleset.xml src/ tests/
 
 phpstan:
-	$(DE) ./vendor/bin/phpstan analyse -c phpstan.neon -l 7 src/ tests/
+	$(DE) ./vendor/bin/phpstan analyse -c phpstan.neon -l 7 src/
 
 phpunit:
 	$(DE) rm -rf ./temp/cache

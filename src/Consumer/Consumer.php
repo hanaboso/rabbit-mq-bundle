@@ -180,8 +180,6 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
                 $this->arguments
             );
             $this->connectionManager->getConnection()->getClient()->run();
-        } catch (CallbackException $e) {
-            throw $e;
         } catch (Throwable $e) {
             $this->logger->error('Consume error: ' . $e->getMessage(), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();

@@ -27,7 +27,7 @@ class ConnectionManager implements LoggerAwareInterface
     private $clientFactory;
 
     /**
-     * @var array|Connection
+     * @var array|Connection[]
      */
     private $connections = [];
 

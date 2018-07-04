@@ -43,7 +43,7 @@ class Connection implements LoggerAwareInterface
     private $client;
 
     /**
-     * @var array|Channel[]
+     * @var array
      */
     private $channels = [];
 
@@ -137,7 +137,7 @@ class Connection implements LoggerAwareInterface
         $ids            = array_keys($this->channels);
         $this->channels = [];
         foreach ($ids as $id) {
-            $this->channels[$id] = NULL;
+            $this->channels[$id] = [];
         }
     }
 
