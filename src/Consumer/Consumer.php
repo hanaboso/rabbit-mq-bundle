@@ -199,7 +199,7 @@ class Consumer implements ConsumerInterface, SetupInterface, LoggerAwareInterfac
             $this->channelId = $this->connectionManager->getConnection()->createChannel();
         }
 
-        return $channel = $this->connectionManager->getConnection()->getChannel($this->channelId);
+        return $this->connectionManager->getConnection()->getChannel($this->channelId);
     }
 
     /**

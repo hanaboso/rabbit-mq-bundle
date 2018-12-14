@@ -131,7 +131,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
             $this->channelId = $this->connectionManager->getConnection()->createChannel();
         }
 
-        return $channel = $this->connectionManager->getConnection()->getChannel($this->channelId);
+        return $this->connectionManager->getConnection()->getChannel($this->channelId);
     }
 
     /**

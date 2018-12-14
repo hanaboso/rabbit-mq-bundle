@@ -51,6 +51,9 @@ class PublisherCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $input;
+        $output;
+
         $this->publisher->publish('Test content');
     }
 

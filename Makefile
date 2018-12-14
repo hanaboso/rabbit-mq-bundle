@@ -1,5 +1,7 @@
 .PHONY: init composer-update codesniffer phpstan phpunit
 
+IMAGE=cmhanaboso.azurecr.io/clever-monitor/rabbit-mq-ext-dev
+BASE=cmhanaboso.azurecr.io/php-base/php:php-7.2
 DC= docker-compose
 DE= docker-compose exec php-dev
 
@@ -7,6 +9,11 @@ DE= docker-compose exec php-dev
 	sed -e "s|{DEV_UID}|$(shell id -u)|g" \
 		-e "s|{DEV_GID}|$(shell id -u)|g" \
 		.env.dist >> .env;
+
+dev-build: .env
+	docker pull $(BASE)
+	cd docker/dev && docker build -t $(IMAGE):dev .
+	cd docker/dev && docker push $(IMAGE):dev
 
 docker-up-force: .env
 	$(DC) pull

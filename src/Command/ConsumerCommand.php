@@ -53,6 +53,9 @@ class ConsumerCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $input;
+        $output;
+
         $this->consumer->setup();
 
         $this->consumer->consume();

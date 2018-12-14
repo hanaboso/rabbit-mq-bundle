@@ -62,7 +62,7 @@ class ClientFactory
      *
      * @return string
      */
-    public function getConfigByKey(string $name = 'default', string $key): string
+    public function getConfigByKey(string $name, string $key): string
     {
         return $this->config[$name][$key] ?? '';
     }
