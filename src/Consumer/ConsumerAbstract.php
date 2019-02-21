@@ -11,26 +11,98 @@ namespace RabbitMqBundle\Consumer;
 
 use Bunny\Channel;
 use Bunny\Message;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
+use RabbitMqBundle\Connection\SetupInterface;
 use RabbitMqBundle\Consumer\Callback\Exception\CallbackException;
 use Throwable;
 
 /**
- * Class Consumer
+ * Class AbstractConsumer
  *
  * @package RabbitMqBundle\Consumer
  */
-class Consumer extends ConsumerAbstract
+abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, LoggerAwareInterface
 {
+
+    /**
+     * @var ConnectionManager
+     */
+    protected $connectionManager;
+
+    /**
+     * @var Configurator
+     */
+    protected $configurator;
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
+     * @var int
+     */
+    protected $channelId;
+
+    /**
+     * @var CallbackInterface
+     */
+    protected $callback;
+
+    /**
+     * @var string
+     */
+    protected $queue;
+
+    /**
+     * @var string
+     */
+    protected $consumerTag = '';
+
+    /**
+     * @var bool
+     */
+    protected $noLocal = FALSE;
+
+    /**
+     * @var bool
+     */
+    protected $noAck = FALSE;
+
+    /**
+     * @var bool
+     */
+    protected $exclusive = FALSE;
+
+    /**
+     * @var bool
+     */
+    protected $nowait = FALSE;
+
+    /**
+     * @var array
+     */
+    protected $arguments = [];
+
+    /**
+     * @var int
+     */
+    protected $prefetchCount = 0;
+
+    /**
+     * @var int
+     */
+    protected $prefetchSize = 0;
 
     /**
      * Consumer constructor.
      *
      * @param ConnectionManager $connectionManager
      * @param Configurator      $configurator
-     * @param CallbackInterface $callback
      * @param string            $queue
      * @param string            $consumerTag
      * @param bool              $noLocal
@@ -43,7 +115,6 @@ class Consumer extends ConsumerAbstract
     public function __construct(
         ConnectionManager $connectionManager,
         Configurator $configurator,
-        CallbackInterface $callback,
         string $queue = '',
         string $consumerTag = '',
         bool $noLocal = FALSE,
@@ -54,19 +125,17 @@ class Consumer extends ConsumerAbstract
         int $prefetchSize = 0
     )
     {
-        parent::__construct(
-            $connectionManager,
-            $configurator,
-            $queue,
-            $consumerTag,
-            $noLocal,
-            $noAck,
-            $exclusive,
-            $nowait,
-            $prefetchCount,
-            $prefetchSize
-        );
-        $this->callback = $callback;
+        $this->connectionManager = $connectionManager;
+        $this->configurator      = $configurator;
+        $this->queue             = $queue;
+        $this->consumerTag       = $consumerTag;
+        $this->noLocal           = $noLocal;
+        $this->noAck             = $noAck;
+        $this->exclusive         = $exclusive;
+        $this->nowait            = $nowait;
+        $this->prefetchCount     = $prefetchCount;
+        $this->prefetchSize      = $prefetchSize;
+        $this->logger            = new NullLogger();
     }
 
     /**

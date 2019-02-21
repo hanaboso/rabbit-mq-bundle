@@ -14,3 +14,13 @@ services:
           - DEV_UID=${DEV_UID}
           - DEV_GID=${DEV_GID}
           - COMPOSER_HOME=/home/dev/.composer
+
+    rabbitmq:
+        image: rabbitmq:management-alpine
+        ports:
+            - ${DEV_IP}:15672:15672
+        volumes:
+            - rabbitmq:/var/lib/rabbitmq
+
+volumes:
+    rabbitmq: {}
