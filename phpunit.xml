@@ -6,7 +6,6 @@
          beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
-         verbose="true"
          cacheResult="false"
 >
     <testsuite name="default">
