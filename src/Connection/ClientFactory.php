@@ -16,7 +16,7 @@ use React\EventLoop\LoopInterface;
 /**
  * Class ClientFactory
  *
- * @package RabbitMqBundles
+ * @package RabbitMqBundle\Connection
  */
 class ClientFactory
 {
@@ -39,6 +39,8 @@ class ClientFactory
     private $config;
 
     /**
+     * ClientFactory constructor.
+     *
      * @param array $config
      */
     public function __construct($config = [])

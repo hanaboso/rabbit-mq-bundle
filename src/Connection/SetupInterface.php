@@ -12,7 +12,7 @@ namespace RabbitMqBundle\Connection;
 /**
  * Interface SetupInterface
  *
- * @package RabbitMqBundle\Consumer
+ * @package RabbitMqBundle\Connection
  */
 interface SetupInterface
 {

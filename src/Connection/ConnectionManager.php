@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 /**
- * Class ConnectionStore
+ * Class ConnectionManager
  *
  * @package RabbitMqBundle\Connection
  */
@@ -37,7 +37,7 @@ class ConnectionManager implements LoggerAwareInterface
     private $logger;
 
     /**
-     * ConnectionStore constructor.
+     * ConnectionManager constructor.
      *
      * @param ClientFactory $clientFactory
      */

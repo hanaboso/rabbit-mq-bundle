@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 /**
  * Class RabbitMqExtension
  *
- * @package RabbitMqbundle\DependencyInjection
+ * @package RabbitMqBundle\DependencyInjection
  */
 class RabbitMqExtension extends Extension
 {

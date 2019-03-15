@@ -12,6 +12,7 @@ namespace Tests\Connection;
 use Bunny\Channel;
 use Bunny\Client;
 use Bunny\Exception\ClientException;
+use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RabbitMqBundle\Connection\ClientFactory;
@@ -26,7 +27,7 @@ final class ConnectionTest extends TestCase
 {
 
     /**
-     *
+     * @throws Exception
      */
     public function testReconnect(): void
     {
