@@ -1,4 +1,4 @@
-FROM cmhanaboso.azurecr.io/php-base/php:php-7.2
+FROM cmhanaboso.azurecr.io/php-base/php:php-7.3
 
 RUN apt-get update && \
     apt-get install -y git mc sudo && \

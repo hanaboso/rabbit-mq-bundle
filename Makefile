@@ -20,10 +20,10 @@ docker-up-force: .env
 	$(DC) up -d --force-recreate --remove-orphans
 
 composer-update:
-	$(DE) composer update
+	$(DE) composer update --ignore-platform-reqs
 
 composer-install:
-	$(DE) composer install
+	$(DE) composer install --ignore-platform-reqs
 
 init: docker-up-force composer-install
 

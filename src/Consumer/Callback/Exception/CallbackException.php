@@ -9,14 +9,14 @@
 
 namespace RabbitMqBundle\Consumer\Callback\Exception;
 
-use Exception;
+use Hanaboso\CommonsBundle\Exception\PipesFrameworkExceptionAbstract;
 
 /**
  * Class CallbackException
  *
  * @package RabbitMqBundle\Consumer\Callback\Exception
  */
-class CallbackException extends Exception
+class CallbackException extends PipesFrameworkExceptionAbstract
 {
 
 }
