@@ -1,5 +1,5 @@
 extensions:
-    monolog: Kdyby\Monolog\DI\MonologExtension
+    monolog: Contributte\Monolog\DI\MonologExtension
     rabbit_mq: RabbitMqBundle\DI\RabbitMqExtension
 
 rabbit_mq:
@@ -46,3 +46,18 @@ rabbit_mq:
         my-consumer:
             queue: my-queue
             callback: @rabbit_mq.null_callback
+
+monolog:
+    tracy:
+        hook: true
+    channel:
+        default:
+            handlers:
+                -
+                    type: Monolog\Handler\RotatingFileHandler
+                    arguments:
+                        - %appDir%/../log/log.log
+                        - 30
+                        - Monolog\Logger::WARNING
+            processors:
+                -  Monolog\Processor\MemoryPeakUsageProcessor()

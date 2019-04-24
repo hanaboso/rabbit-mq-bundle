@@ -2,7 +2,6 @@ FROM cmhanaboso.azurecr.io/php-base/php:php-7.3
 
 RUN apt-get update && \
     apt-get install -y git mc sudo && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     pecl install xdebug && \
     docker-php-ext-enable xdebug && \
     apt-get clean && apt-get autoremove -y && \

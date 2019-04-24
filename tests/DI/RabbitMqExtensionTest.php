@@ -33,24 +33,24 @@ final class RabbitMqExtensionTest extends TestCase
             ->addConfig(__DIR__ . '/config.neon')
             ->createContainer();
 
-        $this->assertInstanceOf(ClientFactory::class, $container->getByType(ClientFactory::class));
-        $this->assertInstanceOf(ConnectionManager::class, $container->getByType(ConnectionManager::class));
-        $this->assertInstanceOf(Consumer::class, $container->getByType(Consumer::class));
-        $this->assertInstanceOf(ConsumerCommand::class, $container->getByType(ConsumerCommand::class));
-        $this->assertInstanceOf(Publisher::class, $container->getByType(Publisher::class));
-        $this->assertInstanceOf(PublisherCommand::class, $container->getByType(PublisherCommand::class));
-        $this->assertInstanceOf(RabbitMqConfigurator::class, $container->getByType(RabbitMqConfigurator::class));
-        $this->assertInstanceOf(NullCallback::class, $container->getByType(NullCallback::class));
-        $this->assertInstanceOf(DumpCallback::class, $container->getByType(DumpCallback::class));
+        self::assertInstanceOf(ClientFactory::class, $container->getByType(ClientFactory::class));
+        self::assertInstanceOf(ConnectionManager::class, $container->getByType(ConnectionManager::class));
+        self::assertInstanceOf(Consumer::class, $container->getByType(Consumer::class));
+        self::assertInstanceOf(ConsumerCommand::class, $container->getByType(ConsumerCommand::class));
+        self::assertInstanceOf(Publisher::class, $container->getByType(Publisher::class));
+        self::assertInstanceOf(PublisherCommand::class, $container->getByType(PublisherCommand::class));
+        self::assertInstanceOf(RabbitMqConfigurator::class, $container->getByType(RabbitMqConfigurator::class));
+        self::assertInstanceOf(NullCallback::class, $container->getByType(NullCallback::class));
+        self::assertInstanceOf(DumpCallback::class, $container->getByType(DumpCallback::class));
 
-        $this->assertTrue($container->hasService('rabbit_mq.publisher.my_publisher'));
-        $this->assertTrue($container->hasService('rabbit_mq.consumer.my_consumer'));
+        self::assertTrue($container->hasService('rabbit_mq.publisher.my_publisher'));
+        self::assertTrue($container->hasService('rabbit_mq.consumer.my_consumer'));
 
-        $this->assertTrue($container->hasService('rabbit_mq.publisher.command.my_publisher'));
-        $this->assertTrue($container->hasService('rabbit_mq.consumer.command.my_consumer'));
+        self::assertTrue($container->hasService('rabbit_mq.publisher.command.my_publisher'));
+        self::assertTrue($container->hasService('rabbit_mq.consumer.command.my_consumer'));
 
-        $this->assertTrue($container->hasService('monolog.logger.rabbit_mq'));
-        $this->assertTrue($container->hasService('monolog.handler.rabbit_mq'));
+        self::assertTrue($container->hasService('monolog.logger.rabbit_mq'));
+        self::assertTrue($container->hasService('monolog.handler.rabbit_mq'));
     }
 
 }

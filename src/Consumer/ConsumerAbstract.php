@@ -11,6 +11,7 @@ namespace RabbitMqBundle\Consumer;
 
 use Bunny\Channel;
 use Bunny\Message;
+use Exception;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -147,7 +148,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function consume(): void
     {
@@ -178,7 +179,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
             );
             $this->connectionManager->getConnection()->getClient()->run();
         } catch (Throwable $e) {
-            $this->logger->error('Consume error: ' . $e->getMessage(), ['exception' => $e]);
+            $this->logger->error(sprintf('Consume error: %s', $e->getMessage()), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
             $this->configurator->setConfigured(FALSE);
             $this->setup();
@@ -188,7 +189,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
 
     /**
      * @return Channel
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getChannel(): Channel
     {
@@ -210,7 +211,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
             $this->configurator->setup($this->getChannel());
             $this->getChannel()->qos($this->prefetchSize, $this->prefetchCount);
         } catch (Throwable $e) {
-            $this->logger->error('Consumer setup error: ' . $e->getMessage(), ['exception' => $e]);
+            $this->logger->error(sprintf('Consumer setup error: %s', $e->getMessage()), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
         }

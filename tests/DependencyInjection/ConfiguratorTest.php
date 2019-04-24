@@ -34,8 +34,7 @@ final class ConfiguratorTest extends TestCase
      */
     public function testConfig(): void
     {
-        $config = Yaml::parse(file_get_contents(__DIR__ . '/config.yml'));
-
+        $config    = Yaml::parseFile(__DIR__ . '/config.yml');
         $container = new ContainerBuilder();
 
         // Load config
@@ -55,28 +54,28 @@ final class ConfiguratorTest extends TestCase
         $config = $container->getParameter('rabbit_mq');
 
         // Test default keys
-        $this->assertCount(13, $config);
-        $this->assertArrayHasKey('connections', $config);
-        $this->assertArrayHasKey('queues', $config);
-        $this->assertArrayHasKey('exchanges', $config);
-        $this->assertArrayHasKey('publishers', $config);
-        $this->assertArrayHasKey('consumers', $config);
+        self::assertCount(14, $config);
+        self::assertArrayHasKey('connections', $config);
+        self::assertArrayHasKey('queues', $config);
+        self::assertArrayHasKey('exchanges', $config);
+        self::assertArrayHasKey('publishers', $config);
+        self::assertArrayHasKey('consumers', $config);
 
         // Test default classes
-        $this->assertArrayHasKey('client_factory', $config);
-        $this->assertSame(ClientFactory::class, $config['client_factory']);
-        $this->assertArrayHasKey('connection_manager', $config);
-        $this->assertSame(ConnectionManager::class, $config['connection_manager']);
-        $this->assertArrayHasKey('consumer', $config);
-        $this->assertSame(Consumer::class, $config['consumer']);
-        $this->assertArrayHasKey('consumer_command', $config);
-        $this->assertSame(ConsumerCommand::class, $config['consumer_command']);
-        $this->assertArrayHasKey('publisher', $config);
-        $this->assertSame(Publisher::class, $config['publisher']);
-        $this->assertArrayHasKey('logger', $config);
-        $this->assertNull($config['logger']);
-        $this->assertArrayHasKey('configurator', $config);
-        $this->assertSame(Configurator::class, $config['configurator']);
+        self::assertArrayHasKey('client_factory', $config);
+        self::assertSame(ClientFactory::class, $config['client_factory']);
+        self::assertArrayHasKey('connection_manager', $config);
+        self::assertSame(ConnectionManager::class, $config['connection_manager']);
+        self::assertArrayHasKey('consumer', $config);
+        self::assertSame(Consumer::class, $config['consumer']);
+        self::assertArrayHasKey('consumer_command', $config);
+        self::assertSame(ConsumerCommand::class, $config['consumer_command']);
+        self::assertArrayHasKey('publisher', $config);
+        self::assertSame(Publisher::class, $config['publisher']);
+        self::assertArrayHasKey('logger', $config);
+        self::assertNull($config['logger']);
+        self::assertArrayHasKey('configurator', $config);
+        self::assertSame(Configurator::class, $config['configurator']);
 
         // Test connections
         $connection = [
@@ -91,8 +90,8 @@ final class ConfiguratorTest extends TestCase
             'reconnect_tries'   => NULL,
             'reconnect_timeout' => 1,
         ];
-        $this->assertArrayHasKey('default', $config['connections']);
-        $this->assertSame($connection, $config['connections']['default']);
+        self::assertArrayHasKey('default', $config['connections']);
+        self::assertSame($connection, $config['connections']['default']);
 
         // Test queues
         $queue = [
@@ -115,8 +114,8 @@ final class ConfiguratorTest extends TestCase
             'passive'     => FALSE,
             'no_wait'     => FALSE,
         ];
-        $this->assertArrayHasKey('my-queue', $config['queues']);
-        $this->assertSame($queue, $config['queues']['my-queue']);
+        self::assertArrayHasKey('my-queue', $config['queues']);
+        self::assertSame($queue, $config['queues']['my-queue']);
 
         // Test exchanges
         $exchange = [
@@ -140,8 +139,8 @@ final class ConfiguratorTest extends TestCase
                 ],
             ],
         ];
-        $this->assertArrayHasKey('my-exchange', $config['exchanges']);
-        $this->assertSame($exchange, $config['exchanges']['my-exchange']);
+        self::assertArrayHasKey('my-exchange', $config['exchanges']);
+        self::assertSame($exchange, $config['exchanges']['my-exchange']);
 
         // Test publishers
         $producer = [
@@ -152,8 +151,8 @@ final class ConfiguratorTest extends TestCase
             'class'       => Publisher::class,
             'connection'  => 'default',
         ];
-        $this->assertArrayHasKey('my-publisher', $config['publishers']);
-        $this->assertSame($producer, $config['publishers']['my-publisher']);
+        self::assertArrayHasKey('my-publisher', $config['publishers']);
+        self::assertSame($producer, $config['publishers']['my-publisher']);
 
         // Test consumers
         $consumer = [
@@ -162,6 +161,7 @@ final class ConfiguratorTest extends TestCase
             'class'          => Consumer::class,
             'connection'     => 'default',
             'consumer_tag'   => '',
+            'async'          => FALSE,
             'no_local'       => FALSE,
             'no_ack'         => FALSE,
             'exclusive'      => FALSE,
@@ -174,8 +174,8 @@ final class ConfiguratorTest extends TestCase
             'max_seconds'    => NULL,
             'arguments'      => [],
         ];
-        $this->assertArrayHasKey('my-consumer', $config['consumers']);
-        $this->assertSame($consumer, $config['consumers']['my-consumer']);
+        self::assertArrayHasKey('my-consumer', $config['consumers']);
+        self::assertSame($consumer, $config['consumers']['my-consumer']);
     }
 
 }

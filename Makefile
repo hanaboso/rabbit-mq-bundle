@@ -1,7 +1,7 @@
 .PHONY: init composer-update codesniffer phpstan phpunit
 
-IMAGE=cmhanaboso.azurecr.io/clever-monitor/rabbit-mq-ext-dev
-BASE=cmhanaboso.azurecr.io/php-base/php:php-7.2
+IMAGE=dkr.hanaboso.net/hanaboso/rabbit-mq-bundle/dev:dev
+BASE=cmhanaboso.azurecr.io/php-base/php:php-7.3
 DC= docker-compose
 DE= docker-compose exec php-dev
 
@@ -12,8 +12,8 @@ DE= docker-compose exec php-dev
 
 dev-build: .env
 	docker pull $(BASE)
-	cd docker/dev && docker build -t $(IMAGE):dev .
-	cd docker/dev && docker push $(IMAGE):dev
+	cd docker/dev && docker build -t $(IMAGE) .
+	cd docker/dev && docker push $(IMAGE)
 
 docker-up-force: .env
 	$(DC) pull
@@ -27,6 +27,10 @@ composer-install:
 
 init: docker-up-force composer-install
 
+test: init fasttest
+
+fasttest: codesniffer phpstan phpunit
+
 codesniffer:
 	$(DE) ./vendor/bin/phpcs --standard=./ruleset.xml --colors -p src/ tests/
 
@@ -34,10 +38,8 @@ codefixer:
 	$(DE) ./vendor/bin/phpcbf --standard=./ruleset.xml src/ tests/
 
 phpstan:
-	$(DE) ./vendor/bin/phpstan analyse -c phpstan.neon -l 7 src/
+	$(DE) ./vendor/bin/phpstan analyse -c phpstan.neon -l 7 src/ tests/
 
 phpunit:
 	$(DE) rm -rf ./temp/cache
 	$(DE) ./vendor/bin/phpunit
-
-test: docker-up-force composer-install codesniffer phpstan phpunit

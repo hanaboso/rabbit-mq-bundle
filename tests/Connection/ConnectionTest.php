@@ -35,12 +35,12 @@ final class ConnectionTest extends TestCase
         /**
          * @var ClientFactory|MockObject $clientFactory
          */
-        $clientFactory = $this->createMock(ClientFactory::class);
+        $clientFactory = self::createMock(ClientFactory::class);
 
         /** @var Client|MockObject $client */
-        $client = $this->createMock(Client::class);
+        $client = self::createMock(Client::class);
 
-        $client->expects($this->exactly(6))->method('channel')->willReturnOnConsecutiveCalls(
+        $client->expects(self::exactly(6))->method('channel')->willReturnOnConsecutiveCalls(
             new Channel($client, 1),
             new Channel($client, 2),
             new Channel($client, 3),
@@ -49,7 +49,7 @@ final class ConnectionTest extends TestCase
             new Channel($client, 3)
         );
 
-        $client->expects($this->exactly(10))->method('isConnected')->willReturnOnConsecutiveCalls(
+        $client->expects(self::exactly(10))->method('isConnected')->willReturnOnConsecutiveCalls(
             FALSE, // createChannel - 1
             TRUE, // createChannel - 2
             TRUE, // createChannel - 3
@@ -97,7 +97,7 @@ final class ConnectionTest extends TestCase
         $conn->getChannel($id2);
         $conn->getChannel($id3);
 
-        $this->assertSame(3, $i);
+        self::assertSame(3, $i);
     }
 
 }

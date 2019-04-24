@@ -76,7 +76,7 @@ class AsyncConsumer extends ConsumerAbstract
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function consume(): void
     {

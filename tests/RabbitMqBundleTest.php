@@ -28,7 +28,7 @@ final class RabbitMqBundleTest extends TestCase
     {
         $bundle = new RabbitMqBundle();
 
-        $this->assertSame('RabbitMqBundle', $bundle->getName());
+        self::assertSame('RabbitMqBundle', $bundle->getName());
     }
 
     /**
@@ -38,7 +38,7 @@ final class RabbitMqBundleTest extends TestCase
     {
         $bundle = new RabbitMqBundle();
 
-        $this->assertInstanceOf(RabbitMqExtension::class, $bundle->getContainerExtension());
+        self::assertInstanceOf(RabbitMqExtension::class, $bundle->getContainerExtension());
     }
 
 }

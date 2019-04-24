@@ -27,7 +27,7 @@ final class RabbitMqExtensionTest extends TestCase
     {
         $extension = new RabbitMqExtension();
 
-        $this->assertSame('rabbit_mq', $extension->getAlias());
+        self::assertSame('rabbit_mq', $extension->getAlias());
     }
 
 }

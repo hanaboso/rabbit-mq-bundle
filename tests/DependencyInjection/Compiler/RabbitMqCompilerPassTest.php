@@ -28,8 +28,7 @@ final class RabbitMqCompilerPassTest extends TestCase
      */
     public function testCompilerPass(): void
     {
-        $config = Yaml::parse(file_get_contents(__DIR__ . '/config.yml'));
-
+        $config    = Yaml::parseFile(__DIR__ . '/config.yml');
         $container = new ContainerBuilder();
 
         // Load config
@@ -45,7 +44,7 @@ final class RabbitMqCompilerPassTest extends TestCase
 
         $container->compile();
 
-        $this->assertCount(12, $container->getRemovedIds());
+        self::assertCount(12, $container->getRemovedIds());
     }
 
 }

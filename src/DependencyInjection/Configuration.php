@@ -54,12 +54,12 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root(RabbitMqBundle::KEY);
 
         // Default classes
-        $rootNode->children()->scalarNode("client_factory")->defaultValue(ClientFactory::class);
-        $rootNode->children()->scalarNode("connection_manager")->defaultValue(ConnectionManager::class);
-        $rootNode->children()->scalarNode("consumer")->defaultValue(Consumer::class);
-        $rootNode->children()->scalarNode("async_consumer")->defaultValue(AsyncConsumer::class);
-        $rootNode->children()->scalarNode("consumer_command")->defaultValue(ConsumerCommand::class);
-        $rootNode->children()->scalarNode("publisher")->defaultValue(Publisher::class);
+        $rootNode->children()->scalarNode('client_factory')->defaultValue(ClientFactory::class);
+        $rootNode->children()->scalarNode('connection_manager')->defaultValue(ConnectionManager::class);
+        $rootNode->children()->scalarNode('consumer')->defaultValue(Consumer::class);
+        $rootNode->children()->scalarNode('async_consumer')->defaultValue(AsyncConsumer::class);
+        $rootNode->children()->scalarNode('consumer_command')->defaultValue(ConsumerCommand::class);
+        $rootNode->children()->scalarNode('publisher')->defaultValue(Publisher::class);
         $rootNode->children()->scalarNode('logger')->defaultNull();
         $rootNode->children()->scalarNode('configurator')->defaultValue(Configurator::class);
         $rootNode->children()->booleanNode('configure_monolog')->defaultValue(FALSE);
@@ -86,16 +86,16 @@ class Configuration implements ConfigurationInterface
             ->defaultValue([])
             ->arrayPrototype();
 
-        $connections->children()->scalarNode("host")->isRequired();
-        $connections->children()->scalarNode("port")->defaultValue(5672);
-        $connections->children()->scalarNode("vhost")->defaultValue("/");
-        $connections->children()->scalarNode("user")->defaultValue("guest");
-        $connections->children()->scalarNode("password")->defaultValue("guest");
-        $connections->children()->scalarNode("heartbeat")->defaultValue(60);
-        $connections->children()->scalarNode("timeout")->defaultValue(1);
-        $connections->children()->booleanNode("reconnect")->defaultTrue();
-        $connections->children()->scalarNode("reconnect_tries")->defaultNull();
-        $connections->children()->scalarNode("reconnect_timeout")->defaultValue(1);
+        $connections->children()->scalarNode('host')->isRequired();
+        $connections->children()->scalarNode('port')->defaultValue(5672);
+        $connections->children()->scalarNode('vhost')->defaultValue('/');
+        $connections->children()->scalarNode('user')->defaultValue('guest');
+        $connections->children()->scalarNode('password')->defaultValue('guest');
+        $connections->children()->scalarNode('heartbeat')->defaultValue(60);
+        $connections->children()->scalarNode('timeout')->defaultValue(1);
+        $connections->children()->booleanNode('reconnect')->defaultTrue();
+        $connections->children()->scalarNode('reconnect_tries')->defaultNull();
+        $connections->children()->scalarNode('reconnect_timeout')->defaultValue(1);
 
         return $node;
     }
@@ -113,11 +113,11 @@ class Configuration implements ConfigurationInterface
             ->defaultValue([])
             ->arrayPrototype();
 
-        $queues->children()->booleanNode("durable")->defaultFalse();
-        $queues->children()->booleanNode("exclusive")->defaultFalse();
-        $queues->children()->booleanNode("auto_delete")->defaultFalse();
-        $queues->children()->booleanNode("passive")->defaultFalse();
-        $queues->children()->booleanNode("no_wait")->defaultFalse();
+        $queues->children()->booleanNode('durable')->defaultFalse();
+        $queues->children()->booleanNode('exclusive')->defaultFalse();
+        $queues->children()->booleanNode('auto_delete')->defaultFalse();
+        $queues->children()->booleanNode('passive')->defaultFalse();
+        $queues->children()->booleanNode('no_wait')->defaultFalse();
 
         $queues->append($this->getArguments());
         $queues->append($this->getBindings());
@@ -136,9 +136,9 @@ class Configuration implements ConfigurationInterface
             ->defaultValue([])
             ->arrayPrototype();
 
-        $bindings->children()->scalarNode("exchange")->isRequired();
-        $bindings->children()->scalarNode("routing_key")->defaultValue("");
-        $bindings->children()->scalarNode("no_wait")->defaultFalse();
+        $bindings->children()->scalarNode('exchange')->isRequired();
+        $bindings->children()->scalarNode('routing_key')->defaultValue('');
+        $bindings->children()->scalarNode('no_wait')->defaultFalse();
         $bindings->append($this->getArguments());
 
         return $node;
@@ -172,12 +172,12 @@ class Configuration implements ConfigurationInterface
             ->defaultValue([])
             ->arrayPrototype();
 
-        $exchanges->children()->enumNode("type")->values(['direct', 'topics']);
-        $exchanges->children()->booleanNode("durable")->defaultFalse();
-        $exchanges->children()->booleanNode("auto_delete")->defaultFalse();
-        $exchanges->children()->booleanNode("internal")->defaultFalse();
-        $exchanges->children()->booleanNode("passive")->defaultFalse();
-        $exchanges->children()->booleanNode("no_wait")->defaultFalse();
+        $exchanges->children()->enumNode('type')->values(['direct', 'topics']);
+        $exchanges->children()->booleanNode('durable')->defaultFalse();
+        $exchanges->children()->booleanNode('auto_delete')->defaultFalse();
+        $exchanges->children()->booleanNode('internal')->defaultFalse();
+        $exchanges->children()->booleanNode('passive')->defaultFalse();
+        $exchanges->children()->booleanNode('no_wait')->defaultFalse();
 
         $exchanges->append($this->getArguments());
         $exchanges->append($this->getBindings());

@@ -54,15 +54,18 @@ class RabbitMqCompilerPass implements CompilerPassInterface
 
         // Publishers
         foreach ($config['publishers'] as $key => $publisher) {
-            $publisherName = $this->createKey('publisher.' . $key);
-            $publisherDef  = new Definition($config['publisher'], [
-                new Reference($this->createKey('connection_manager')),
-                new Reference($this->createKey('configurator')),
-                $publisher['routing_key'],
-                $publisher['exchange'],
-                $publisher['mandatory'],
-                $publisher['immediate'],
-            ]);
+            $publisherName = $this->createKey(sprintf('publisher.%s', $key));
+            $publisherDef  = new Definition(
+                $config['publisher'],
+                [
+                    new Reference($this->createKey('connection_manager')),
+                    new Reference($this->createKey('configurator')),
+                    $publisher['routing_key'],
+                    $publisher['exchange'],
+                    $publisher['mandatory'],
+                    $publisher['immediate'],
+                ]
+            );
 
             // Add logger
             if ($config['logger'] !== NULL) {
@@ -72,8 +75,8 @@ class RabbitMqCompilerPass implements CompilerPassInterface
             $container->setDefinition($publisherName, $publisherDef);
 
             $publisherCommand = new Definition(PublisherCommand::class, [new Reference($publisherName)]);
-            $publisherCommand->addTag('console.command', ['command' => 'rabbit_mq:publisher:' . $key]);
-            $container->setDefinition('rabbit_mq.publisher.command.' . $key, $publisherCommand);
+            $publisherCommand->addTag('console.command', ['command' => sprintf('rabbit_mq:publisher:%s', $key)]);
+            $container->setDefinition(sprintf('rabbit_mq.publisher.command.%s', $key), $publisherCommand);
         }
 
         // Callbacks
@@ -84,20 +87,23 @@ class RabbitMqCompilerPass implements CompilerPassInterface
 
         // Consumers
         foreach ($config['consumers'] as $key => $consumer) {
-            $consumerName = $this->createKey('consumer.' . $key);
-            $consumerDef  = new Definition($consumer['async'] ? $config['async_consumer'] : $config['consumer'], [
-                new Reference($this->createKey('connection_manager')),
-                new Reference($this->createKey('configurator')),
-                new Reference($consumer['callback']),
-                $consumer['queue'],
-                $consumer['consumer_tag'],
-                $consumer['no_local'],
-                $consumer['no_ack'],
-                $consumer['exclusive'],
-                $consumer['no_wait'],
-                $consumer['prefetch_count'],
-                $consumer['prefetch_size'],
-            ]);
+            $consumerName = $this->createKey(sprintf('consumer.%s', $key));
+            $consumerDef  = new Definition(
+                $consumer['async'] ? $config['async_consumer'] : $config['consumer'],
+                [
+                    new Reference($this->createKey('connection_manager')),
+                    new Reference($this->createKey('configurator')),
+                    new Reference($consumer['callback']),
+                    $consumer['queue'],
+                    $consumer['consumer_tag'],
+                    $consumer['no_local'],
+                    $consumer['no_ack'],
+                    $consumer['exclusive'],
+                    $consumer['no_wait'],
+                    $consumer['prefetch_count'],
+                    $consumer['prefetch_size'],
+                ]
+            );
 
             // Add logger
             if ($config['logger'] !== NULL) {
@@ -107,8 +113,8 @@ class RabbitMqCompilerPass implements CompilerPassInterface
             $container->setDefinition($consumerName, $consumerDef);
 
             $consumerCommand = new Definition($config['consumer_command'], [new Reference($consumerName)]);
-            $consumerCommand->addTag('console.command', ['command' => 'rabbit_mq:consumer:' . $key]);
-            $container->setDefinition('rabbit_mq.consumer.command.' . $key, $consumerCommand);
+            $consumerCommand->addTag('console.command', ['command' => sprintf('rabbit_mq:consumer:%s', $key)]);
+            $container->setDefinition(sprintf('rabbit_mq.consumer.command.%s', $key), $consumerCommand);
         }
 
     }

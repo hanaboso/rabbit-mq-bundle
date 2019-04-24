@@ -155,7 +155,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
                 $this->immediate
             );
         } catch (Throwable $e) {
-            $this->logger->error('Publish error: ' . $e->getMessage(), ['exception' => $e]);
+            $this->logger->error(sprintf('Publish error: %s', $e->getMessage()), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
             $this->configurator->setConfigured(FALSE);
             $this->setup();
@@ -174,7 +174,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
             $this->configurator->setup($this->getChannel());
         } catch (Throwable $e) {
             // reconnect
-            $this->logger->error('Publisher setup error: ' . $e->getMessage(), ['exception' => $e]);
+            $this->logger->error(sprintf('Publisher setup error: %s', $e->getMessage()), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
         }
