@@ -10,6 +10,7 @@ use RabbitMqBundle\Command\PublisherCommand;
 use RabbitMqBundle\Connection\ClientFactory;
 use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
+use RabbitMqBundle\Consumer\AsyncConsumer;
 use RabbitMqBundle\Consumer\Callback\DumpCallback;
 use RabbitMqBundle\Consumer\Callback\NullCallback;
 use RabbitMqBundle\Consumer\Consumer;
@@ -30,6 +31,7 @@ final class RabbitMqExtension extends CompilerExtension
         'client_factory'     => ClientFactory::class,
         'connection_manager' => ConnectionManager::class,
         'consumer'           => Consumer::class,
+        'async_consumer'     => AsyncConsumer::class,
         'consumer_command'   => ConsumerCommand::class,
         'publisher'          => Publisher::class,
         'logger'             => NULL,
@@ -102,6 +104,7 @@ final class RabbitMqExtension extends CompilerExtension
         'queue'          => '',
         'callback'       => '',
         'consumer_tag'   => '',
+        'async'          => FALSE,
         'no_local'       => FALSE,
         'no_ack'         => FALSE,
         'exclusive'      => FALSE,
@@ -200,7 +203,7 @@ final class RabbitMqExtension extends CompilerExtension
 
             $consumer = $builder
                 ->addDefinition($this->prefix(sprintf('consumer.%s', $key)))
-                ->setFactory($config['consumer'])
+                ->setFactory($innerConfig['async'] ? $config['async_consumer'] : $config['consumer'])
                 ->setArguments([
                     $manager,
                     $configurator,

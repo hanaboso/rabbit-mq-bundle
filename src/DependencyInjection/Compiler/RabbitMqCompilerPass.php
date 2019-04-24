@@ -85,7 +85,7 @@ class RabbitMqCompilerPass implements CompilerPassInterface
         // Consumers
         foreach ($config['consumers'] as $key => $consumer) {
             $consumerName = $this->createKey('consumer.' . $key);
-            $consumerDef  = new Definition($config['consumer'], [
+            $consumerDef  = new Definition($consumer['async'] ? $config['async_consumer'] : $config['consumer'], [
                 new Reference($this->createKey('connection_manager')),
                 new Reference($this->createKey('configurator')),
                 new Reference($consumer['callback']),

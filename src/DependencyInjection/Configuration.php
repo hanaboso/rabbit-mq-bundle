@@ -13,6 +13,7 @@ use RabbitMqBundle\Command\ConsumerCommand;
 use RabbitMqBundle\Connection\ClientFactory;
 use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
+use RabbitMqBundle\Consumer\AsyncConsumer;
 use RabbitMqBundle\Consumer\Consumer;
 use RabbitMqBundle\Publisher\Publisher;
 use RabbitMqBundle\RabbitMqBundle;
@@ -56,6 +57,7 @@ class Configuration implements ConfigurationInterface
         $rootNode->children()->scalarNode("client_factory")->defaultValue(ClientFactory::class);
         $rootNode->children()->scalarNode("connection_manager")->defaultValue(ConnectionManager::class);
         $rootNode->children()->scalarNode("consumer")->defaultValue(Consumer::class);
+        $rootNode->children()->scalarNode("async_consumer")->defaultValue(AsyncConsumer::class);
         $rootNode->children()->scalarNode("consumer_command")->defaultValue(ConsumerCommand::class);
         $rootNode->children()->scalarNode("publisher")->defaultValue(Publisher::class);
         $rootNode->children()->scalarNode('logger')->defaultNull();
@@ -222,6 +224,7 @@ class Configuration implements ConfigurationInterface
         $consumers->children()->scalarNode('queue')->isRequired();
         $consumers->children()->scalarNode('callback')->isRequired();
         $consumers->children()->scalarNode('consumer_tag')->defaultValue('');
+        $consumers->children()->booleanNode('async')->defaultFalse();
         $consumers->children()->booleanNode('no_local')->defaultFalse();
         $consumers->children()->booleanNode('no_ack')->defaultFalse();
         $consumers->children()->booleanNode('exclusive')->defaultFalse();
