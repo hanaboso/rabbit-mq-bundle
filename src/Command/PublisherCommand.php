@@ -11,6 +11,7 @@ namespace RabbitMqBundle\Command;
 
 use RabbitMqBundle\Publisher\Publisher;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -21,6 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class PublisherCommand extends Command
 {
+
+    private const CONTENT = 'content';
+    private const HEADERS = 'headers';
 
     /**
      * @var Publisher
@@ -44,6 +48,15 @@ class PublisherCommand extends Command
     }
 
     /**
+     *
+     */
+    protected function configure(): void
+    {
+        $this->addArgument(self::CONTENT, InputArgument::OPTIONAL, '{}', 'Message content');
+        $this->addArgument(self::HEADERS, InputArgument::OPTIONAL, '{}', 'Message headers in JSON format');
+    }
+
+    /**
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
@@ -51,10 +64,15 @@ class PublisherCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $input;
         $output;
 
-        $this->publisher->publish('Test content');
+        $content = $input->getArgument(self::CONTENT);
+        $headers = $input->getArgument(self::HEADERS);
+
+        $content = is_array($content) ? $content[0] : (string) $content;
+        $headers = is_array($headers) ? $headers[0] : (string) $headers;
+
+        $this->publisher->publish($content, (array) json_decode($headers, TRUE, 512, JSON_THROW_ON_ERROR));
     }
 
 }

@@ -13,6 +13,7 @@
   },
   "require": {
     "php": "^7.3",
+    "ext-json": "*",
     "bunny/bunny": "^0.4",
     "contributte/monolog": "^0.1",
     "hanaboso/commons-bundle": "^1.1",
