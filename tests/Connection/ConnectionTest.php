@@ -32,10 +32,12 @@ final class ConnectionTest extends TestCase
     public function testReconnect(): void
     {
 
-        /**
-         * @var ClientFactory|MockObject $clientFactory
-         */
+        /** @var ClientFactory|MockObject $clientFactory */
         $clientFactory = self::createMock(ClientFactory::class);
+        $clientFactory
+            ->expects(self::any())
+            ->method('getConfig')
+            ->willReturn([ClientFactory::RECONNECT_TIMEOUT => 1]);
 
         /** @var Client|MockObject $client */
         $client = self::createMock(Client::class);

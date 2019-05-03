@@ -94,8 +94,8 @@ class Configuration implements ConfigurationInterface
         $connections->children()->scalarNode('heartbeat')->defaultValue(60);
         $connections->children()->scalarNode('timeout')->defaultValue(1);
         $connections->children()->booleanNode('reconnect')->defaultTrue();
-        $connections->children()->scalarNode('reconnect_tries')->defaultNull();
-        $connections->children()->scalarNode('reconnect_timeout')->defaultValue(1);
+        $connections->children()->integerNode('reconnect_tries')->defaultValue(3600);
+        $connections->children()->integerNode('reconnect_timeout')->defaultValue(1);
 
         return $node;
     }

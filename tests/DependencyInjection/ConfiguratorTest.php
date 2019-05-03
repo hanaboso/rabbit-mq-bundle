@@ -87,7 +87,7 @@ final class ConfiguratorTest extends TestCase
             'heartbeat'         => 60,
             'timeout'           => 1,
             'reconnect'         => TRUE,
-            'reconnect_tries'   => NULL,
+            'reconnect_tries'   => 3600,
             'reconnect_timeout' => 1,
         ];
         self::assertArrayHasKey('default', $config['connections']);
