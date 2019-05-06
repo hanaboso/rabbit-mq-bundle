@@ -103,6 +103,30 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     }
 
     /**
+     * @param string $routingKey
+     *
+     * @return Publisher
+     */
+    public function setRoutingKey(string $routingKey): Publisher
+    {
+        $this->routingKey = $routingKey;
+
+        return $this;
+    }
+
+    /**
+     * @param string $exchange
+     *
+     * @return Publisher
+     */
+    public function setExchange(string $exchange): Publisher
+    {
+        $this->exchange = $exchange;
+
+        return $this;
+    }
+
+    /**
      * @param mixed $content
      *
      * @return string

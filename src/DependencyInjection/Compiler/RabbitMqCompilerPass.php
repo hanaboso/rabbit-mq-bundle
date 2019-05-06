@@ -112,7 +112,8 @@ class RabbitMqCompilerPass implements CompilerPassInterface
 
             $container->setDefinition($consumerName, $consumerDef);
 
-            $consumerCommand = new Definition($config['consumer_command'], [new Reference($consumerName)]);
+            $command = $consumer['async'] ? $config['async_consumer_command'] : $config['consumer_command'];
+            $consumerCommand = new Definition($command, [new Reference($consumerName)]);
             $consumerCommand->addTag('console.command', ['command' => sprintf('rabbit_mq:consumer:%s', $key)]);
             $container->setDefinition(sprintf('rabbit_mq.consumer.command.%s', $key), $consumerCommand);
         }

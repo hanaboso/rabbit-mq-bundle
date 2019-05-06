@@ -74,16 +74,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.93.2",
+            "version": "3.93.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f0e3e528bb96c6602d7076d51dba312396cd2cc9"
+                "reference": "874c1040edab52df3873157aa54ea51833d48c0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f0e3e528bb96c6602d7076d51dba312396cd2cc9",
-                "reference": "f0e3e528bb96c6602d7076d51dba312396cd2cc9",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/874c1040edab52df3873157aa54ea51833d48c0e",
+                "reference": "874c1040edab52df3873157aa54ea51833d48c0e",
                 "shasum": ""
             },
             "require": {
@@ -153,7 +153,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-05-02T19:45:02+00:00"
+            "time": "2019-05-03T18:07:06+00:00"
         },
         {
             "name": "aws/aws-sdk-php-symfony",
@@ -2505,16 +2505,16 @@
         },
         {
             "name": "php-imap/php-imap",
-            "version": "3.0.10",
+            "version": "3.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barbushin/php-imap.git",
-                "reference": "8c7c01100539cc3efcbec2e0545469d32ec4bc3f"
+                "reference": "ff842543915f47258ef75f82e0635888e05b2ada"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/8c7c01100539cc3efcbec2e0545469d32ec4bc3f",
-                "reference": "8c7c01100539cc3efcbec2e0545469d32ec4bc3f",
+                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/ff842543915f47258ef75f82e0635888e05b2ada",
+                "reference": "ff842543915f47258ef75f82e0635888e05b2ada",
                 "shasum": ""
             },
             "require": {
@@ -2551,7 +2551,7 @@
                 "pop3",
                 "receive emails"
             ],
-            "time": "2019-05-01T15:04:24+00:00"
+            "time": "2019-05-05T14:03:29+00:00"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -7105,16 +7105,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "4.2.1",
+            "version": "4.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "3095910f0f0fb155ac4021fc51a4a7a39ac04e8a"
+                "reference": "f2a2c8e1c97c11ace607a7a667d73d47c19fe404"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/3095910f0f0fb155ac4021fc51a4a7a39ac04e8a",
-                "reference": "3095910f0f0fb155ac4021fc51a4a7a39ac04e8a",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/f2a2c8e1c97c11ace607a7a667d73d47c19fe404",
+                "reference": "f2a2c8e1c97c11ace607a7a667d73d47c19fe404",
                 "shasum": ""
             },
             "require": {
@@ -7154,7 +7154,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2019-04-25T07:55:20+00:00"
+            "time": "2019-05-05T09:05:15+00:00"
         },
         {
             "name": "sebastian/exporter",

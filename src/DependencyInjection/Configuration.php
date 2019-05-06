@@ -9,6 +9,7 @@
 
 namespace RabbitMqBundle\DependencyInjection;
 
+use RabbitMqBundle\Command\AsyncConsumerCommand;
 use RabbitMqBundle\Command\ConsumerCommand;
 use RabbitMqBundle\Connection\ClientFactory;
 use RabbitMqBundle\Connection\Configurator;
@@ -59,6 +60,7 @@ class Configuration implements ConfigurationInterface
         $rootNode->children()->scalarNode('consumer')->defaultValue(Consumer::class);
         $rootNode->children()->scalarNode('async_consumer')->defaultValue(AsyncConsumer::class);
         $rootNode->children()->scalarNode('consumer_command')->defaultValue(ConsumerCommand::class);
+        $rootNode->children()->scalarNode('async_consumer_command')->defaultValue(AsyncConsumerCommand::class);
         $rootNode->children()->scalarNode('publisher')->defaultValue(Publisher::class);
         $rootNode->children()->scalarNode('logger')->defaultNull();
         $rootNode->children()->scalarNode('configurator')->defaultValue(Configurator::class);
