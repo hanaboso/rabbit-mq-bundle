@@ -1,7 +1,7 @@
 .PHONY: init composer-update codesniffer phpstan phpunit
 
 IMAGE=dkr.hanaboso.net/hanaboso/rabbit-mq-bundle/dev:dev
-BASE=cmhanaboso.azurecr.io/php-base/php:php-7.3
+BASE=dkr.hanaboso.net/hanaboso/symfony3-base:php-7.3
 DC= docker-compose
 DE= docker-compose exec php-dev
 

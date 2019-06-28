@@ -1,9 +1,8 @@
-FROM cmhanaboso.azurecr.io/php-base/php:php-7.3
+FROM dkr.hanaboso.net/hanaboso/symfony3-base:php-7.3
 
 RUN apt-get update && \
     apt-get install -y git mc sudo && \
     pecl install xdebug && \
-    docker-php-ext-enable xdebug && \
     apt-get clean && apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/* /var/lib/log/* /var/log/* /tmp/* /var/tmp/*
 
@@ -26,6 +25,6 @@ RUN sed -i "s/^user =.*/user = dev/; s/^group = .*/group = dev/;" /usr/local/etc
 COPY entrypoint.sh /
 ENTRYPOINT [ "/entrypoint.sh" ]
 
-WORKDIR /srv/project
+WORKDIR /var/www
 
-CMD sudo -E php-fpm
+CMD sudo -E php-xdebug-w-nginx.sh

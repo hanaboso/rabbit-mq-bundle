@@ -16,8 +16,8 @@
     "ext-json": "*",
     "bunny/bunny": "^0.4",
     "hanaboso/commons-bundle": "^1.1",
-    "symfony/monolog-bundle": "^3.3",
-    "symfony/yaml": "^4.2"
+    "symfony/monolog-bundle": "^3.4",
+    "symfony/yaml": "^4.3"
   },
   "require-dev": {
     "hanaboso/php-check-utils": "^1.0"

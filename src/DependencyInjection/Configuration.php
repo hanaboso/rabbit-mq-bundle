@@ -93,8 +93,8 @@ class Configuration implements ConfigurationInterface
         $connections->children()->scalarNode('vhost')->defaultValue('/');
         $connections->children()->scalarNode('user')->defaultValue('guest');
         $connections->children()->scalarNode('password')->defaultValue('guest');
-        $connections->children()->scalarNode('heartbeat')->defaultValue(60);
-        $connections->children()->scalarNode('timeout')->defaultValue(1);
+        $connections->children()->scalarNode('heartbeat')->defaultValue(30);
+        $connections->children()->scalarNode('timeout')->defaultValue(60);
         $connections->children()->booleanNode('reconnect')->defaultTrue();
         $connections->children()->integerNode('reconnect_tries')->defaultValue(3600);
         $connections->children()->integerNode('reconnect_timeout')->defaultValue(1);
