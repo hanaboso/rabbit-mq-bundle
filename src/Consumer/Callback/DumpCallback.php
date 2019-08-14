@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: venca
- * Date: 8.1.18
- * Time: 7:09
- */
-
 namespace RabbitMqBundle\Consumer\Callback;
 
 use Bunny\Message;

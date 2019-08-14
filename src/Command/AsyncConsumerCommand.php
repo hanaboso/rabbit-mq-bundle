@@ -50,7 +50,6 @@ class AsyncConsumerCommand extends Command
         $output;
 
         $this->consumer->setup();
-
         $this->consumer->consume();
     }
 

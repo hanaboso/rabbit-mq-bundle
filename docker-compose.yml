@@ -4,21 +4,17 @@ version: '3'
 services:
     php-dev:
         image: dkr.hanaboso.net/hanaboso/rabbit-mq-bundle/dev:dev
-        working_dir: /var/www/html
         user: ${DEV_UID}:${DEV_GID}
         volumes:
-          - ./:/var/www/html
-          - ${SSH_AUTH_SOCK}:/tmp/bound-ssh-agent
-          - ${HOME}/.composer:/srv/.composer
+            - ./:/var/www
+            - ${SSH_AUTH_SOCK}:/tmp/bound-ssh-agent
+            - ${HOME}/.composer:/srv/.composer
         environment:
-          - DEV_UID=${DEV_UID}
-          - DEV_GID=${DEV_GID}
-          - COMPOSER_HOME=/home/dev/.composer
+            - DEV_UID=${DEV_UID}
+            - DEV_GID=${DEV_GID}
 
     rabbitmq:
         image: rabbitmq:management-alpine
-        ports:
-            - ${DEV_IP}:15672:15672
         volumes:
             - rabbitmq:/var/lib/rabbitmq
 

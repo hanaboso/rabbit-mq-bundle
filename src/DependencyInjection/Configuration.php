@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: venca
- * Date: 12/18/17
- * Time: 2:14 PM
- */
-
 namespace RabbitMqBundle\DependencyInjection;
 
 use RabbitMqBundle\Command\AsyncConsumerCommand;
@@ -34,14 +27,11 @@ class Configuration implements ConfigurationInterface
     /**
      * @param string $name
      *
-     * @return ArrayNodeDefinition
+     * @return ArrayNodeDefinition|NodeDefinition
      */
-    private function createNode(string $name): ArrayNodeDefinition
+    private function createNode(string $name)
     {
-        /** @var ArrayNodeDefinition $node */
-        $node = (new TreeBuilder())->root($name);
-
-        return $node;
+        return (new TreeBuilder($name))->getRootNode();
     }
 
     /**
@@ -49,10 +39,10 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder(RabbitMqBundle::KEY);
 
         /** @var ArrayNodeDefinition $rootNode */
-        $rootNode = $treeBuilder->root(RabbitMqBundle::KEY);
+        $rootNode = $treeBuilder->getRootNode();
 
         // Default classes
         $rootNode->children()->scalarNode('client_factory')->defaultValue(ClientFactory::class);
@@ -80,8 +70,8 @@ class Configuration implements ConfigurationInterface
      */
     protected function getConnections(): NodeDefinition
     {
-        $node = $this->createNode('connections');
-
+        /** @var ArrayNodeDefinition $node */
+        $node        = $this->createNode('connections');
         $connections = $node
             ->useAttributeAsKey('key')
             ->normalizeKeys(FALSE)
@@ -107,8 +97,8 @@ class Configuration implements ConfigurationInterface
      */
     protected function getQueues(): NodeDefinition
     {
-        $node = $this->createNode('queues');
-
+        /** @var ArrayNodeDefinition $node */
+        $node   = $this->createNode('queues');
         $queues = $node
             ->useAttributeAsKey('key')
             ->normalizeKeys(FALSE)
@@ -132,6 +122,7 @@ class Configuration implements ConfigurationInterface
      */
     protected function getBindings(): NodeDefinition
     {
+        /** @var ArrayNodeDefinition $node */
         $node     = $this->createNode('bindings');
         $bindings = $node
             ->normalizeKeys(FALSE)
@@ -151,8 +142,8 @@ class Configuration implements ConfigurationInterface
      */
     protected function getArguments(): NodeDefinition
     {
+        /** @var ArrayNodeDefinition $node */
         $node = $this->createNode('arguments');
-
         $node
             ->normalizeKeys(FALSE)
             ->scalarPrototype()
@@ -166,8 +157,8 @@ class Configuration implements ConfigurationInterface
      */
     protected function getExchanges(): NodeDefinition
     {
-        $node = $this->createNode('exchanges');
-
+        /** @var ArrayNodeDefinition $node */
+        $node      = $this->createNode('exchanges');
         $exchanges = $node
             ->useAttributeAsKey('key')
             ->normalizeKeys(FALSE)
@@ -192,8 +183,8 @@ class Configuration implements ConfigurationInterface
      */
     protected function getProducers(): NodeDefinition
     {
-        $node = $this->createNode('publishers');
-
+        /** @var ArrayNodeDefinition $node */
+        $node       = $this->createNode('publishers');
         $publishers = $node->useAttributeAsKey('key')
             ->normalizeKeys(FALSE)
             ->defaultValue([])
@@ -214,8 +205,8 @@ class Configuration implements ConfigurationInterface
      */
     protected function getConsumers(): NodeDefinition
     {
-        $node = $this->createNode('consumers');
-
+        /** @var ArrayNodeDefinition $node */
+        $node      = $this->createNode('consumers');
         $consumers = $node->useAttributeAsKey('key')
             ->normalizeKeys(FALSE)
             ->defaultValue([])

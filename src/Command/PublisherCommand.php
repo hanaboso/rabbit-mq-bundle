@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: venca
- * Date: 1/8/18
- * Time: 11:02 AM
- */
-
 namespace RabbitMqBundle\Command;
 
 use RabbitMqBundle\Publisher\Publisher;

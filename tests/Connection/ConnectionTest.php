@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: venca
- * Date: 1/9/18
- * Time: 11:02 AM
- */
-
 namespace Tests\Connection;
 
 use Bunny\Channel;

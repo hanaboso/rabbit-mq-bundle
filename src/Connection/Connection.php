@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: venca
- * Date: 1/8/18
- * Time: 1:51 PM
- */
-
 namespace RabbitMqBundle\Connection;
 
 use Bunny\Channel;

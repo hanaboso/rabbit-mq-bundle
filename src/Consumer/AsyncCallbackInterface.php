@@ -23,6 +23,11 @@ interface AsyncCallbackInterface
      *
      * @return PromiseInterface
      */
-    public function processMessage(Message $message, Connection $connection, int $channelId, LoopInterface $loop): PromiseInterface;
+    public function processMessage(
+        Message $message,
+        Connection $connection,
+        int $channelId,
+        LoopInterface $loop
+    ): PromiseInterface;
 
 }

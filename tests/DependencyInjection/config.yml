@@ -8,10 +8,10 @@ rabbit_mq:
             arguments:
                 my-arg: 'my-value'
             bindings:
-                - exchange: 'my-exchange'
-                  routing_key: 'routing-key'
-                  arguments:
-                    my-arg: 'my-value'
+                -   exchange: 'my-exchange'
+                    routing_key: 'routing-key'
+                    arguments:
+                        my-arg: 'my-value'
 
     exchanges:
         my-exchange:
@@ -24,13 +24,13 @@ rabbit_mq:
             arguments:
                 my-arg: 'my-value'
             bindings:
-               - exchange: 'my-exchange'
-                 routing-key: 'routing-key'
-                 arguments:
-                    my-arg: 'my-value'
+                -   exchange: 'my-exchange'
+                    routing-key: 'routing-key'
+                    arguments:
+                        my-arg: 'my-value'
 
     publishers:
-       my-publisher:
+        my-publisher:
             routing_key: 'routing-key' # queue name or routing key
             exchange: 'my-exchange'
             mandatory: false

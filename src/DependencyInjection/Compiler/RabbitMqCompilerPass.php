@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: venca
- * Date: 12/18/17
- * Time: 3:00 PM
- */
-
 namespace RabbitMqBundle\DependencyInjection\Compiler;
 
 use RabbitMqBundle\Command\PublisherCommand;
@@ -112,7 +105,7 @@ class RabbitMqCompilerPass implements CompilerPassInterface
 
             $container->setDefinition($consumerName, $consumerDef);
 
-            $command = $consumer['async'] ? $config['async_consumer_command'] : $config['consumer_command'];
+            $command         = $consumer['async'] ? $config['async_consumer_command'] : $config['consumer_command'];
             $consumerCommand = new Definition($command, [new Reference($consumerName)]);
             $consumerCommand->addTag('console.command', ['command' => sprintf('rabbit_mq:consumer:%s', $key)]);
             $container->setDefinition(sprintf('rabbit_mq.consumer.command.%s', $key), $consumerCommand);

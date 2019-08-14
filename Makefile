@@ -1,7 +1,7 @@
 .PHONY: init composer-update codesniffer phpstan phpunit
 
 IMAGE=dkr.hanaboso.net/hanaboso/rabbit-mq-bundle/dev:dev
-BASE=dkr.hanaboso.net/hanaboso/symfony3-base:php-7.3
+BASE=dkr.hanaboso.net/hanaboso/php-base:php-7.3
 DC= docker-compose
 DE= docker-compose exec php-dev
 
@@ -10,36 +10,45 @@ DE= docker-compose exec php-dev
 		-e "s|{DEV_GID}|$(shell id -u)|g" \
 		.env.dist >> .env;
 
+# Docker
 dev-build: .env
 	docker pull $(BASE)
 	cd docker/dev && docker build -t $(IMAGE) .
-	cd docker/dev && docker push $(IMAGE)
+	docker push $(IMAGE)
 
 docker-up-force: .env
 	$(DC) pull
 	$(DC) up -d --force-recreate --remove-orphans
 
-composer-update:
-	$(DE) composer update --ignore-platform-reqs
+docker-down-clean: .env
+	$(DC) down -v
 
+# Composer
 composer-install:
 	$(DE) composer install --ignore-platform-reqs
 
-init: docker-up-force composer-install
+composer-update:
+	$(DE) composer update --ignore-platform-reqs
 
-test: init fasttest
+composer-outdated:
+	$(DE) composer outdated
 
-fasttest: codesniffer phpstan phpunit
+# Console
+clear-cache:
+	$(DE) sudo rm -rf var/cache
+
+# App dev
+init-dev: docker-up-force composer-install
 
 codesniffer:
 	$(DE) ./vendor/bin/phpcs --standard=./ruleset.xml --colors -p src/ tests/
 
-codefixer:
-	$(DE) ./vendor/bin/phpcbf --standard=./ruleset.xml src/ tests/
-
 phpstan:
-	$(DE) ./vendor/bin/phpstan analyse -c phpstan.neon -l 7 src/ tests/
+	$(DE) ./vendor/bin/phpstan analyse -c ./phpstan.neon -l 7 src/ tests/
 
 phpunit:
-	$(DE) rm -rf ./temp/cache
-	$(DE) ./vendor/bin/phpunit
+	$(DE) ./vendor/bin/phpunit -c phpunit.xml.dist --colors --stderr tests
+
+test: docker-up-force composer-install fasttest
+
+fasttest: clear-cache codesniffer phpstan phpunit

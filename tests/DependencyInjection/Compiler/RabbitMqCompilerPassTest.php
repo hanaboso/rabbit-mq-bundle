@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: venca
- * Date: 12/18/17
- * Time: 4:24 PM
- */
-
 namespace Tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;

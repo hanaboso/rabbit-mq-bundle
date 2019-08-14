@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-/**
- * Created by PhpStorm.
- * User: venca
- * Date: 12/18/17
- * Time: 2:42 PM
- */
-
 namespace RabbitMqBundle\Connection;
 
 use Bunny\Async\Client as AsyncClient;

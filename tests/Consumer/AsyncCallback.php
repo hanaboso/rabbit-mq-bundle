@@ -35,7 +35,10 @@ final class AsyncCallback implements AsyncCallbackInterface
         $loop;
         $connection->getChannel($channelId)->ack($message);
 
-        return new Promise(function(): void {});
+        return new Promise(
+            function (): void {
+            }
+        );
     }
 
 }
