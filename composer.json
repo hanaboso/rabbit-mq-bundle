@@ -21,11 +21,5 @@
   },
   "require-dev": {
     "hanaboso/php-check-utils": "^1.0"
-  },
-  "repositories": [
-    {
-      "type": "git",
-      "url": "git@gitlab.hanaboso.net:hanaboso/commons-bundle.git"
-    }
-  ]
+  }
 }

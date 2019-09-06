@@ -3,7 +3,7 @@ version: '3'
 
 services:
     php-dev:
-        image: dkr.hanaboso.net/hanaboso/rabbit-mq-bundle/dev:dev
+        image: dkr.hanaboso.net/pipes/pipes/php-dev:dev
         user: ${DEV_UID}:${DEV_GID}
         volumes:
             - ./:/var/www
