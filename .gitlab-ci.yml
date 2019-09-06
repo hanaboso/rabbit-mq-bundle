@@ -13,13 +13,13 @@ before_script:
 test:
     stage: test
     script:
-        - export COMPOSE_PROJECT_NAME="${CI_PIPELINE_ID}-commons-bundle"
+        - export COMPOSE_PROJECT_NAME="${CI_PIPELINE_ID}-rabbit-mq-bundle"
         - make test
 
 mirror:
     stage: mirror
     script:
-        - "curl -X POST -F token=${MIRROR_TOKEN} -F ref=master -F variables\\[REPO\\]=hanaboso-commons-bundle https://gitlab.hanaboso.net/api/v4/projects/38/trigger/pipeline"
+        - "curl -X POST -F token=${MIRROR_TOKEN} -F ref=master -F variables\\[REPO\\]=hanaboso-rabbit-mq-bundle https://gitlab.hanaboso.net/api/v4/projects/38/trigger/pipeline"
     only:
         - master
 
@@ -27,5 +27,5 @@ cleanup:
     stage: cleanup
     when: always
     script:
-        - export COMPOSE_PROJECT_NAME="${CI_PIPELINE_ID}-commons-bundle"
+        - export COMPOSE_PROJECT_NAME="${CI_PIPELINE_ID}-rabbit-mq-bundle"
         - make docker-down-clean || echo "cleanup phase failed"
