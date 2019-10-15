@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Consumer;
+namespace RabbitBundleTests\Consumer;
 
 use Bunny\Message;
 use RabbitMqBundle\Connection\Connection;
@@ -12,7 +12,7 @@ use React\Promise\PromiseInterface;
 /**
  * Class AsyncCallback
  *
- * @package Tests\Consumer
+ * @package RabbitBundleTests\Consumer
  */
 final class AsyncCallback implements AsyncCallbackInterface
 {

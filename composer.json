@@ -8,14 +8,14 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "RabbitBundleTests\\": "tests/"
     }
   },
   "require": {
     "php": "^7.3",
     "ext-json": "*",
     "bunny/bunny": "^0.4",
-    "hanaboso/commons-bundle": "^1.1",
+    "hanaboso/commons-bundle": "^1.2",
     "symfony/monolog-bundle": "^3.4",
     "symfony/yaml": "^4.3"
   },

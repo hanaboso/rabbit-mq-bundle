@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\DependencyInjection\Compiler;
+namespace RabbitBundleTests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;
 use RabbitMqBundle\DependencyInjection\RabbitMqExtension;
@@ -11,7 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Class RabbitMqCompilerPassTest
  *
- * @package Tests\DependencyInjection\Compiler
+ * @package RabbitBundleTests\DependencyInjection\Compiler
  */
 final class RabbitMqCompilerPassTest extends TestCase
 {

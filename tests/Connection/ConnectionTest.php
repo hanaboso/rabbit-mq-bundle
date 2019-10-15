@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Connection;
+namespace RabbitBundleTests\Connection;
 
 use Bunny\Channel;
 use Bunny\Client;
@@ -14,7 +14,7 @@ use RabbitMqBundle\Connection\Connection;
 /**
  * Class ConnectionTest
  *
- * @package Tests\Connection
+ * @package RabbitBundleTests\Connection
  */
 final class ConnectionTest extends TestCase
 {

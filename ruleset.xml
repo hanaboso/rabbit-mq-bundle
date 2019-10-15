@@ -6,7 +6,7 @@
         <properties>
             <property name="rootNamespaces" type="array" value="
                 src=>RabbitMqBundle,
-                tests=>Tests
+                tests=>RabbitBundleTests
             "/>
         </properties>
     </rule>

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\DependencyInjection;
+namespace RabbitBundleTests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use RabbitMqBundle\Command\ConsumerCommand;
@@ -17,7 +17,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Class ConfiguratorTest
  *
- * @package Tests\DependencyInjection
+ * @package RabbitBundleTests\DependencyInjection
  */
 final class ConfiguratorTest extends TestCase
 {

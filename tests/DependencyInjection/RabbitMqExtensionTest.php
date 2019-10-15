@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\DependencyInjection;
+namespace RabbitBundleTests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use RabbitMqBundle\DependencyInjection\RabbitMqExtension;
@@ -8,7 +8,7 @@ use RabbitMqBundle\DependencyInjection\RabbitMqExtension;
 /**
  * Class RabbitMqExtensionTest
  *
- * @package Tests\DependencyInjection
+ * @package RabbitBundleTests\DependencyInjection
  */
 final class RabbitMqExtensionTest extends TestCase
 {

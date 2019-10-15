@@ -40,7 +40,7 @@ phpstan:
 	$(DE) ./vendor/bin/phpstan analyse -c ./phpstan.neon -l 7 src/ tests/
 
 phpunit:
-	$(DE) ./vendor/bin/phpunit -c phpunit.xml.dist --colors --stderr tests
+	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --runner=WrapperRunner tests
 
 test: docker-up-force composer-install fasttest
 

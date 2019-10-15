@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Consumer;
+namespace RabbitBundleTests\Consumer;
 
 use Exception;
 use Monolog\Handler\StreamHandler;
@@ -15,7 +15,7 @@ use RabbitMqBundle\Publisher\Publisher;
 /**
  * Class AsyncConsumerTest
  *
- * @package Tests\Consumer
+ * @package RabbitBundleTests\Consumer
  */
 final class AsyncConsumerTest extends TestCase
 {
