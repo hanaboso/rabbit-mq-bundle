@@ -117,11 +117,13 @@ class Configurator implements LoggerAwareInterface
             );
 
             foreach ($queue['bindings'] ?? [] as $bind) {
-                $this->logger->info(sprintf(
-                    'RabbitMQ setup: binding queue "%s" to exchange "%s".',
-                    $name,
-                    $bind['exchange']
-                ));
+                $this->logger->info(
+                    sprintf(
+                        'RabbitMQ setup: binding queue "%s" to exchange "%s".',
+                        $name,
+                        $bind['exchange']
+                    )
+                );
                 $channel->queueBind(
                     $name,
                     $bind['exchange'],

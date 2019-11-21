@@ -27,33 +27,37 @@ final class AsyncConsumerTest extends TestCase
     {
         $this->markTestSkipped('Endless loop consumer');
         $conn = new ConnectionManager(
-            new ClientFactory([
-                'default' => [
-                    'host'              => 'rabbitmq',
-                    'port'              => 5672,
-                    'user'              => 'guest',
-                    'password'          => 'guest',
-                    'heartbeat'         => 60,
-                    'timeout'           => 1,
-                    'reconnect'         => TRUE,
-                    'reconnect_tries'   => NULL,
-                    'reconnect_timeout' => 1,
-                ],
-            ])
+            new ClientFactory(
+                [
+                    'default' => [
+                        'host'              => 'rabbitmq',
+                        'port'              => 5672,
+                        'user'              => 'guest',
+                        'password'          => 'guest',
+                        'heartbeat'         => 60,
+                        'timeout'           => 1,
+                        'reconnect'         => TRUE,
+                        'reconnect_tries'   => NULL,
+                        'reconnect_timeout' => 1,
+                    ],
+                ]
+            )
         );
-        $conf = new Configurator([
-            'exchanges' => [],
-            'queues'    => [
-                'que' => [
-                    'arguments' => [
-                        'bindings' => [
-                            'exchange'    => 'que',
-                            'routing_key' => 'que',
+        $conf = new Configurator(
+            [
+                'exchanges' => [],
+                'queues'    => [
+                    'que' => [
+                        'arguments' => [
+                            'bindings' => [
+                                'exchange'    => 'que',
+                                'routing_key' => 'que',
+                            ],
                         ],
                     ],
                 ],
-            ],
-        ]);
+            ]
+        );
 
         $publisher = new Publisher(
             $conn,

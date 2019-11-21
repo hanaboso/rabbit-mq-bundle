@@ -22,18 +22,21 @@ class MonologCompilerPass implements CompilerPassInterface
     {
         if ($container->hasExtension('monolog')) {
             if ($container->getParameter('rabbit_mq')['configure_monolog']) {
-                $container->getExtension('monolog')->load([
-                    'monolog' => [
-                        'channels' => ['rabbit_mq'],
-                        'handlers' => [
-                            'rabbit_mq' => [
-                                'type'  => 'stream',
-                                'path'  => 'php://stdout',
-                                'level' => 'info',
+                $container->getExtension('monolog')->load(
+                    [
+                        'monolog' => [
+                            'channels' => ['rabbit_mq'],
+                            'handlers' => [
+                                'rabbit_mq' => [
+                                    'type'  => 'stream',
+                                    'path'  => 'php://stdout',
+                                    'level' => 'info',
+                                ],
                             ],
                         ],
                     ],
-                ], $container);
+                    $container
+                );
             } else {
                 $container->setParameter('monolog.additional_channels', []);
             }

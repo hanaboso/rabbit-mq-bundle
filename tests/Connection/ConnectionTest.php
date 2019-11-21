@@ -46,33 +46,33 @@ final class ConnectionTest extends TestCase
 
         $client->expects(self::exactly(10))->method('isConnected')->willReturnOnConsecutiveCalls(
             FALSE, // createChannel - 1
-            TRUE, // createChannel - 2
-            TRUE, // createChannel - 3
-
-            TRUE, // getChannel - 1
+            TRUE,  // createChannel - 2
+            TRUE,  // createChannel - 3
+            TRUE,  // getChannel - 1
             FALSE, // getChannel - 2
-            TRUE, // restore
-            TRUE, // getChannel - 3
-
-            TRUE, // getChannel - 1 - after reconnect
-            TRUE, // getChannel - 2 - after reconnect
-            TRUE // getChannel - 3 - after reconnect
+            TRUE,  // restore
+            TRUE,  // getChannel - 3
+            TRUE,  // getChannel - 1 - after reconnect
+            TRUE,  // getChannel - 2 - after reconnect
+            TRUE   // getChannel - 3 - after reconnect
         );
 
         $i = 0;
         $client
             ->method('connect')
-            ->willReturnCallback(function () use (&$i) {
+            ->willReturnCallback(
+                function () use (&$i) {
 
-                if ($i === 1) {
+                    if ($i === 1) {
+                        $i++;
+                        throw new ClientException('Bla');
+                    }
+
                     $i++;
-                    throw new ClientException('Bla');
+
+                    return TRUE;
                 }
-
-                $i++;
-
-                return TRUE;
-            }); // createChannel - 1
+            ); // createChannel - 1
 
         $clientFactory->method('create')->willReturn($client);
 
