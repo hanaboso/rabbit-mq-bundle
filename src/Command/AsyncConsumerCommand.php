@@ -22,10 +22,10 @@ class AsyncConsumerCommand extends Command
     private $consumer;
 
     /**
-     * ConsumerCommand constructor.
+     * AsyncConsumerCommand constructor.
      *
      * @param AsyncConsumer $consumer
-     * @param null|string   $name
+     * @param string|null   $name
      */
     public function __construct(AsyncConsumer $consumer, ?string $name = NULL)
     {
@@ -41,7 +41,7 @@ class AsyncConsumerCommand extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return int|null|void
+     * @return mixed|void
      * @throws Exception
      */
     public function execute(InputInterface $input, OutputInterface $output)

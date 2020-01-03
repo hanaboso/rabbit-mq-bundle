@@ -16,7 +16,7 @@ class Configurator implements LoggerAwareInterface
 {
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $config;
 
@@ -33,7 +33,7 @@ class Configurator implements LoggerAwareInterface
     /**
      * Configurator constructor.
      *
-     * @param array $config
+     * @param mixed[] $config
      */
     public function __construct(array $config)
     {

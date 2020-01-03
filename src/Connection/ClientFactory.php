@@ -27,14 +27,14 @@ class ClientFactory
     public const RECONNECT_TIMEOUT = 'reconnect_timeout';
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $config;
 
     /**
      * ClientFactory constructor.
      *
-     * @param array $config
+     * @param mixed[] $config
      */
     public function __construct($config = [])
     {
@@ -44,7 +44,7 @@ class ClientFactory
     /**
      * @param string $name
      *
-     * @return array
+     * @return mixed[]
      */
     public function getConfig(string $name = 'default'): array
     {

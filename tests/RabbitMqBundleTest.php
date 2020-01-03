@@ -9,7 +9,7 @@ use RabbitMqBundle\RabbitMqBundle;
 /**
  * Class RabbitMqBundleTest
  *
- * @package Tests
+ * @package RabbitBundleTests
  */
 final class RabbitMqBundleTest extends TestCase
 {

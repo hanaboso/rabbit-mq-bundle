@@ -14,12 +14,12 @@ trait DebugMessageTrait
 {
 
     /**
-     * @param null|string $string
-     * @param null|string $exchange
-     * @param null|string $routingKey
-     * @param array|null  $headers
+     * @param string|null  $string
+     * @param string|null  $exchange
+     * @param string|null  $routingKey
+     * @param mixed[]|null $headers
      *
-     * @return array
+     * @return mixed[]
      */
     public function prepareMessage(
         ?string $string = NULL,
@@ -59,7 +59,7 @@ trait DebugMessageTrait
     /**
      * @param Message $message
      *
-     * @return array
+     * @return mixed[]
      */
     public function prepareBunnyMessage(Message $message): array
     {

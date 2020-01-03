@@ -41,7 +41,7 @@ class ConsumerCommand extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return int|null|void
+     * @return mixed|void
      * @throws Exception
      */
     public function execute(InputInterface $input, OutputInterface $output)

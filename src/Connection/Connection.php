@@ -36,7 +36,7 @@ class Connection implements LoggerAwareInterface
     private $client;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $channels = [];
 

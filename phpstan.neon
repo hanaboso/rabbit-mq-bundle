@@ -7,3 +7,4 @@ includes:
 parameters:
 	excludes_analyse:
 	ignoreErrors:
+	    - '#Unreachable statement - code above always terminates#'

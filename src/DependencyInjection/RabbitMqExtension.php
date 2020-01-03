@@ -25,7 +25,7 @@ class RabbitMqExtension extends Extension
     /**
      * Loads a specific configuration.
      *
-     * @param array            $configs
+     * @param mixed[]          $configs
      * @param ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container): void

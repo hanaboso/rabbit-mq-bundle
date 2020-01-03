@@ -130,9 +130,9 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     }
 
     /**
-     * @param array $headers
+     * @param mixed[] $headers
      *
-     * @return array
+     * @return mixed[]
      */
     protected function beforePublishHeaders(array $headers): array
     {
@@ -152,8 +152,8 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     }
 
     /**
-     * @param mixed $content
-     * @param array $headers
+     * @param mixed   $content
+     * @param mixed[] $headers
      */
     public function publish($content, array $headers = []): void
     {

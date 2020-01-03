@@ -73,18 +73,20 @@ final class ConfiguratorTest extends TestCase
         // Test connections
         $connection = [
             'host'              => 'rabbitmq',
-            'port'              => 5672,
-            'vhost'             => '/',
             'user'              => 'guest',
             'password'          => 'guest',
+            'port'              => 5672,
+            'vhost'             => '/',
             'heartbeat'         => 30,
             'timeout'           => 60,
             'reconnect'         => TRUE,
             'reconnect_tries'   => 3600,
             'reconnect_timeout' => 1,
         ];
-        self::assertArrayHasKey('default', $config['connections']);
-        self::assertSame($connection, $config['connections']['default']);
+        $arguments  = $container->getDefinition('rabbit_mq.connection_manager')->getArguments()[0]->getArguments()[0];
+
+        self::assertArrayHasKey('default', $arguments);
+        self::assertSame($connection, $arguments['default']);
 
         // Test queues
         $queue = [

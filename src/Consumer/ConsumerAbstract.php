@@ -15,7 +15,7 @@ use RabbitMqBundle\Consumer\Callback\Exception\CallbackException;
 use Throwable;
 
 /**
- * Class AbstractConsumer
+ * Class ConsumerAbstract
  *
  * @package RabbitMqBundle\Consumer
  */
@@ -78,7 +78,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     protected $nowait = FALSE;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $arguments = [];
 
@@ -93,7 +93,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     protected $prefetchSize = 0;
 
     /**
-     * Consumer constructor.
+     * ConsumerAbstract constructor.
      *
      * @param ConnectionManager $connectionManager
      * @param Configurator      $configurator
