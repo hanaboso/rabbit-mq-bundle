@@ -23,7 +23,7 @@ final class ConfiguratorTest extends TestCase
 {
 
     /**
-     * @covers Configuration::getConfigTreeBuilder()
+     * @covers \RabbitMqBundle\DependencyInjection\Configuration::getConfigTreeBuilder()
      */
     public function testConfig(): void
     {

@@ -1,25 +1,26 @@
 {
-  "name": "hanaboso/rabbit-mq-bundle",
-  "license": "proprietary",
-  "autoload": {
-    "psr-4": {
-      "RabbitMqBundle\\": "src/"
+    "name": "hanaboso/rabbit-mq-bundle",
+    "license": "proprietary",
+    "version": "1.2.0",
+    "autoload": {
+        "psr-4": {
+            "RabbitMqBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RabbitBundleTests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.4",
+        "ext-json": "*",
+        "bunny/bunny": "^0.4",
+        "hanaboso/commons-bundle": "^1.3",
+        "symfony/monolog-bundle": "^3.5",
+        "symfony/yaml": "^4.4 | ^5.0"
+    },
+    "require-dev": {
+        "hanaboso/php-check-utils": "^1.1"
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "RabbitBundleTests\\": "tests/"
-    }
-  },
-  "require": {
-    "php": "^7.3",
-    "ext-json": "*",
-    "bunny/bunny": "^0.4",
-    "hanaboso/commons-bundle": "^1.3",
-    "symfony/monolog-bundle": "^3.5",
-    "symfony/yaml": "^4.4"
-  },
-  "require-dev": {
-    "hanaboso/php-check-utils": "^1.0"
-  }
 }
