@@ -52,3 +52,8 @@ phpcoverage-ci:
 test: docker-up-force composer-install fasttest
 
 fasttest: clear-cache codesniffer phpstan phpunit phpcoverage-ci
+
+benchmark: init-dev
+	$(DE) tests/bin/console benchmark
+	sleep 10
+	$(DE) tests/bin/console rabbit_mq:consumer:my-consumer

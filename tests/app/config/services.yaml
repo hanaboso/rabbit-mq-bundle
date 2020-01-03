@@ -1,0 +1,14 @@
+parameters:
+    kernel.secret: ''
+
+services:
+    benchmark:
+        class: RabbitBundleTests\app\BenchmarkCommand
+        arguments:
+            - '@rabbit_mq.publisher.my-publisher'
+        tags:
+            - { name: 'console.command', command: 'benchmark' }
+
+    callback:
+        class: RabbitBundleTests\app\BenchmarkCallback
+        arguments:
