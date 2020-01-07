@@ -156,7 +156,7 @@ class Configuration implements ConfigurationInterface
             ->defaultValue([])
             ->arrayPrototype();
 
-        $exchanges->children()->enumNode('type')->values(['direct', 'topics']);
+        $exchanges->children()->enumNode('type')->values(['direct', 'topics', 'fanout']);
         $exchanges->children()->booleanNode('durable')->defaultFalse();
         $exchanges->children()->booleanNode('auto_delete')->defaultFalse();
         $exchanges->children()->booleanNode('internal')->defaultFalse();
