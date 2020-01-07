@@ -31,7 +31,7 @@ final class AsyncConsumerTest extends TestCase
                 [
                     'default' => [
                         'host'              => 'rabbitmq',
-                        'port'              => 5672,
+                        'port'              => 5_672,
                         'user'              => 'guest',
                         'password'          => 'guest',
                         'heartbeat'         => 60,

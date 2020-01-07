@@ -65,9 +65,9 @@ final class ConnectionTest extends TestCase
 
                     if ($i === 1) {
                         $i++;
+
                         throw new ClientException('Bla');
                     }
-
                     $i++;
 
                     return TRUE;

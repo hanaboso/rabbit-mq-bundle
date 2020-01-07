@@ -75,12 +75,12 @@ final class ConfiguratorTest extends TestCase
             'host'              => 'rabbitmq',
             'user'              => 'guest',
             'password'          => 'guest',
-            'port'              => 5672,
+            'port'              => 5_672,
             'vhost'             => '/',
             'heartbeat'         => 30,
             'timeout'           => 60,
             'reconnect'         => TRUE,
-            'reconnect_tries'   => 3600,
+            'reconnect_tries'   => 3_600,
             'reconnect_timeout' => 1,
         ];
         $arguments  = $container->getDefinition('rabbit_mq.connection_manager')->getArguments()[0]->getArguments()[0];
