@@ -2,9 +2,11 @@
 
 namespace RabbitBundleTests\Consumer;
 
-use Bunny\Message;
+use Exception;
+use PhpAmqpLib\Message\AMQPMessage;
 use RabbitMqBundle\Connection\Connection;
 use RabbitMqBundle\Consumer\AsyncCallbackInterface;
+use RabbitMqBundle\Utils\Message;
 use React\EventLoop\LoopInterface;
 use React\Promise\Promise;
 use React\Promise\PromiseInterface;
@@ -18,25 +20,28 @@ final class AsyncCallback implements AsyncCallbackInterface
 {
 
     /**
-     * @param Message       $message
+     * @param AMQPMessage   $message
      * @param Connection    $connection
      * @param int           $channelId
      * @param LoopInterface $loop
      *
      * @return PromiseInterface
+     * @throws Exception
      */
     public function processMessage(
-        Message $message,
+        AMQPMessage $message,
         Connection $connection,
         int $channelId,
         LoopInterface $loop
     ): PromiseInterface
     {
         $loop;
-        $connection->getChannel($channelId)->ack($message);
+
+        Message::ack($message, $connection, $channelId);
 
         return new Promise(
             function (): void {
+
             }
         );
     }

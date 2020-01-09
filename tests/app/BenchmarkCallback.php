@@ -2,9 +2,11 @@
 
 namespace RabbitBundleTests\app;
 
-use Bunny\Message;
+use Exception;
+use PhpAmqpLib\Message\AMQPMessage;
 use RabbitMqBundle\Connection\Connection;
 use RabbitMqBundle\Consumer\CallbackInterface;
+use RabbitMqBundle\Utils\Message;
 
 /**
  * Class BenchmarkCallback
@@ -14,7 +16,7 @@ use RabbitMqBundle\Consumer\CallbackInterface;
 final class BenchmarkCallback implements CallbackInterface
 {
 
-    private const COUNT = 250000;
+    private const COUNT = 250_000;
 
     /**
      * @var int
@@ -35,11 +37,13 @@ final class BenchmarkCallback implements CallbackInterface
     }
 
     /**
-     * @param Message    $message
-     * @param Connection $connection
-     * @param int        $channelId
+     * @param AMQPMessage $message
+     * @param Connection  $connection
+     * @param int         $channelId
+     *
+     * @throws Exception
      */
-    public function processMessage(Message $message, Connection $connection, int $channelId): void
+    public function processMessage(AMQPMessage $message, Connection $connection, int $channelId): void
     {
         if (self::$counter++ === self::COUNT) {
             $time = hrtime(TRUE) - self::$start;
@@ -52,12 +56,12 @@ final class BenchmarkCallback implements CallbackInterface
                 PHP_EOL
             );
 
-            $connection->getChannel($channelId)->ack($message);
+            Message::ack($message, $connection, $channelId);
 
             exit(0);
         }
 
-        $connection->getChannel($channelId)->ack($message);
+        Message::ack($message, $connection, $channelId);
     }
 
 }

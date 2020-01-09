@@ -2,13 +2,15 @@
 
 namespace RabbitMqBundle\Publisher;
 
-use Bunny\Channel;
+use Exception;
+use PhpAmqpLib\Channel\AMQPChannel;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
 use RabbitMqBundle\Connection\SetupInterface;
+use RabbitMqBundle\Utils\Message;
 use Throwable;
 
 /**
@@ -16,7 +18,7 @@ use Throwable;
  *
  * @package RabbitMqBundle\Publisher
  */
-class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterface
+final class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterface
 {
 
     /**
@@ -140,9 +142,10 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     }
 
     /**
-     * @return Channel
+     * @return AMQPChannel
+     * @throws Exception
      */
-    private function getChannel(): Channel
+    private function getChannel(): AMQPChannel
     {
         if ($this->channelId === NULL) {
             $this->channelId = $this->connectionManager->getConnection()->createChannel();
@@ -163,13 +166,13 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
         $headers = $this->beforePublishHeaders($headers);
 
         try {
-            $this->getChannel()->publish(
-                $content,
-                $headers,
+            $this->getChannel()->basic_publish(
+                Message::create($content, $headers),
                 $this->exchange,
                 $this->routingKey,
                 $this->mandatory,
-                $this->immediate
+                $this->immediate,
+                NULL
             );
         } catch (Throwable $e) {
             $this->logger->error(sprintf('Publish error: %s', $e->getMessage()), ['exception' => $e]);

@@ -2,14 +2,14 @@
 
 namespace RabbitBundleTests\Connection;
 
-use Bunny\Channel;
-use Bunny\Client;
-use Bunny\Exception\ClientException;
 use Exception;
+use Hanaboso\PhpCheckUtils\PhpUnit\Traits\PrivateTrait;
+use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Connection\AMQPSocketConnection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RabbitMqBundle\Connection\ClientFactory;
-use RabbitMqBundle\Connection\Connection;
+use RabbitMqBundle\Connection\ConnectionManager;
 
 /**
  * Class ConnectionTest
@@ -19,32 +19,25 @@ use RabbitMqBundle\Connection\Connection;
 final class ConnectionTest extends TestCase
 {
 
+    use PrivateTrait;
+
     /**
      * @throws Exception
      */
-    public function testReconnect(): void
+    public function testConnection(): void
     {
-
-        /** @var ClientFactory|MockObject $clientFactory */
-        $clientFactory = self::createMock(ClientFactory::class);
-        $clientFactory
-            ->expects(self::any())
-            ->method('getConfig')
-            ->willReturn([ClientFactory::RECONNECT_TIMEOUT => 1]);
-
-        /** @var Client|MockObject $client */
-        $client = self::createMock(Client::class);
-
-        $client->expects(self::exactly(6))->method('channel')->willReturnOnConsecutiveCalls(
-            new Channel($client, 1),
-            new Channel($client, 2),
-            new Channel($client, 3),
-            new Channel($client, 1),
-            new Channel($client, 2),
-            new Channel($client, 3)
+        /** @var AMQPSocketConnection|MockObject $connection */
+        $connection = self::createMock(AMQPSocketConnection::class);
+        $connection->expects(self::exactly(6))->method('channel')->willReturnOnConsecutiveCalls(
+            $this->prepareChannel(1),
+            $this->prepareChannel(2),
+            $this->prepareChannel(3),
+            $this->prepareChannel(1),
+            $this->prepareChannel(2),
+            $this->prepareChannel(3)
         );
 
-        $client->expects(self::exactly(10))->method('isConnected')->willReturnOnConsecutiveCalls(
+        $connection->expects(self::exactly(10))->method('isConnected')->willReturnOnConsecutiveCalls(
             FALSE, // createChannel - 1
             TRUE,  // createChannel - 2
             TRUE,  // createChannel - 3
@@ -58,41 +51,56 @@ final class ConnectionTest extends TestCase
         );
 
         $i = 0;
-        $client
-            ->method('connect')
-            ->willReturnCallback(
-                function () use (&$i) {
 
-                    if ($i === 1) {
-                        $i++;
-
-                        throw new ClientException('Bla');
-                    }
-                    $i++;
-
-                    return TRUE;
+        $connection->method('reconnect')->willReturnCallback(
+            function () use (&$i): bool {
+                if ($i++ === 1) {
+                    throw new Exception('Something gone wrong!');
                 }
-            ); // createChannel - 1
 
-        $clientFactory->method('create')->willReturn($client);
+                return TRUE;
+            }
+        );
 
-        $conn = new Connection('default', $clientFactory);
+        /** @var ClientFactory|MockObject $clientFactory */
+        $clientFactory = self::createMock(ClientFactory::class);
+        $clientFactory->method('getConfig')->willReturn(
+            [
+                ClientFactory::RECONNECT_TIMEOUT => 1,
+                ClientFactory::RECONNECT_TRIES   => 1,
+            ]
+        );
+        $clientFactory->method('create')->willReturn($connection);
 
-        $id  = $conn->createChannel();
-        $id2 = $conn->createChannel();
-        $id3 = $conn->createChannel();
+        $connection = (new ConnectionManager($clientFactory))->getConnection();
 
-        // Try get new channel by id
-        $conn->getChannel($id);
-        $conn->getChannel($id2); // call reconnect
-        $conn->getChannel($id3);
+        $channelOne   = $connection->createChannel();
+        $channelTwo   = $connection->createChannel();
+        $channelThree = $connection->createChannel();
 
-        // Try get channel after reconnect
-        $conn->getChannel($id);
-        $conn->getChannel($id2);
-        $conn->getChannel($id3);
+        $connection->getChannel($channelOne);
+        $connection->getChannel($channelTwo); // Reconnecting...
+        $connection->getChannel($channelThree);
 
-        self::assertSame(3, $i);
+        $connection->getChannel($channelOne);
+        $connection->getChannel($channelTwo);
+        $connection->getChannel($channelThree);
+
+        self::assertEquals(3, $i);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return AMQPChannel
+     */
+    private function prepareChannel(int $id): AMQPChannel
+    {
+        /** @var AMQPChannel|MockObject $channel */
+        $channel = self::createMock(AMQPChannel::class);
+        $channel->method('getChannelId')->willReturn($id);
+
+        return $channel;
     }
 
 }

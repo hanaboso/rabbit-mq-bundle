@@ -2,9 +2,10 @@
 
 namespace RabbitMqBundle\Consumer;
 
-use Bunny\Channel;
-use Bunny\Message;
 use Exception;
+use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Wire\AMQPTable;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -146,8 +147,17 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     public function consume(): void
     {
         try {
-            $this->getChannel()->consume(
-                function (Message $message): void {
+            /** @var mixed[] $arguments */
+            $arguments = new AMQPTable($this->arguments);
+            $channel   = $this->getChannel();
+            $channel->basic_consume(
+                $this->queue,
+                $this->consumerTag,
+                $this->noLocal,
+                $this->noAck,
+                $this->exclusive,
+                $this->nowait,
+                function (AMQPMessage $message): void {
                     try {
                         $this->callback->processMessage(
                             $message,
@@ -162,15 +172,13 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
                         );
                     }
                 },
-                $this->queue,
-                $this->consumerTag,
-                $this->noLocal,
-                $this->noAck,
-                $this->exclusive,
-                $this->nowait,
-                $this->arguments
+                NULL,
+                $arguments
             );
-            $this->connectionManager->getConnection()->getClient()->run();
+
+            while ($channel->is_consuming()) {
+                $channel->wait();
+            }
         } catch (Throwable $e) {
             $this->logger->error(sprintf('Consume error: %s', $e->getMessage()), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
@@ -181,10 +189,10 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     }
 
     /**
-     * @return Channel
+     * @return AMQPChannel
      * @throws Exception
      */
-    protected function getChannel(): Channel
+    protected function getChannel(): AMQPChannel
     {
         if ($this->channelId === NULL) {
             $this->channelId = $this->connectionManager->getConnection()->createChannel();
@@ -202,7 +210,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
 
         try {
             $this->configurator->setup($this->getChannel());
-            $this->getChannel()->qos($this->prefetchSize, $this->prefetchCount);
+            $this->getChannel()->basic_qos($this->prefetchSize, $this->prefetchCount, FALSE);
         } catch (Throwable $e) {
             $this->logger->error(sprintf('Consumer setup error: %s', $e->getMessage()), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();

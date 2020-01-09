@@ -2,7 +2,7 @@
 
 namespace RabbitMqBundle\Consumer;
 
-use Bunny\Message;
+use PhpAmqpLib\Message\AMQPMessage;
 use RabbitMqBundle\Connection\Connection;
 
 /**
@@ -14,10 +14,10 @@ interface CallbackInterface
 {
 
     /**
-     * @param Message    $message
-     * @param Connection $connection
-     * @param int        $channelId
+     * @param AMQPMessage $message
+     * @param Connection  $connection
+     * @param int         $channelId
      */
-    public function processMessage(Message $message, Connection $connection, int $channelId): void;
+    public function processMessage(AMQPMessage $message, Connection $connection, int $channelId): void;
 
 }

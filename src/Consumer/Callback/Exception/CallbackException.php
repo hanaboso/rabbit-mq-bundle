@@ -9,7 +9,7 @@ use Hanaboso\Utils\Exception\PipesFrameworkExceptionAbstract;
  *
  * @package RabbitMqBundle\Consumer\Callback\Exception
  */
-class CallbackException extends PipesFrameworkExceptionAbstract
+final class CallbackException extends PipesFrameworkExceptionAbstract
 {
 
 }

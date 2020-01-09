@@ -2,7 +2,8 @@
 
 namespace RabbitMqBundle\Connection;
 
-use Bunny\Channel;
+use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Wire\AMQPTable;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -12,7 +13,7 @@ use Psr\Log\NullLogger;
  *
  * @package RabbitMqBundle\Connection
  */
-class Configurator implements LoggerAwareInterface
+final class Configurator implements LoggerAwareInterface
 {
 
     /**
@@ -62,9 +63,9 @@ class Configurator implements LoggerAwareInterface
     }
 
     /**
-     * @param Channel $channel
+     * @param AMQPChannel $channel
      */
-    public function setup(Channel $channel): void
+    public function setup(AMQPChannel $channel): void
     {
         if ($this->configured === TRUE) {
             $this->logger->info('The Rabbit MQ has been already configured.');
@@ -74,7 +75,9 @@ class Configurator implements LoggerAwareInterface
 
         foreach ($this->config['exchanges'] as $name => $exchange) {
             $this->logger->info(sprintf('RabbitMQ setup: declare exchange "%s".', $name));
-            $channel->exchangeDeclare(
+            /** @var mixed[] $arguments */
+            $arguments = new AMQPTable($exchange['arguments'] ?? []);
+            $channel->exchange_declare(
                 $name,
                 $exchange['type'] ?? 'direct',
                 $exchange['passive'] ?? FALSE,
@@ -82,7 +85,7 @@ class Configurator implements LoggerAwareInterface
                 $exchange['auto_delete'] ?? FALSE,
                 $exchange['internal'] ?? FALSE,
                 $exchange['nowait'] ?? FALSE,
-                $exchange['arguments'] ?? []
+                $arguments
             );
         }
 
@@ -95,7 +98,7 @@ class Configurator implements LoggerAwareInterface
                         $bind['exchange']
                     )
                 );
-                $channel->exchangeBind(
+                $channel->exchange_bind(
                     $name,
                     $bind['exchange'],
                     $bind['routing_key'],
@@ -106,14 +109,16 @@ class Configurator implements LoggerAwareInterface
 
         foreach ($this->config['queues'] as $name => $queue) {
             $this->logger->info(sprintf('RabbitMQ setup: declare queue "%s".', $name));
-            $channel->queueDeclare(
+            /** @var mixed[] $arguments */
+            $arguments = new AMQPTable($queue['arguments'] ?? []);
+            $channel->queue_declare(
                 $name,
                 $queue['passive'] ?? FALSE,
                 $queue['durable'] ?? FALSE,
                 $queue['exclusive'] ?? FALSE,
                 $queue['auto_delete'] ?? FALSE,
                 $queue['no_wait'] ?? FALSE,
-                $queue['arguments'] ?? []
+                $arguments
             );
 
             foreach ($queue['bindings'] ?? [] as $bind) {
@@ -124,12 +129,14 @@ class Configurator implements LoggerAwareInterface
                         $bind['exchange']
                     )
                 );
-                $channel->queueBind(
+                /** @var mixed[] $arguments */
+                $arguments = new AMQPTable($bind['arguments'] ?? []);
+                $channel->queue_bind(
                     $name,
                     $bind['exchange'],
                     $bind['routing_key'],
                     $bind['no_wait'] ?? FALSE,
-                    $bind['arguments'] ?? []
+                    $arguments
                 );
             }
         }

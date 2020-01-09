@@ -2,8 +2,9 @@
 
 namespace RabbitMqBundle\Consumer;
 
-use Bunny\Message;
 use Exception;
+use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Wire\AMQPTable;
 use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
 use RabbitMqBundle\Consumer\Callback\Exception\CallbackException;
@@ -100,8 +101,17 @@ class AsyncConsumer extends ConsumerAbstract
      */
     private function runAsyncConsumer(LoopInterface $loop): void
     {
-        $this->getChannel()->consume(
-            function (Message $message) use ($loop): void {
+        /** @var mixed[] $arguments */
+        $arguments = new AMQPTable($this->arguments);
+        $channel   = $this->getChannel();
+        $channel->basic_consume(
+            $this->queue,
+            $this->consumerTag,
+            $this->noLocal,
+            $this->noAck,
+            $this->exclusive,
+            $this->nowait,
+            function (AMQPMessage $message) use ($loop): void {
                 try {
                     $this->callback->processMessage(
                         $message,
@@ -117,15 +127,13 @@ class AsyncConsumer extends ConsumerAbstract
                     );
                 }
             },
-            $this->queue,
-            $this->consumerTag,
-            $this->noLocal,
-            $this->noAck,
-            $this->exclusive,
-            $this->nowait,
-            $this->arguments
+            NULL,
+            $arguments
         );
-        $this->connectionManager->getConnection()->getClient()->run();
+
+        while ($channel->is_consuming()) {
+            $channel->wait();
+        }
     }
 
     /**

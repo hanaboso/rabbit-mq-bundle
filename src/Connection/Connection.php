@@ -2,11 +2,10 @@
 
 namespace RabbitMqBundle\Connection;
 
-use Bunny\Channel;
-use Bunny\Client;
-use Bunny\Exception\ClientException;
 use Exception;
 use InvalidArgumentException;
+use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Connection\AMQPSocketConnection;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -17,7 +16,7 @@ use RuntimeException;
  *
  * @package RabbitMqBundle\Connection
  */
-class Connection implements LoggerAwareInterface
+final class Connection implements LoggerAwareInterface
 {
 
     /**
@@ -31,7 +30,7 @@ class Connection implements LoggerAwareInterface
     private $clientFactory;
 
     /**
-     * @var Client|null
+     * @var AMQPSocketConnection|null
      */
     private $client;
 
@@ -67,9 +66,10 @@ class Connection implements LoggerAwareInterface
     }
 
     /**
-     * @return Client
+     * @return AMQPSocketConnection
+     * @throws Exception
      */
-    public function getClient(): Client
+    public function getClient(): AMQPSocketConnection
     {
         if ($this->client === NULL) {
             $this->client = $this->clientFactory->create($this->name);
@@ -81,9 +81,10 @@ class Connection implements LoggerAwareInterface
     /**
      * @param int $id
      *
-     * @return Channel
+     * @return AMQPChannel
+     * @throws Exception
      */
-    public function getChannel(int $id): Channel
+    public function getChannel(int $id): AMQPChannel
     {
         if (!$this->getClient()->isConnected()) {
             $this->connect();
@@ -100,6 +101,7 @@ class Connection implements LoggerAwareInterface
 
     /**
      * @return int Channel ID
+     * @throws Exception
      */
     public function createChannel(): int
     {
@@ -107,22 +109,24 @@ class Connection implements LoggerAwareInterface
             $this->connect();
         }
 
-        /** @var Channel $channel */
-        $channel                                  = $this->getClient()->channel();
-        $this->channels[$channel->getChannelId()] = $channel;
+        $channel                    = $this->getClient()->channel();
+        $channelId                  = (int) $channel->getChannelId();
+        $this->channels[$channelId] = $channel;
 
-        return $channel->getChannelId();
+        return $channelId;
     }
 
     /**
      * Close connection and its channels
+     *
+     * @throws Exception
      */
     private function close(): void
     {
         // Close client and channel
         if ($this->client !== NULL) {
             $this->logger->info('Close connection and its channels.');
-            $this->client->disconnect();
+            $this->client->close();
             $this->client = NULL;
         }
 
@@ -135,7 +139,7 @@ class Connection implements LoggerAwareInterface
     }
 
     /**
-     *
+     * @throws Exception
      */
     private function restore(): void
     {
@@ -144,9 +148,7 @@ class Connection implements LoggerAwareInterface
         }
 
         foreach (array_keys($this->channels) as $id) {
-            /** @var Channel $channel */
-            $channel             = $this->getClient()->channel();
-            $this->channels[$id] = $channel;
+            $this->channels[$id] = $this->getClient()->channel();
         }
     }
 
@@ -156,7 +158,7 @@ class Connection implements LoggerAwareInterface
     private function connect(): void
     {
         try {
-            $this->getClient()->connect();
+            $this->getClient()->reconnect();
         } catch (Exception $e) {
             $this->logger->info('RabbitMQ is not connected.', ['exception' => $e]);
             $this->reconnect();
@@ -177,12 +179,12 @@ class Connection implements LoggerAwareInterface
 
             try {
                 $this->close();
-                $this->getClient()->connect();
+                $this->getClient()->reconnect();
                 $this->restore();
 
                 $connect = TRUE;
                 $this->logger->info('RabbitMQ is connected.');
-            } catch (ClientException | Exception $e) {
+            } catch (Exception $e) {
                 $counter++;
                 $connect = FALSE;
                 $this->logger->info('RabbitMQ is not connected.', ['exception' => $e]);

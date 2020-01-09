@@ -1,9 +1,4 @@
-# Exclude IDE
-.idea
-
-# Exclude temp files
 .env
-/temp
-/tests/log
-/var
-/vendor
+.idea
+var
+vendor

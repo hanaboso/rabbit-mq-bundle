@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * @package RabbitMqBundle\DependencyInjection\Compiler
  */
-class MonologCompilerPass implements CompilerPassInterface
+final class MonologCompilerPass implements CompilerPassInterface
 {
 
     /**

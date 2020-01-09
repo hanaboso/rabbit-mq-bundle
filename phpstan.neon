@@ -1,10 +1,10 @@
 includes:
-	- vendor/phpstan/phpstan-doctrine/extension.neon # doctrine extension
-	- vendor/phpstan/phpstan-phpunit/extension.neon # phpunit extension
-	- vendor/phpstan/phpstan-phpunit/rules.neon # phpunit rules
-	- vendor/hanaboso/php-check-utils/phpstan.neon # hanaboso rules
+	- vendor/hanaboso/php-check-utils/phpstan.neon
 
 parameters:
-	excludes_analyse:
 	ignoreErrors:
 	    - '#Unreachable statement - code above always terminates#'
+	    - '#PHPDoc tag @var for variable \$clientFactory contains unresolvable type#'
+	    -
+	        message: '#Calling var_dump\(\) is forbidden, use logger instead#'
+	        path: src/Consumer/Callback/DumpCallback.php

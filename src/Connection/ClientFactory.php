@@ -2,16 +2,15 @@
 
 namespace RabbitMqBundle\Connection;
 
-use Bunny\Async\Client as AsyncClient;
-use Bunny\Client;
-use React\EventLoop\LoopInterface;
+use Exception;
+use PhpAmqpLib\Connection\AMQPSocketConnection;
 
 /**
  * Class ClientFactory
  *
  * @package RabbitMqBundle\Connection
  */
-class ClientFactory
+final class ClientFactory
 {
 
     // Config keys
@@ -65,22 +64,27 @@ class ClientFactory
     /**
      * @param string $name
      *
-     * @return Client
+     * @return AMQPSocketConnection
+     * @throws Exception
      */
-    public function create(string $name = 'default'): Client
+    public function create(string $name = 'default'): AMQPSocketConnection
     {
-        return new Client($this->config[$name]);
-    }
-
-    /**
-     * @param string             $name
-     * @param null|LoopInterface $loop
-     *
-     * @return AsyncClient
-     */
-    public function createAsync(string $name = 'default', ?LoopInterface $loop = NULL): AsyncClient
-    {
-        return new AsyncClient($loop, $this->config[$name]);
+        return new AMQPSocketConnection(
+            $this->config[$name][self::HOST],
+            $this->config[$name][self::PORT],
+            $this->config[$name][self::USER],
+            $this->config[$name][self::PASSWORD],
+            $this->config[$name][self::VHOST],
+            FALSE,
+            'AMQPLAIN',
+            NULL,
+            'en_US',
+            $this->config[$name][self::TIMEOUT],
+            FALSE,
+            $this->config[$name][self::TIMEOUT],
+            $this->config[$name][self::HEARTBEAT],
+            $this->config[$name][self::TIMEOUT],
+        );
     }
 
 }

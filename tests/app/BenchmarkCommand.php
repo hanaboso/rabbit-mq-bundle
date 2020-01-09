@@ -2,7 +2,7 @@
 
 namespace RabbitBundleTests\app;
 
-use Hanaboso\CommonsBundle\Utils\Json;
+use Hanaboso\Utils\String\Json;
 use RabbitMqBundle\Publisher\Publisher;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

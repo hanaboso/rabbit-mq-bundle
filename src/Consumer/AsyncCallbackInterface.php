@@ -2,7 +2,7 @@
 
 namespace RabbitMqBundle\Consumer;
 
-use Bunny\Message;
+use PhpAmqpLib\Message\AMQPMessage;
 use RabbitMqBundle\Connection\Connection;
 use React\EventLoop\LoopInterface;
 use React\Promise\PromiseInterface;
@@ -16,7 +16,7 @@ interface AsyncCallbackInterface
 {
 
     /**
-     * @param Message       $message
+     * @param AMQPMessage   $message
      * @param Connection    $connection
      * @param int           $channelId
      * @param LoopInterface $loop
@@ -24,7 +24,7 @@ interface AsyncCallbackInterface
      * @return PromiseInterface
      */
     public function processMessage(
-        Message $message,
+        AMQPMessage $message,
         Connection $connection,
         int $channelId,
         LoopInterface $loop

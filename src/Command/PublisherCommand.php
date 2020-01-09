@@ -2,6 +2,7 @@
 
 namespace RabbitMqBundle\Command;
 
+use Hanaboso\Utils\String\Json;
 use RabbitMqBundle\Publisher\Publisher;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @package RabbitMqBundle\Command
  */
-class PublisherCommand extends Command
+final class PublisherCommand extends Command
 {
 
     private const CONTENT = 'content';
@@ -65,7 +66,7 @@ class PublisherCommand extends Command
         $content = is_array($content) ? $content[0] : (string) $content;
         $headers = is_array($headers) ? $headers[0] : (string) $headers;
 
-        $this->publisher->publish($content, (array) json_decode($headers, TRUE, 512, JSON_THROW_ON_ERROR));
+        $this->publisher->publish($content, Json::decode($headers));
     }
 
 }

@@ -2,8 +2,9 @@
 
 namespace RabbitMqBundle\Consumer;
 
-use Bunny\Message;
 use DateTime;
+use PhpAmqpLib\Message\AMQPMessage;
+use RabbitMqBundle\Utils\Message;
 
 /**
  * Trait DebugMessageTrait
@@ -57,13 +58,20 @@ trait DebugMessageTrait
     }
 
     /**
-     * @param Message $message
+     * @param AMQPMessage $message
      *
      * @return mixed[]
      */
-    public function prepareBunnyMessage(Message $message): array
+    public function prepareBunnyMessage(AMQPMessage $message): array
     {
-        return $this->prepareMessage($message->content, $message->exchange, $message->routingKey, $message->headers);
+        return $this->prepareMessage(
+            Message::getBody($message),
+            // phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
+            $message->delivery_info['exchange'] ?? '',
+            $message->delivery_info['routing_key'] ?? '',
+            // phpcs:enable
+            Message::getHeaders($message)
+        );
     }
 
 }

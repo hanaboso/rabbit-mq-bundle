@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  *
  * @package RabbitMqBundle
  */
-class RabbitMqBundle extends Bundle
+final class RabbitMqBundle extends Bundle
 {
 
     public const KEY = 'rabbit_mq';

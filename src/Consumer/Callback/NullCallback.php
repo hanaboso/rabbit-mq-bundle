@@ -2,26 +2,30 @@
 
 namespace RabbitMqBundle\Consumer\Callback;
 
-use Bunny\Message;
+use Exception;
+use PhpAmqpLib\Message\AMQPMessage;
 use RabbitMqBundle\Connection\Connection;
 use RabbitMqBundle\Consumer\CallbackInterface;
+use RabbitMqBundle\Utils\Message;
 
 /**
  * Class NullCallback
  *
  * @package RabbitMqBundle\Consumer\Callback
  */
-class NullCallback implements CallbackInterface
+final class NullCallback implements CallbackInterface
 {
 
     /**
-     * @param Message    $message
-     * @param Connection $connection
-     * @param int        $channelId
+     * @param AMQPMessage $message
+     * @param Connection  $connection
+     * @param int         $channelId
+     *
+     * @throws Exception
      */
-    public function processMessage(Message $message, Connection $connection, int $channelId): void
+    public function processMessage(AMQPMessage $message, Connection $connection, int $channelId): void
     {
-        $connection->getChannel($channelId)->ack($message);
+        Message::ack($message, $connection, $channelId);
     }
 
 }

@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @package RabbitMqBundle\DependencyInjection\Compiler
  */
-class RabbitMqCompilerPass implements CompilerPassInterface
+final class RabbitMqCompilerPass implements CompilerPassInterface
 {
 
     /**

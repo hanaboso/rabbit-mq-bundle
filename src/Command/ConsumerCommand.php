@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @package RabbitMqBundle\Command
  */
-class ConsumerCommand extends Command
+final class ConsumerCommand extends Command
 {
 
     /**

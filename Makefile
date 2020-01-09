@@ -19,10 +19,10 @@ docker-down-clean: .env
 
 # Composer
 composer-install:
-	$(DE) composer install
+	$(DE) composer install --no-suggest
 
 composer-update:
-	$(DE) composer update
+	$(DE) composer update --no-suggest
 
 composer-outdated:
 	$(DE) composer outdated
@@ -35,16 +35,16 @@ clear-cache:
 init-dev: docker-up-force composer-install
 
 codesniffer:
-	$(DE) ./vendor/bin/phpcs --standard=./ruleset.xml --colors -p src/ tests/
+	$(DE) vendor/bin/phpcs --standard=ruleset.xml src tests
 
 phpstan:
-	$(DE) ./vendor/bin/phpstan analyse -c ./phpstan.neon -l 8 src/ tests/
+	$(DE) vendor/bin/phpstan analyse -c phpstan.neon -l 8 src tests
 
 phpunit:
-	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --runner=WrapperRunner tests
+	$(DE) vendor/bin/paratest -c vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --runner=WrapperRunner tests
 
 phpcoverage:
-	$(DE) php vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --coverage-html var/coverage --whitelist src tests
+	$(DE) vendor/bin/paratest -c vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --coverage-html var/coverage --whitelist src tests
 
 phpcoverage-ci:
 	$(DE) ./vendor/hanaboso/php-check-utils/bin/coverage.sh 30
