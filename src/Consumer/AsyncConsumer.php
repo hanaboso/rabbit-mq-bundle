@@ -30,7 +30,7 @@ class AsyncConsumer extends ConsumerAbstract
     /**
      * @var int
      */
-    private $timer = 2;
+    private int $timer = 2;
 
     /**
      * AsyncConsumer constructor.
@@ -116,7 +116,7 @@ class AsyncConsumer extends ConsumerAbstract
                     $this->callback->processMessage(
                         $message,
                         $this->connectionManager->getConnection(),
-                        $this->channelId,
+                        (int) $this->channelId,
                         $loop
                     );
                 } catch (Throwable $e) {

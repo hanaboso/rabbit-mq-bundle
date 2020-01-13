@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2c1190d0e89aafaad8dbf0bc88aa10d",
+    "content-hash": "50eb8057fdd5f287aa0f29c805960277",
     "packages": [
         {
             "name": "hanaboso/utils",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hanaboso/utils.git",
-                "reference": "9044826aad8087e283e6dad198227851360b0137"
+                "reference": "e7712a4753e362fb7fba7399be837228b23019d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hanaboso/utils/zipball/9044826aad8087e283e6dad198227851360b0137",
-                "reference": "9044826aad8087e283e6dad198227851360b0137",
+                "url": "https://api.github.com/repos/hanaboso/utils/zipball/e7712a4753e362fb7fba7399be837228b23019d9",
+                "reference": "e7712a4753e362fb7fba7399be837228b23019d9",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2020-01-08T14:29:41+00:00"
+            "time": "2020-01-10T15:37:25+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2453,16 +2453,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "v2.11.0",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "b8ca1dcf6b0dc8a2af7a09baac8d0c48345df4ff"
+                "reference": "2053eafdf60c2172ee1373d1b9289ba1db7f1fc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/b8ca1dcf6b0dc8a2af7a09baac8d0c48345df4ff",
-                "reference": "b8ca1dcf6b0dc8a2af7a09baac8d0c48345df4ff",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/2053eafdf60c2172ee1373d1b9289ba1db7f1fc6",
+                "reference": "2053eafdf60c2172ee1373d1b9289ba1db7f1fc6",
                 "shasum": ""
             },
             "require": {
@@ -2532,7 +2532,7 @@
                 "doctrine",
                 "php"
             ],
-            "time": "2019-09-10T10:10:14+00:00"
+            "time": "2020-01-10T15:49:25+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -3294,16 +3294,16 @@
         },
         {
             "name": "hanaboso/php-check-utils",
-            "version": "1.1.8",
+            "version": "1.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hanaboso/php-check-utils.git",
-                "reference": "f59e803c9953ba99d6c3e93e19392201f66b1b7c"
+                "reference": "9197e49f9507116a168dc438974f5655595c587e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hanaboso/php-check-utils/zipball/f59e803c9953ba99d6c3e93e19392201f66b1b7c",
-                "reference": "f59e803c9953ba99d6c3e93e19392201f66b1b7c",
+                "url": "https://api.github.com/repos/hanaboso/php-check-utils/zipball/9197e49f9507116a168dc438974f5655595c587e",
+                "reference": "9197e49f9507116a168dc438974f5655595c587e",
                 "shasum": ""
             },
             "require": {
@@ -3359,7 +3359,7 @@
                 }
             ],
             "description": "Utils for php development - CodeSniffer, PhpStan, PhpStorm",
-            "time": "2020-01-09T12:18:47+00:00"
+            "time": "2020-01-10T11:37:17+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -3534,16 +3534,16 @@
         },
         {
             "name": "mongodb/mongodb",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/mongo-php-library.git",
-                "reference": "32cfb9bbd0bc60a5a13ca9eab7e4803226a5d4a7"
+                "reference": "9480f994de9f70e2ae5a946b21e6fc04bf5a6c3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/32cfb9bbd0bc60a5a13ca9eab7e4803226a5d4a7",
-                "reference": "32cfb9bbd0bc60a5a13ca9eab7e4803226a5d4a7",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/9480f994de9f70e2ae5a946b21e6fc04bf5a6c3c",
+                "reference": "9480f994de9f70e2ae5a946b21e6fc04bf5a6c3c",
                 "shasum": ""
             },
             "require": {
@@ -3598,7 +3598,7 @@
                 "mongodb",
                 "persistence"
             ],
-            "time": "2019-10-09T14:34:41+00:00"
+            "time": "2019-11-15T08:21:00+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -4895,16 +4895,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.4",
+            "version": "0.12.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "100a25ba8561223f6bf5a5ff4204f951c0ec007c"
+                "reference": "71a20c18f06c53605251a00a8efe443fa85225d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/100a25ba8561223f6bf5a5ff4204f951c0ec007c",
-                "reference": "100a25ba8561223f6bf5a5ff4204f951c0ec007c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/71a20c18f06c53605251a00a8efe443fa85225d1",
+                "reference": "71a20c18f06c53605251a00a8efe443fa85225d1",
                 "shasum": ""
             },
             "require": {
@@ -4930,25 +4930,25 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2020-01-06T06:38:17+00:00"
+            "time": "2020-01-12T14:31:21+00:00"
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "0.12.8",
+            "version": "0.12.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "116392a861fb6b4741606448d8d6b07c09fee1ee"
+                "reference": "af14feb2ed259f9eb16d3107e63d85ed516e30af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/116392a861fb6b4741606448d8d6b07c09fee1ee",
-                "reference": "116392a861fb6b4741606448d8d6b07c09fee1ee",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/af14feb2ed259f9eb16d3107e63d85ed516e30af",
+                "reference": "af14feb2ed259f9eb16d3107e63d85ed516e30af",
                 "shasum": ""
             },
             "require": {
                 "php": "~7.1",
-                "phpstan/phpstan": "^0.12.4"
+                "phpstan/phpstan": "^0.12.3"
             },
             "conflict": {
                 "doctrine/collections": "<1.0",
@@ -4994,20 +4994,20 @@
                 "MIT"
             ],
             "description": "Doctrine extensions for PHPStan",
-            "time": "2020-01-05T20:56:24+00:00"
+            "time": "2020-01-10T12:31:37+00:00"
         },
         {
             "name": "phpstan/phpstan-nette",
-            "version": "0.12.1",
+            "version": "0.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-nette.git",
-                "reference": "296309604aed8b5fdcf47b1502ea29928d312e84"
+                "reference": "838c9097e7d337acbdd4fadde12ca8226952e64a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-nette/zipball/296309604aed8b5fdcf47b1502ea29928d312e84",
-                "reference": "296309604aed8b5fdcf47b1502ea29928d312e84",
+                "url": "https://api.github.com/repos/phpstan/phpstan-nette/zipball/838c9097e7d337acbdd4fadde12ca8226952e64a",
+                "reference": "838c9097e7d337acbdd4fadde12ca8226952e64a",
                 "shasum": ""
             },
             "require": {
@@ -5063,25 +5063,25 @@
                 "MIT"
             ],
             "description": "Nette Framework class reflection extension for PHPStan",
-            "time": "2020-01-01T17:36:42+00:00"
+            "time": "2020-01-11T14:57:10+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
-            "version": "0.12.5",
+            "version": "0.12.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-phpunit.git",
-                "reference": "fe49777a04d8dafcfb3958e3441d9c982a1e40ae"
+                "reference": "26394996368b6d033d012547d3197f4e07e23021"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-phpunit/zipball/fe49777a04d8dafcfb3958e3441d9c982a1e40ae",
-                "reference": "fe49777a04d8dafcfb3958e3441d9c982a1e40ae",
+                "url": "https://api.github.com/repos/phpstan/phpstan-phpunit/zipball/26394996368b6d033d012547d3197f4e07e23021",
+                "reference": "26394996368b6d033d012547d3197f4e07e23021",
                 "shasum": ""
             },
             "require": {
                 "php": "~7.1",
-                "phpstan/phpstan": "^0.12.3"
+                "phpstan/phpstan": "^0.12.4"
             },
             "conflict": {
                 "phpunit/phpunit": "<7.0"
@@ -5119,20 +5119,20 @@
                 "MIT"
             ],
             "description": "PHPUnit extensions and rules for PHPStan",
-            "time": "2020-01-03T10:04:21+00:00"
+            "time": "2020-01-10T12:07:21+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "0.12.2",
+            "version": "0.12.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "ce417c1e7d6e8722e50757caaa7557f32534dfe9"
+                "reference": "f793b68b4665f223620769e8c3ea4dbf40c53ce4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/ce417c1e7d6e8722e50757caaa7557f32534dfe9",
-                "reference": "ce417c1e7d6e8722e50757caaa7557f32534dfe9",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/f793b68b4665f223620769e8c3ea4dbf40c53ce4",
+                "reference": "f793b68b4665f223620769e8c3ea4dbf40c53ce4",
                 "shasum": ""
             },
             "require": {
@@ -5189,7 +5189,7 @@
                 }
             ],
             "description": "Symfony Framework extensions and rules for PHPStan",
-            "time": "2020-01-02T19:40:41+00:00"
+            "time": "2020-01-11T14:52:23+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -6279,16 +6279,16 @@
         },
         {
             "name": "slevomat/coding-standard",
-            "version": "6.0.6",
+            "version": "6.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "3cc9f2fd62bf68447a9979a9d11cdba94e35c530"
+                "reference": "2731353bf098f8a7b3552efa14c8d0614076859e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/3cc9f2fd62bf68447a9979a9d11cdba94e35c530",
-                "reference": "3cc9f2fd62bf68447a9979a9d11cdba94e35c530",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/2731353bf098f8a7b3552efa14c8d0614076859e",
+                "reference": "2731353bf098f8a7b3552efa14c8d0614076859e",
                 "shasum": ""
             },
             "require": {
@@ -6316,7 +6316,7 @@
                 "MIT"
             ],
             "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
-            "time": "2020-01-09T19:52:44+00:00"
+            "time": "2020-01-12T20:32:20+00:00"
         },
         {
             "name": "spaze/phpstan-disallowed-calls",

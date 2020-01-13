@@ -19,17 +19,17 @@ final class Configurator implements LoggerAwareInterface
     /**
      * @var mixed[]
      */
-    private $config;
+    private array $config;
 
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * @var bool
      */
-    private $configured = FALSE;
+    private bool $configured = FALSE;
 
     /**
      * Configurator constructor.

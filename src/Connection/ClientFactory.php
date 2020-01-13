@@ -28,7 +28,7 @@ final class ClientFactory
     /**
      * @var mixed[]
      */
-    private $config;
+    private array $config;
 
     /**
      * ClientFactory constructor.

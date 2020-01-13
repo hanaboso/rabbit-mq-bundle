@@ -19,7 +19,7 @@ final class AsyncConsumerCommand extends Command
     /**
      * @var AsyncConsumer
      */
-    private $consumer;
+    private AsyncConsumer $consumer;
 
     /**
      * AsyncConsumerCommand constructor.

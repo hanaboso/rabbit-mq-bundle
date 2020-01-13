@@ -17,17 +17,17 @@ final class ConnectionManager implements LoggerAwareInterface
     /**
      * @var ClientFactory
      */
-    private $clientFactory;
+    private ClientFactory $clientFactory;
 
     /**
-     * @var array|Connection[]
+     * @var Connection[]
      */
-    private $connections = [];
+    private array $connections = [];
 
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * ConnectionManager constructor.

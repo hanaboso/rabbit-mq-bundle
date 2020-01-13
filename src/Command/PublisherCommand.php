@@ -23,7 +23,7 @@ final class PublisherCommand extends Command
     /**
      * @var Publisher
      */
-    private $publisher;
+    private Publisher $publisher;
 
     /**
      * PublisherCommand constructor.

@@ -19,7 +19,7 @@ final class ConsumerCommand extends Command
     /**
      * @var Consumer
      */
-    private $consumer;
+    private Consumer $consumer;
 
     /**
      * ConsumerCommand constructor.

@@ -26,22 +26,22 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     /**
      * @var ConnectionManager
      */
-    protected $connectionManager;
+    protected ConnectionManager $connectionManager;
 
     /**
      * @var Configurator
      */
-    protected $configurator;
+    protected Configurator $configurator;
 
     /**
      * @var LoggerInterface
      */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /**
-     * @var int
+     * @var int|null
      */
-    protected $channelId;
+    protected ?int $channelId = NULL;
 
     /**
      * @var CallbackInterface
@@ -51,47 +51,47 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     /**
      * @var string
      */
-    protected $queue;
+    protected string $queue;
 
     /**
      * @var string
      */
-    protected $consumerTag = '';
+    protected string $consumerTag = '';
 
     /**
      * @var bool
      */
-    protected $noLocal = FALSE;
+    protected bool $noLocal = FALSE;
 
     /**
      * @var bool
      */
-    protected $noAck = FALSE;
+    protected bool $noAck = FALSE;
 
     /**
      * @var bool
      */
-    protected $exclusive = FALSE;
+    protected bool $exclusive = FALSE;
 
     /**
      * @var bool
      */
-    protected $nowait = FALSE;
+    protected bool $nowait = FALSE;
 
     /**
      * @var mixed[]
      */
-    protected $arguments = [];
+    protected array $arguments = [];
 
     /**
      * @var int
      */
-    protected $prefetchCount = 0;
+    protected int $prefetchCount = 0;
 
     /**
      * @var int
      */
-    protected $prefetchSize = 0;
+    protected int $prefetchSize = 0;
 
     /**
      * ConsumerAbstract constructor.
@@ -162,7 +162,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
                         $this->callback->processMessage(
                             $message,
                             $this->connectionManager->getConnection(),
-                            $this->channelId
+                            (int) $this->channelId
                         );
                     } catch (Throwable $e) {
                         throw new CallbackException(

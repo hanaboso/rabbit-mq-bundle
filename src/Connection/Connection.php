@@ -22,27 +22,27 @@ final class Connection implements LoggerAwareInterface
     /**
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @var ClientFactory
      */
-    private $clientFactory;
+    private ClientFactory $clientFactory;
 
     /**
      * @var AMQPSocketConnection|null
      */
-    private $client;
+    private ?AMQPSocketConnection $client = NULL;
 
     /**
      * @var mixed[]
      */
-    private $channels = [];
+    private array $channels = [];
 
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * Connection constructor.

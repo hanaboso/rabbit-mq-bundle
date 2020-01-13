@@ -18,48 +18,48 @@ use Throwable;
  *
  * @package RabbitMqBundle\Publisher
  */
-final class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterface
+class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterface
 {
 
     /**
      * @var ConnectionManager
      */
-    private $connectionManager;
+    private ConnectionManager $connectionManager;
 
     /**
      * @var Configurator
      */
-    private $configurator;
+    private Configurator $configurator;
 
     /**
      * @var LoggerInterface
      */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
-     * @var int
+     * @var int|null
      */
-    private $channelId;
-
-    /**
-     * @var bool
-     */
-    private $mandatory;
+    private ?int $channelId = NULL;
 
     /**
      * @var bool
      */
-    private $immediate;
+    private bool $mandatory;
+
+    /**
+     * @var bool
+     */
+    private bool $immediate;
 
     /**
      * @var string
      */
-    private $routingKey;
+    private string $routingKey;
 
     /**
      * @var string
      */
-    private $exchange;
+    private string $exchange;
 
     /**
      * Publisher constructor.
@@ -98,6 +98,14 @@ final class Publisher implements PublisherInterface, SetupInterface, LoggerAware
     }
 
     /**
+     * @return string
+     */
+    public function getRoutingKey(): string
+    {
+        return $this->routingKey;
+    }
+
+    /**
      * @param string $routingKey
      *
      * @return Publisher
@@ -107,6 +115,14 @@ final class Publisher implements PublisherInterface, SetupInterface, LoggerAware
         $this->routingKey = $routingKey;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExchange(): string
+    {
+        return $this->exchange;
     }
 
     /**
