@@ -15,10 +15,10 @@ trait DebugMessageTrait
 {
 
     /**
-     * @param string|null  $string
-     * @param string|null  $exchange
-     * @param string|null  $routingKey
-     * @param mixed[]|null $headers
+     * @param string|NULL  $string
+     * @param string|NULL  $exchange
+     * @param string|NULL  $routingKey
+     * @param mixed[]|NULL $headers
      *
      * @return mixed[]
      */

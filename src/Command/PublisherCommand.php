@@ -29,7 +29,7 @@ final class PublisherCommand extends Command
      * PublisherCommand constructor.
      *
      * @param Publisher   $publisher
-     * @param null|string $name
+     * @param string|NULL $name
      */
     public function __construct(Publisher $publisher, ?string $name = NULL)
     {

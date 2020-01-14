@@ -53,7 +53,7 @@ final class ConnectionTest extends TestCase
         $i = 0;
 
         $connection->method('reconnect')->willReturnCallback(
-            function () use (&$i): bool {
+            static function () use (&$i): bool {
                 if ($i++ === 1) {
                     throw new Exception('Something gone wrong!');
                 }

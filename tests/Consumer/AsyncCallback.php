@@ -40,8 +40,7 @@ final class AsyncCallback implements AsyncCallbackInterface
         Message::ack($message, $connection, $channelId);
 
         return new Promise(
-            function (): void {
-
+            static function (): void {
             }
         );
     }

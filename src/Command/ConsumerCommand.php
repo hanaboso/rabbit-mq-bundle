@@ -25,7 +25,7 @@ final class ConsumerCommand extends Command
      * ConsumerCommand constructor.
      *
      * @param Consumer    $consumer
-     * @param string|null $name
+     * @param string|NULL $name
      */
     public function __construct(Consumer $consumer, ?string $name = NULL)
     {

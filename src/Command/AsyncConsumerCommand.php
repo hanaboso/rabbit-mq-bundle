@@ -25,7 +25,7 @@ final class AsyncConsumerCommand extends Command
      * AsyncConsumerCommand constructor.
      *
      * @param AsyncConsumer $consumer
-     * @param string|null   $name
+     * @param string|NULL   $name
      */
     public function __construct(AsyncConsumer $consumer, ?string $name = NULL)
     {

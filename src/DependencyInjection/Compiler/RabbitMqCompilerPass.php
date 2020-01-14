@@ -115,7 +115,6 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
             $consumerCommand->addTag('console.command', ['command' => sprintf('rabbit_mq:consumer:%s', $key)]);
             $container->setDefinition(sprintf('rabbit_mq.consumer.command.%s', $key), $consumerCommand);
         }
-
     }
 
     /**

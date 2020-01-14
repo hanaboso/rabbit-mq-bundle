@@ -73,9 +73,9 @@ final class ConfiguratorTest extends TestCase
         // Test connections
         $connection = [
             'host'              => 'rabbitmq',
+            'port'              => '5672',
             'user'              => 'guest',
             'password'          => 'guest',
-            'port'              => 5_672,
             'vhost'             => '/',
             'heartbeat'         => 30,
             'timeout'           => 60,

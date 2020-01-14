@@ -33,7 +33,6 @@ final class RabbitMqExtension extends Extension
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $container->setParameter(RabbitMqBundle::KEY, $config);
-
     }
 
 }

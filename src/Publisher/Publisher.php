@@ -37,7 +37,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     private LoggerInterface $logger;
 
     /**
-     * @var int|null
+     * @var int|NULL
      */
     private ?int $channelId = NULL;
 

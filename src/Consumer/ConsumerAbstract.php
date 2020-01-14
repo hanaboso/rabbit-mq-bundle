@@ -39,7 +39,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     protected LoggerInterface $logger;
 
     /**
-     * @var int|null
+     * @var int|NULL
      */
     protected ?int $channelId = NULL;
 

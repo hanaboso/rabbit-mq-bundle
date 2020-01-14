@@ -30,7 +30,7 @@ final class Connection implements LoggerAwareInterface
     private ClientFactory $clientFactory;
 
     /**
-     * @var AMQPSocketConnection|null
+     * @var AMQPSocketConnection|NULL
      */
     private ?AMQPSocketConnection $client = NULL;
 
