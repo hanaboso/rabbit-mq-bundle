@@ -28,7 +28,7 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $config      = $container->getParameter(RabbitMqBundle::KEY);
-        $connections = $config['connections']['default']['dsn'] ?? 'amqp://rabbitmq';
+        $connections = $config['connections']['default']['dsn'] ?? 'amqp://rabbitmq:5672';
 
         $clientFactory = new Definition(
             $config['client_factory'],
