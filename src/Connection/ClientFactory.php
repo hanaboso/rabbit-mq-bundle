@@ -3,6 +3,7 @@
 namespace RabbitMqBundle\Connection;
 
 use Exception;
+use Hanaboso\Utils\String\DsnParser;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
 
 /**
@@ -33,11 +34,24 @@ final class ClientFactory
     /**
      * ClientFactory constructor.
      *
-     * @param mixed[] $config
+     * @param mixed $connections
      */
-    public function __construct($config = [])
+    public function __construct($connections = [])
     {
-        $this->config = $config;
+        foreach ($connections as $name => $connectionDsn) {
+            $settings                      = DsnParser::rabbitParser($connectionDsn['dsn']);
+            $settings['user']              = isset($settings['user']) && !empty($settings['user']) ? $settings['user'] : 'guest';
+            $settings['password']          = isset($settings['password']) && !empty($settings['password']) ? $settings['password'] : 'guest';
+            $settings['port']              = isset($settings['port']) && !empty($settings['port']) ? $settings['port'] : 5_672;
+            $settings['vhost']             = isset($settings['vhost']) && !empty($settings['vhost']) ? $settings['vhost'] : '/';
+            $settings['heartbeat']         = isset($settings['heartbeat']) && !empty($settings['heartbeat']) ? $settings['heartbeat'] : 30;
+            $settings['timeout']           = isset($settings['timeout']) && !empty($settings['timeout']) ? $settings['timeout'] : 60;
+            $settings['reconnect']         = isset($settings['reconnect']) && !empty($settings['reconnect']) ? $settings['reconnect'] : TRUE;
+            $settings['reconnect_tries']   = isset($settings['reconnect_tries']) && !empty($settings['reconnect_tries']) ? $settings['reconnect_tries'] : 3_600;
+            $settings['reconnect_timeout'] = isset($settings['reconnect_timeout']) && !empty($settings['reconnect_timeout']) ? $settings['reconnect_timeout'] : 1;
+
+            $this->config[$name] = $settings;
+        }
     }
 
     /**

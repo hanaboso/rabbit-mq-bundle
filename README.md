@@ -1,5 +1,16 @@
-RABBITMQ BUNDLE
-===============
+Hanaboso RabbitMQ Bundle
+========================
+
+[![Build Status](https://travis-ci.org/hanaboso/rabbit-mq-bundle.svg?branch=master)](https://travis-ci.org/hanaboso/rabbit-mq-bundle)
+[![Coverage Status](https://coveralls.io/repos/github/hanaboso/rabbit-mq-bundle/badge.svg?branch=master)](https://coveralls.io/github/hanaboso/rabbit-mq-bundle?branch=master)
+[![Downloads](https://img.shields.io/packagist/dt/hanaboso/rabbit-mq-bundle)](https://packagist.org/packages/hanaboso/rabbit-mq-bundle)
+
+Installation
+-----------
+* Download package via composer
+```bash
+composer require hanaboso/rabbit-mq-bundle
+```
 
 Logger
 ------
@@ -12,7 +23,7 @@ rabbit_mq:
     logger: 'monolog.logger.rabbit_mq'
     connections:
         default:
-            host: rabbitmq
+            dsn: amqp://rabbitmq:5672/
 
     queues:
         my-queue:

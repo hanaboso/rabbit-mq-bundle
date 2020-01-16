@@ -3,6 +3,7 @@
 namespace RabbitBundleTests\Integration\Connection;
 
 use Exception;
+use Hanaboso\Utils\String\DsnParser;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\ClientFactory;
@@ -37,11 +38,12 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
      */
     public function testGetConfig(): void
     {
+        $parsed = DsnParser::rabbitParser(getenv('RABBITMQ_DSN') ?: '');
         self::assertEquals(
             [
                 'user'              => 'guest',
                 'password'          => 'guest',
-                'host'              => 'rabbitmq',
+                'host'              => $parsed['host'],
                 'port'              => '5672',
                 'vhost'             => '/',
                 'heartbeat'         => 30,

@@ -1,0 +1,44 @@
+language: php
+
+services:
+    - rabbitmq
+
+addons:
+    apt:
+        packages:
+            - rabbitmq-server
+
+before_install:
+    - phpenv config-rm xdebug.ini || return 0
+    - pecl install pcov
+    - echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - export KERNEL_CLASS="RabbitBundleTests\app\Kernel"
+    - export RABBITMQ_DSN="amqp://guest:guest@localhost:5672/"
+
+install:
+    - travis_retry composer install --no-progress --prefer-dist
+    - tests/bin/console cache:warmup --env=test
+
+script:
+    - ./vendor/bin/phpcs --standard=./ruleset.xml --colors -p src/ tests/
+    - ./vendor/bin/phpstan analyse -c ./phpstan.neon -l 8 src/ tests/
+    - ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 1 tests
+    - ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 1 --coverage-clover var/coverage.xml --whitelist src tests
+    - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
+    - php coveralls.phar --verbose --config .coveralls.yml
+
+php:
+    - 7.4
+
+branches:
+    only:
+        - master
+
+sudo: false
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+notifications:
+    email: false
