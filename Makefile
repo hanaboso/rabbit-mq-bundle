@@ -29,7 +29,9 @@ composer-outdated:
 
 # Console
 clear-cache:
-	$(DE) rm -rf var/cache
+	$(DE) rm -rf var/log
+	$(DE) php tests/bin/console cache:clear --env=test
+	$(DE) php tests/bin/console cache:warmup --env=test
 
 # App dev
 init-dev: docker-up-force composer-install
@@ -41,17 +43,20 @@ phpstan:
 	$(DE) vendor/bin/phpstan analyse -c phpstan.neon -l 8 src tests
 
 phpunit:
-	$(DE) vendor/bin/paratest -c vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --runner=WrapperRunner tests
+	$(DE) vendor/bin/paratest -c vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 1 --runner=WrapperRunner tests
 
 phpcoverage:
-	$(DE) vendor/bin/paratest -c vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 4 --coverage-html var/coverage --whitelist src tests
+	$(DE) vendor/bin/paratest -c vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 1 --coverage-html var/coverage --whitelist src tests
 
 phpcoverage-ci:
-	$(DE) ./vendor/hanaboso/php-check-utils/bin/coverage.sh 30
+	$(DE) ./vendor/hanaboso/php-check-utils/bin/coverage.sh -c 100 -p 1
 
 test: docker-up-force composer-install fasttest
 
-fasttest: clear-cache codesniffer phpstan phpunit phpcoverage-ci
+fasttest: clear-cache codesniffer phpstan wait-for-server-start phpunit phpcoverage-ci
+
+wait-for-server-start:
+	$(DE) /bin/bash -c 'while [ $$(curl -s -o /dev/null -w "%{http_code}" http://guest:guest@rabbitmq:15672/api/overview) == 000 ]; do sleep 1; done'
 
 benchmark: init-dev
 	$(DE) tests/bin/console benchmark

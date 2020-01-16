@@ -20,6 +20,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * Class Configuration
  *
  * @package RabbitMqBundle\DependencyInjection
+ *
+ * @codeCoverageIgnore
  */
 final class Configuration implements ConfigurationInterface
 {

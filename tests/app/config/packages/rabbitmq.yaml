@@ -31,10 +31,17 @@ rabbit_mq:
 
     publishers:
         my-publisher:
-            routing_key: 'routing-key' # queue name or routing key
+            routing_key: 'routing-key'
             exchange: 'my-exchange'
 
     consumers:
         my-consumer:
             queue: 'my-queue'
             callback: callback
+        my-second-consumer:
+            queue: 'my-queue'
+            callback: rabbit_mq.null_callback
+        my-second-async-consumer:
+            async: true
+            queue: 'my-queue'
+            callback: rabbit_mq.null_async_callback

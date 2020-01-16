@@ -21,7 +21,7 @@ final class BenchmarkCallback implements CallbackInterface
     /**
      * @var int
      */
-    private static $counter = 0;
+    private static int $counter = 0;
 
     /**
      * @var int|float

@@ -46,17 +46,17 @@ final class PublisherCommand extends Command
      */
     protected function configure(): void
     {
-        $this->addArgument(self::CONTENT, InputArgument::OPTIONAL, '{}', 'Message content');
-        $this->addArgument(self::HEADERS, InputArgument::OPTIONAL, '{}', 'Message headers in JSON format');
+        $this->addArgument(self::CONTENT, InputArgument::OPTIONAL, 'Message content', '{}',);
+        $this->addArgument(self::HEADERS, InputArgument::OPTIONAL, 'Message headers in JSON format', '{}');
     }
 
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return mixed|void
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output;
 
@@ -67,6 +67,8 @@ final class PublisherCommand extends Command
         $headers = is_array($headers) ? $headers[0] : (string) $headers;
 
         $this->publisher->publish($content, Json::decode($headers));
+
+        return 0;
     }
 
 }

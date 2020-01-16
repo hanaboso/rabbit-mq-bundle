@@ -1,10 +1,16 @@
 includes:
-	- vendor/hanaboso/php-check-utils/phpstan.neon
+    - vendor/hanaboso/php-check-utils/phpstan.neon
 
 parameters:
-	ignoreErrors:
-	    - '#Unreachable statement - code above always terminates#'
-	    - '#PHPDoc tag @var for variable \$clientFactory contains unresolvable type#'
-	    -
-	        message: '#Calling var_dump\(\) is forbidden, use logger instead#'
-	        path: src/Consumer/Callback/DumpCallback.php
+    symfony:
+        container_xml_path: %rootDir%/../../../var/cache/test/appRabbitBundleTests_app_KernelTestDebugContainer.xml
+    ignoreErrors:
+        - '#Unreachable statement - code above always terminates#'
+        -
+            message: '#PHPDoc tag @var for variable \$.+ contains unresolvable type#'
+            path: tests/*
+        -
+            message: '#Calling var_dump\(\) is forbidden, use logger instead#'
+            paths:
+                - src/Consumer/Callback/DumpCallback.php
+                - src/Consumer/Callback/DumpAsyncCallback.php

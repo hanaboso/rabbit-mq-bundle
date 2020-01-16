@@ -105,11 +105,13 @@ final class Connection implements LoggerAwareInterface
      */
     public function createChannel(): int
     {
-        if (!$this->getClient()->isConnected()) {
+        $client = $this->getClient();
+
+        if (!$client->isConnected()) {
             $this->connect();
         }
 
-        $channel                    = $this->getClient()->channel();
+        $channel                    = $client->channel();
         $channelId                  = (int) $channel->getChannelId();
         $this->channels[$channelId] = $channel;
 

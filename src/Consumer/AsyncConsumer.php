@@ -28,6 +28,11 @@ class AsyncConsumer extends ConsumerAbstract
     protected $callback;
 
     /**
+     * @var LoopInterface
+     */
+    private LoopInterface $loop;
+
+    /**
      * @var int
      */
     private int $timer = 2;
@@ -74,6 +79,7 @@ class AsyncConsumer extends ConsumerAbstract
             $prefetchSize
         );
         $this->callback = $callback;
+        $this->loop     = Factory::create();
     }
 
     /**
@@ -81,25 +87,21 @@ class AsyncConsumer extends ConsumerAbstract
      */
     public function consume(): void
     {
-        $eventLoop = Factory::create();
-
-        $this->runAsyncConsumer($eventLoop);
+        $this->runAsyncConsumer();
 
         try {
-            $eventLoop->run();
+            $this->loop->run();
         } catch (Exception $e) {
             $this->logger->error(sprintf('Loop crashed: %s', $e->getMessage()), ['exception' => $e]);
 
-            $this->restart($eventLoop);
+            $this->restart();
         }
     }
 
     /**
-     * @param LoopInterface $loop
-     *
      * @throws Exception
      */
-    private function runAsyncConsumer(LoopInterface $loop): void
+    private function runAsyncConsumer(): void
     {
         /** @var mixed[] $arguments */
         $arguments = new AMQPTable($this->arguments);
@@ -111,13 +113,13 @@ class AsyncConsumer extends ConsumerAbstract
             $this->noAck,
             $this->exclusive,
             $this->nowait,
-            function (AMQPMessage $message) use ($loop): void {
+            function (AMQPMessage $message): void {
                 try {
                     $this->callback->processMessage(
                         $message,
                         $this->connectionManager->getConnection(),
                         (int) $this->channelId,
-                        $loop
+                        $this->loop
                     );
                 } catch (Throwable $e) {
                     throw new CallbackException(
@@ -137,14 +139,13 @@ class AsyncConsumer extends ConsumerAbstract
     }
 
     /**
-     * @param LoopInterface $loop
-     *
      * @throws Exception
      */
-    public function restart(LoopInterface $loop): void
+    public function restart(): void
     {
-        $loop->stop();
+        $this->loop->stop();
         $this->wait();
+        $this->loop = Factory::create();
         $this->consume();
     }
 

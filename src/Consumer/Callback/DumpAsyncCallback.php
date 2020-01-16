@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace RabbitBundleTests\Consumer;
+namespace RabbitMqBundle\Consumer\Callback;
 
 use Exception;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -8,15 +8,15 @@ use RabbitMqBundle\Connection\Connection;
 use RabbitMqBundle\Consumer\AsyncCallbackInterface;
 use RabbitMqBundle\Utils\Message;
 use React\EventLoop\LoopInterface;
-use React\Promise\Promise;
 use React\Promise\PromiseInterface;
+use function React\Promise\resolve;
 
 /**
- * Class AsyncCallback
+ * Class DumpAsyncCallback
  *
- * @package RabbitBundleTests\Consumer
+ * @package RabbitMqBundle\Consumer\Callback
  */
-final class AsyncCallback implements AsyncCallbackInterface
+final class DumpAsyncCallback implements AsyncCallbackInterface
 {
 
     /**
@@ -37,12 +37,11 @@ final class AsyncCallback implements AsyncCallbackInterface
     {
         $loop;
 
+        var_dump(['body' => Message::getBody($message), 'headers' => Message::getHeaders($message)]);
+
         Message::ack($message, $connection, $channelId);
 
-        return new Promise(
-            static function (): void {
-            }
-        );
+        return resolve();
     }
 
 }

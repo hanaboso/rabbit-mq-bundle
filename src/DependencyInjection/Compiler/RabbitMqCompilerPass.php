@@ -4,7 +4,9 @@ namespace RabbitMqBundle\DependencyInjection\Compiler;
 
 use Hanaboso\Utils\String\DsnParser;
 use RabbitMqBundle\Command\PublisherCommand;
+use RabbitMqBundle\Consumer\Callback\DumpAsyncCallback;
 use RabbitMqBundle\Consumer\Callback\DumpCallback;
+use RabbitMqBundle\Consumer\Callback\NullAsyncCallback;
 use RabbitMqBundle\Consumer\Callback\NullCallback;
 use RabbitMqBundle\RabbitMqBundle;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -16,6 +18,8 @@ use Symfony\Component\DependencyInjection\Reference;
  * Class RabbitMqCompilerPass
  *
  * @package RabbitMqBundle\DependencyInjection\Compiler
+ *
+ * @codeCoverageIgnore
  */
 final class RabbitMqCompilerPass implements CompilerPassInterface
 {
@@ -72,16 +76,21 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
 
             $container->setDefinition($publisherName, $publisherDef);
 
-            $publisherCommand = new Definition(PublisherCommand::class, [new Reference($publisherName)]);
-            $publisherCommand->addTag('console.command', ['command' => sprintf('rabbit_mq:publisher:%s', $key)]);
+            $commandName      = sprintf('rabbit_mq:publisher:%s', $key);
+            $publisherCommand = new Definition(PublisherCommand::class, [new Reference($publisherName), $commandName]);
+            $publisherCommand->addTag('console.command', ['command' => $commandName]);
             $container->setDefinition(sprintf('rabbit_mq.publisher.command.%s', $key), $publisherCommand);
         }
 
         // Callbacks
         $nullCallback = new Definition(NullCallback::class);
         $container->setDefinition($this->createKey('null_callback'), $nullCallback);
+        $nullAsyncCallback = new Definition(NullAsyncCallback::class);
+        $container->setDefinition($this->createKey('null_async_callback'), $nullAsyncCallback);
         $dumpCallback = new Definition(DumpCallback::class);
         $container->setDefinition($this->createKey('dump_callback'), $dumpCallback);
+        $dumpAsyncCallback = new Definition(DumpAsyncCallback::class);
+        $container->setDefinition($this->createKey('dump_async_callback'), $dumpAsyncCallback);
 
         // Consumers
         foreach ($config['consumers'] as $key => $consumer) {
@@ -111,8 +120,9 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
             $container->setDefinition($consumerName, $consumerDef);
 
             $command         = $consumer['async'] ? $config['async_consumer_command'] : $config['consumer_command'];
-            $consumerCommand = new Definition($command, [new Reference($consumerName)]);
-            $consumerCommand->addTag('console.command', ['command' => sprintf('rabbit_mq:consumer:%s', $key)]);
+            $commandName     = sprintf('rabbit_mq:consumer:%s', $key);
+            $consumerCommand = new Definition($command, [new Reference($consumerName), $commandName]);
+            $consumerCommand->addTag('console.command', ['command' => $commandName]);
             $container->setDefinition(sprintf('rabbit_mq.consumer.command.%s', $key), $consumerCommand);
         }
     }

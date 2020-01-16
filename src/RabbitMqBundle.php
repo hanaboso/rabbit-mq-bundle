@@ -13,6 +13,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * Class RabbitMqBundle
  *
  * @package RabbitMqBundle
+ *
+ * @codeCoverageIgnore
  */
 final class RabbitMqBundle extends Bundle
 {

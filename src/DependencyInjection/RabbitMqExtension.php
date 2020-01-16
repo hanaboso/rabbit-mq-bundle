@@ -10,6 +10,8 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
  * Class RabbitMqExtension
  *
  * @package RabbitMqBundle\DependencyInjection
+ *
+ * @codeCoverageIgnore
  */
 final class RabbitMqExtension extends Extension
 {

@@ -25,7 +25,7 @@ final class DumpCallback implements CallbackInterface
      */
     public function processMessage(AMQPMessage $message, Connection $connection, int $channelId): void
     {
-        var_dump($message);
+        var_dump(['body' => Message::getBody($message), 'headers' => Message::getHeaders($message)]);
 
         Message::ack($message, $connection, $channelId);
     }

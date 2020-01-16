@@ -41,16 +41,18 @@ final class AsyncConsumerCommand extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return mixed|void
+     * @return int
      * @throws Exception
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $input;
         $output;
 
         $this->consumer->setup();
         $this->consumer->consume();
+
+        return 0;
     }
 
 }

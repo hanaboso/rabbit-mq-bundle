@@ -2,6 +2,11 @@ parameters:
     kernel.secret: ''
 
 services:
+    _defaults:
+        autoconfigure: false
+        autowire: false
+        public: true
+
     benchmark:
         class: RabbitBundleTests\app\BenchmarkCommand
         arguments:
@@ -12,3 +17,21 @@ services:
     callback:
         class: RabbitBundleTests\app\BenchmarkCallback
         arguments:
+
+    factory:
+        alias: 'rabbit_mq.client_factory'
+
+    configurator:
+        alias: 'rabbit_mq.configurator'
+
+    connection:
+        alias: 'rabbit_mq.connection_manager'
+
+    publisher:
+        alias: 'rabbit_mq.publisher.my-publisher'
+
+    consumer:
+        alias: 'rabbit_mq.consumer.my-second-consumer'
+
+    consumer-async:
+        alias: 'rabbit_mq.consumer.my-second-async-consumer'

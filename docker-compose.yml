@@ -8,11 +8,12 @@ services:
         volumes:
             - ./:/var/www
             - ${SSH_AUTH_SOCK}:${SSH_AUTH}
-            - ${HOME}/dev/.composer:${HOME}/dev/.composer
+            - ${HOME}/dev/.composer:${HOME}/dev/.composer:cached
         environment:
             - DEV_UID=${DEV_UID}
             - DEV_GID=${DEV_GID}
             - COMPOSER_HOME=${HOME}/dev/.composer
+            - KERNEL_CLASS=RabbitBundleTests\app\Kernel
 
     rabbitmq:
         image: rabbitmq:management-alpine

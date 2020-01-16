@@ -9,6 +9,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * Class MonologCompilerPass
  *
  * @package RabbitMqBundle\DependencyInjection\Compiler
+ *
+ * @codeCoverageIgnore
  */
 final class MonologCompilerPass implements CompilerPassInterface
 {
