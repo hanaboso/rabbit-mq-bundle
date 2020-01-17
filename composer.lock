@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3dc3c35d900f9c2db6349fb025722e9a",
+    "content-hash": "ffe4cb9f0cfbd127db9e21449cf2524b",
     "packages": [
         {
             "name": "hanaboso/utils",
@@ -6272,8 +6272,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
