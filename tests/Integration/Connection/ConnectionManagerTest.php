@@ -5,7 +5,6 @@ namespace RabbitBundleTests\Integration\Connection;
 use Exception;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
-use RabbitMqBundle\Connection\Connection;
 use RabbitMqBundle\Connection\ConnectionManager;
 
 /**
@@ -40,7 +39,7 @@ final class ConnectionManagerTest extends KernelTestCaseAbstract
     {
         $this->manager->setLogger(new NullLogger());
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
     /**
@@ -50,7 +49,9 @@ final class ConnectionManagerTest extends KernelTestCaseAbstract
      */
     public function testGetConnection(): void
     {
-        self::assertInstanceOf(Connection::class, $this->manager->getConnection());
+        $this->manager->getConnection();
+
+        self::assertFake();
     }
 
 }

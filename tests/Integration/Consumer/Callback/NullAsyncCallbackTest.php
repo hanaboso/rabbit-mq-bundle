@@ -43,7 +43,7 @@ final class NullAsyncCallbackTest extends CallbackAbstractTest
             Factory::create()
         );
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
 }

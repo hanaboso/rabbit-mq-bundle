@@ -41,7 +41,7 @@ final class PublisherTest extends KernelTestCaseAbstract
     {
         $this->publisher->setLogger(new NullLogger());
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
     /**
@@ -83,7 +83,7 @@ final class PublisherTest extends KernelTestCaseAbstract
     {
         $this->publisher->setup();
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
     /**
@@ -100,7 +100,7 @@ final class PublisherTest extends KernelTestCaseAbstract
         $this->setProperty($this->publisher, 'configurator', $configurator);
         $this->publisher->setup();
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
 }

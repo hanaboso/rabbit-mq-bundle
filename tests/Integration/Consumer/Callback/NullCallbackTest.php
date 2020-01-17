@@ -37,7 +37,7 @@ final class NullCallbackTest extends CallbackAbstractTest
     {
         $this->callback->processMessage($this->createMessage(), $this->connection, $this->connection->createChannel());
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
 }

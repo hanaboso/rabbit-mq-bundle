@@ -4,7 +4,6 @@ namespace RabbitBundleTests\Integration\Connection;
 
 use Exception;
 use Hanaboso\Utils\String\DsnParser;
-use PhpAmqpLib\Connection\AMQPSocketConnection;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\ClientFactory;
 
@@ -71,7 +70,9 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
      */
     public function testCreate(): void
     {
-        self::assertInstanceOf(AMQPSocketConnection::class, $this->factory->create());
+        $this->factory->create();
+
+        self::assertFake();
     }
 
 }

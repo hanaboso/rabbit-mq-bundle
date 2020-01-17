@@ -66,7 +66,7 @@ final class AsyncConsumerTest extends KernelTestCaseAbstract
 
         $this->prepareConsumer($this->consumer, $this->prepareConsumerWait(TRUE), NULL, $loop)->consume();
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
     /**

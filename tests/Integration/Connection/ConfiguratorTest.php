@@ -41,7 +41,7 @@ final class ConfiguratorTest extends KernelTestCaseAbstract
     {
         $this->configurator->setLogger(new NullLogger());
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
     /**

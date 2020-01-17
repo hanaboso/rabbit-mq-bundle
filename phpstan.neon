@@ -7,6 +7,9 @@ parameters:
     ignoreErrors:
         - '#Unreachable statement - code above always terminates#'
         -
+            message: '#Variable method call on PhpAmqpLib\\Channel\\AMQPChannel#'
+            path: tests/*
+        -
             message: '#PHPDoc tag @var for variable \$.+ contains unresolvable type#'
             path: tests/*
         -

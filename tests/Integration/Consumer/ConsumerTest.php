@@ -45,7 +45,7 @@ final class ConsumerTest extends KernelTestCaseAbstract
     {
         $this->consumer->setLogger(new NullLogger());
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
     /**
@@ -101,7 +101,7 @@ final class ConsumerTest extends KernelTestCaseAbstract
     {
         $this->consumer->setup();
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
     /**
@@ -118,7 +118,7 @@ final class ConsumerTest extends KernelTestCaseAbstract
         $this->setProperty($this->consumer, 'configurator', $configurator);
         $this->consumer->setup();
 
-        self::assertSuccess();
+        self::assertFake();
     }
 
 }

@@ -4,6 +4,7 @@ namespace RabbitBundleTests;
 
 use Closure;
 use Exception;
+use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\PrivateTrait;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -24,6 +25,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
 {
 
     use PrivateTrait;
+    use CustomAssertTrait;
 
     protected const QUEUE = 'my-queue';
 
@@ -80,14 +82,6 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
         $result = $this->channel->queue_declare(static::QUEUE, TRUE);
 
         self::assertEquals($count, $result[1]);
-    }
-
-    /**
-     *
-     */
-    protected static function assertSuccess(): void
-    {
-        self::assertEquals(TRUE, (bool) 1);
     }
 
     /**
