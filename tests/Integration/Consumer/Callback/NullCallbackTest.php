@@ -23,21 +23,21 @@ final class NullCallbackTest extends CallbackAbstractTest
     /**
      * @throws Exception
      */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->callback = new NullCallback();
-    }
-
-    /**
-     * @throws Exception
-     */
     public function testProcessMessage(): void
     {
         $this->callback->processMessage($this->createMessage(), $this->connection, $this->connection->createChannel());
 
         self::assertFake();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->callback = new NullCallback();
     }
 
 }

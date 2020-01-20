@@ -29,16 +29,6 @@ final class ConsumerTest extends KernelTestCaseAbstract
     private Consumer $consumer;
 
     /**
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->consumer = self::$container->get('consumer');
-    }
-
-    /**
      * @covers \RabbitMqBundle\Consumer\Consumer::setLogger
      */
     public function testLogger(): void
@@ -119,6 +109,16 @@ final class ConsumerTest extends KernelTestCaseAbstract
         $this->consumer->setup();
 
         self::assertFake();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->consumer = self::$container->get('consumer');
     }
 
 }

@@ -138,39 +138,6 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     }
 
     /**
-     * @param mixed $content
-     *
-     * @return string
-     */
-    protected function beforePublishContent($content): string
-    {
-        return (string) $content;
-    }
-
-    /**
-     * @param mixed[] $headers
-     *
-     * @return mixed[]
-     */
-    protected function beforePublishHeaders(array $headers): array
-    {
-        return $headers;
-    }
-
-    /**
-     * @return AMQPChannel
-     * @throws Exception
-     */
-    private function getChannel(): AMQPChannel
-    {
-        if ($this->channelId === NULL) {
-            $this->channelId = $this->connectionManager->getConnection()->createChannel();
-        }
-
-        return $this->connectionManager->getConnection()->getChannel($this->channelId);
-    }
-
-    /**
      * @param mixed   $content
      * @param mixed[] $headers
      */
@@ -214,6 +181,39 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
         }
+    }
+
+    /**
+     * @param mixed $content
+     *
+     * @return string
+     */
+    protected function beforePublishContent($content): string
+    {
+        return (string) $content;
+    }
+
+    /**
+     * @param mixed[] $headers
+     *
+     * @return mixed[]
+     */
+    protected function beforePublishHeaders(array $headers): array
+    {
+        return $headers;
+    }
+
+    /**
+     * @return AMQPChannel
+     * @throws Exception
+     */
+    private function getChannel(): AMQPChannel
+    {
+        if ($this->channelId === NULL) {
+            $this->channelId = $this->connectionManager->getConnection()->createChannel();
+        }
+
+        return $this->connectionManager->getConnection()->getChannel($this->channelId);
     }
 
 }

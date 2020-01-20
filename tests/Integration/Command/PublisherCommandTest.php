@@ -26,16 +26,6 @@ final class PublisherCommandTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->tester = new CommandTester((new Application(self::$kernel))->get(self::COMMAND));
-    }
-
-    /**
-     * @throws Exception
      *
      * @covers \RabbitMqBundle\Command\PublisherCommand::execute
      */
@@ -46,6 +36,16 @@ final class PublisherCommandTest extends KernelTestCaseAbstract
         self::sleep();
         self::assertEmpty($this->tester->getDisplay());
         self::assertMessages(1);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->tester = new CommandTester((new Application(self::$kernel))->get(self::COMMAND));
     }
 
 }

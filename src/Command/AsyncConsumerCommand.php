@@ -30,6 +30,7 @@ final class AsyncConsumerCommand extends Command
     public function __construct(AsyncConsumer $consumer, ?string $name = NULL)
     {
         parent::__construct();
+
         $this->consumer = $consumer;
 
         if ($name) {

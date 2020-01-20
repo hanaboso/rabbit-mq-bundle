@@ -30,16 +30,6 @@ final class AsyncConsumerTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->consumer = self::$container->get('consumer-async');
-    }
-
-    /**
-     * @throws Exception
      *
      * @covers \RabbitMqBundle\Consumer\AsyncConsumer::consume
      */
@@ -109,6 +99,16 @@ final class AsyncConsumerTest extends KernelTestCaseAbstract
 
             }
         )->consume();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->consumer = self::$container->get('consumer-async');
     }
 
 }

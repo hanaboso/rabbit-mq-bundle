@@ -23,16 +23,6 @@ final class DumpCallbackTest extends CallbackAbstractTest
     /**
      * @throws Exception
      */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->callback = new DumpCallback();
-    }
-
-    /**
-     * @throws Exception
-     */
     public function testProcessMessage(): void
     {
         ob_start();
@@ -49,6 +39,16 @@ final class DumpCallbackTest extends CallbackAbstractTest
 ',
             ob_get_clean()
         );
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->callback = new DumpCallback();
     }
 
 }

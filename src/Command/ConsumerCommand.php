@@ -30,6 +30,7 @@ final class ConsumerCommand extends Command
     public function __construct(Consumer $consumer, ?string $name = NULL)
     {
         parent::__construct();
+
         $this->consumer = $consumer;
 
         if ($name) {

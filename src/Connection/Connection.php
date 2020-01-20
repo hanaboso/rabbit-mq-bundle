@@ -119,6 +119,38 @@ final class Connection implements LoggerAwareInterface
     }
 
     /**
+     *
+     */
+    public function reconnect(): void
+    {
+        $config  = $this->clientFactory->getConfig();
+        $counter = 0;
+
+        do {
+            sleep($config[ClientFactory::RECONNECT_TIMEOUT]);
+            $this->logger->info(sprintf('Waiting for reconnect %ss.', $config[ClientFactory::RECONNECT_TIMEOUT]));
+
+            try {
+                $this->close();
+                $this->getClient()->reconnect();
+                $this->restore();
+
+                $connect = TRUE;
+                $this->logger->info('RabbitMQ is connected.');
+            } catch (Exception $e) {
+                $counter++;
+                $connect = FALSE;
+                $this->logger->info('RabbitMQ is not connected.', ['exception' => $e]);
+
+                if ($counter++ > $config[ClientFactory::RECONNECT_TRIES]) {
+                    break;
+                }
+            }
+
+        } while (!$connect);
+    }
+
+    /**
      * Close connection and its channels
      *
      * @throws Exception
@@ -165,38 +197,6 @@ final class Connection implements LoggerAwareInterface
             $this->logger->info('RabbitMQ is not connected.', ['exception' => $e]);
             $this->reconnect();
         }
-    }
-
-    /**
-     *
-     */
-    public function reconnect(): void
-    {
-        $config  = $this->clientFactory->getConfig();
-        $counter = 0;
-
-        do {
-            sleep($config[ClientFactory::RECONNECT_TIMEOUT]);
-            $this->logger->info(sprintf('Waiting for reconnect %ss.', $config[ClientFactory::RECONNECT_TIMEOUT]));
-
-            try {
-                $this->close();
-                $this->getClient()->reconnect();
-                $this->restore();
-
-                $connect = TRUE;
-                $this->logger->info('RabbitMQ is connected.');
-            } catch (Exception $e) {
-                $counter++;
-                $connect = FALSE;
-                $this->logger->info('RabbitMQ is not connected.', ['exception' => $e]);
-
-                if ($counter++ > $config[ClientFactory::RECONNECT_TRIES]) {
-                    break;
-                }
-            }
-
-        } while (!$connect);
     }
 
 }

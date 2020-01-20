@@ -25,16 +25,6 @@ final class PublisherTest extends KernelTestCaseAbstract
     private Publisher $publisher;
 
     /**
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->publisher = self::$container->get('publisher');
-    }
-
-    /**
      * @covers \RabbitMqBundle\Publisher\Publisher::setLogger
      */
     public function testLogger(): void
@@ -101,6 +91,16 @@ final class PublisherTest extends KernelTestCaseAbstract
         $this->publisher->setup();
 
         self::assertFake();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->publisher = self::$container->get('publisher');
     }
 
 }

@@ -27,16 +27,6 @@ final class Configuration implements ConfigurationInterface
 {
 
     /**
-     * @param string $name
-     *
-     * @return ArrayNodeDefinition|NodeDefinition
-     */
-    private function createNode(string $name)
-    {
-        return (new TreeBuilder($name))->getRootNode();
-    }
-
-    /**
      * @return TreeBuilder
      */
     public function getConfigTreeBuilder(): TreeBuilder
@@ -225,6 +215,16 @@ final class Configuration implements ConfigurationInterface
         $consumers->append($this->getArguments());
 
         return $node;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return ArrayNodeDefinition|NodeDefinition
+     */
+    private function createNode(string $name)
+    {
+        return (new TreeBuilder($name))->getRootNode();
     }
 
 }

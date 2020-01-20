@@ -25,16 +25,6 @@ final class ConfiguratorTest extends KernelTestCaseAbstract
     private Configurator $configurator;
 
     /**
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->configurator = self::$container->get('configurator');
-    }
-
-    /**
      * @covers \RabbitMqBundle\Connection\Configurator::setLogger
      */
     public function testLogger(): void
@@ -80,6 +70,16 @@ final class ConfiguratorTest extends KernelTestCaseAbstract
         $this->configurator->setup($this->channel);
 
         self::assertTrue($this->getProperty($this->configurator, self::CONFIGURED));
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->configurator = self::$container->get('configurator');
     }
 
 }

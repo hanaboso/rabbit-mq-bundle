@@ -41,19 +41,6 @@ final class ConnectionManager implements LoggerAwareInterface
     }
 
     /**
-     * @param string $name
-     *
-     * @return Connection
-     */
-    private function createConnection(string $name): Connection
-    {
-        $conn = new Connection($name, $this->clientFactory);
-        $conn->setLogger($this->logger);
-
-        return $conn;
-    }
-
-    /**
      * @param LoggerInterface $logger
      */
     public function setLogger(LoggerInterface $logger): void
@@ -73,6 +60,19 @@ final class ConnectionManager implements LoggerAwareInterface
         }
 
         return $this->connections[$name];
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return Connection
+     */
+    private function createConnection(string $name): Connection
+    {
+        $conn = new Connection($name, $this->clientFactory);
+        $conn->setLogger($this->logger);
+
+        return $conn;
     }
 
 }

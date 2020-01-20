@@ -23,16 +23,6 @@ final class ConnectionManagerTest extends KernelTestCaseAbstract
     private ConnectionManager $manager;
 
     /**
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->manager = self::$container->get('connection');
-    }
-
-    /**
      * @covers \RabbitMqBundle\Connection\ConnectionManager::setLogger
      */
     public function testLogger(): void
@@ -52,6 +42,16 @@ final class ConnectionManagerTest extends KernelTestCaseAbstract
         $this->manager->getConnection();
 
         self::assertFake();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->manager = self::$container->get('connection');
     }
 
 }

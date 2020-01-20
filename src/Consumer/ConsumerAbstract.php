@@ -189,19 +189,6 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     }
 
     /**
-     * @return AMQPChannel
-     * @throws Exception
-     */
-    protected function getChannel(): AMQPChannel
-    {
-        if ($this->channelId === NULL) {
-            $this->channelId = $this->connectionManager->getConnection()->createChannel();
-        }
-
-        return $this->connectionManager->getConnection()->getChannel($this->channelId);
-    }
-
-    /**
      *
      */
     public function setup(): void
@@ -216,6 +203,19 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
             $this->connectionManager->getConnection()->reconnect();
             $this->setup();
         }
+    }
+
+    /**
+     * @return AMQPChannel
+     * @throws Exception
+     */
+    protected function getChannel(): AMQPChannel
+    {
+        if ($this->channelId === NULL) {
+            $this->channelId = $this->connectionManager->getConnection()->createChannel();
+        }
+
+        return $this->connectionManager->getConnection()->getChannel($this->channelId);
     }
 
 }

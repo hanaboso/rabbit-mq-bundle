@@ -24,16 +24,6 @@ final class NullAsyncCallbackTest extends CallbackAbstractTest
     /**
      * @throws Exception
      */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->callback = new NullAsyncCallback();
-    }
-
-    /**
-     * @throws Exception
-     */
     public function testProcessMessage(): void
     {
         $this->callback->processMessage(
@@ -44,6 +34,16 @@ final class NullAsyncCallbackTest extends CallbackAbstractTest
         );
 
         self::assertFake();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->callback = new NullAsyncCallback();
     }
 
 }

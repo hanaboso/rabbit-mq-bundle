@@ -34,6 +34,7 @@ final class PublisherCommand extends Command
     public function __construct(Publisher $publisher, ?string $name = NULL)
     {
         parent::__construct();
+
         $this->publisher = $publisher;
 
         if ($name) {

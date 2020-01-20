@@ -23,16 +23,6 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
     private ClientFactory $factory;
 
     /**
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->factory = self::$container->get('factory');
-    }
-
-    /**
      * @covers \RabbitMqBundle\Connection\ClientFactory::getConfig
      */
     public function testGetConfig(): void
@@ -73,6 +63,16 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
         $this->factory->create();
 
         self::assertFake();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->factory = self::$container->get('factory');
     }
 
 }

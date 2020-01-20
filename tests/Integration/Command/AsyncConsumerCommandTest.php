@@ -26,16 +26,6 @@ final class AsyncConsumerCommandTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->tester = new CommandTester((new Application(self::$kernel))->get(self::COMMAND));
-    }
-
-    /**
-     * @throws Exception
      *
      * @covers \RabbitMqBundle\Command\AsyncConsumerCommand::execute
      */
@@ -50,6 +40,16 @@ final class AsyncConsumerCommandTest extends KernelTestCaseAbstract
 
         self::assertEmpty($this->tester->getDisplay());
         self::assertMessages(0);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->tester = new CommandTester((new Application(self::$kernel))->get(self::COMMAND));
     }
 
 }

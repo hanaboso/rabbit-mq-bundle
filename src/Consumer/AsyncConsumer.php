@@ -78,6 +78,7 @@ class AsyncConsumer extends ConsumerAbstract
             $prefetchCount,
             $prefetchSize
         );
+
         $this->callback = $callback;
         $this->loop     = Factory::create();
     }
@@ -96,6 +97,17 @@ class AsyncConsumer extends ConsumerAbstract
 
             $this->restart();
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function restart(): void
+    {
+        $this->loop->stop();
+        $this->wait();
+        $this->loop = Factory::create();
+        $this->consume();
     }
 
     /**
@@ -136,17 +148,6 @@ class AsyncConsumer extends ConsumerAbstract
         while ($channel->is_consuming()) {
             $channel->wait();
         }
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function restart(): void
-    {
-        $this->loop->stop();
-        $this->wait();
-        $this->loop = Factory::create();
-        $this->consume();
     }
 
     /**

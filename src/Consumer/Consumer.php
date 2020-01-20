@@ -54,6 +54,7 @@ class Consumer extends ConsumerAbstract
             $prefetchCount,
             $prefetchSize
         );
+
         $this->callback = $callback;
     }
 
