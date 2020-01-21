@@ -3,6 +3,7 @@ Hanaboso RabbitMQ Bundle
 
 [![Build Status](https://travis-ci.org/hanaboso/rabbit-mq-bundle.svg?branch=master)](https://travis-ci.org/hanaboso/rabbit-mq-bundle)
 [![Coverage Status](https://coveralls.io/repos/github/hanaboso/rabbit-mq-bundle/badge.svg?branch=master)](https://coveralls.io/github/hanaboso/rabbit-mq-bundle?branch=master)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen)](https://img.shields.io/badge/PHPStan-level%208-brightgreen)
 [![Downloads](https://img.shields.io/packagist/dt/hanaboso/rabbit-mq-bundle)](https://packagist.org/packages/hanaboso/rabbit-mq-bundle)
 
 Installation
