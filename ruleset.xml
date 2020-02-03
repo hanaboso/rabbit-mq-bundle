@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
-<ruleset name="HANABOSO RABBIT MQ BUNDLE">
-    <!-- Slevomat coding standards -->
+<ruleset name="HANABOSO_CODESTYLE">
     <rule ref="./vendor/hanaboso/php-check-utils/ruleset.xml"/>
     <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
         <properties>
-            <property name="rootNamespaces" type="array" value="
-                src=>RabbitMqBundle,
-                tests=>RabbitBundleTests
-            "/>
+            <property name="rootNamespaces" type="array">
+                <element key="src" value="RabbitMqBundle"/>
+                <element key="tests" value="RabbitBundleTests"/>
+            </property>
         </properties>
     </rule>
-
 </ruleset>

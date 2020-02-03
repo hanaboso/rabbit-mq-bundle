@@ -1,4 +1,4 @@
-.PHONY: init composer-update codesniffer phpstan phpunit
+.PHONY: init-dev test
 
 DC= docker-compose
 DE= docker-compose exec -T php-dev
@@ -36,24 +36,24 @@ clear-cache:
 # App dev
 init-dev: docker-up-force composer-install
 
-codesniffer:
-	$(DE) vendor/bin/phpcs --standard=ruleset.xml src tests
+phpcodesniffer:
+	$(DE) ./vendor/bin/phpcs --standard=./ruleset.xml src tests
 
 phpstan:
-	$(DE) vendor/bin/phpstan analyse -c phpstan.neon -l 8 src tests
+	$(DE) ./vendor/bin/phpstan analyse -c ./phpstan.neon -l 8 src tests
 
 phpunit:
-	$(DE) vendor/bin/paratest -c vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 1 --runner=WrapperRunner tests
+	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 1 --runner=WrapperRunner tests
 
 phpcoverage:
-	$(DE) vendor/bin/paratest -c vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 1 --coverage-html var/coverage --whitelist src tests
+	$(DE) ./vendor/bin/paratest -c ./vendor/hanaboso/php-check-utils/phpunit.xml.dist -p 1 --coverage-html var/coverage --whitelist src tests
 
 phpcoverage-ci:
-	$(DE) ./vendor/hanaboso/php-check-utils/bin/coverage.sh -c 100 -p 1
+	$(DE) ./vendor/hanaboso/php-check-utils/bin/coverage.sh -p 1
 
 test: docker-up-force composer-install fasttest
 
-fasttest: clear-cache codesniffer phpstan wait-for-server-start phpunit phpcoverage-ci
+fasttest: clear-cache phpcodesniffer phpstan wait-for-server-start phpunit phpcoverage-ci
 
 wait-for-server-start:
 	$(DE) /bin/bash -c 'while [ $$(curl -s -o /dev/null -w "%{http_code}" http://guest:guest@rabbitmq:15672/api/overview) == 000 ]; do sleep 1; done'
