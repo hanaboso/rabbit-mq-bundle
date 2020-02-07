@@ -179,6 +179,8 @@ final class Configuration implements ConfigurationInterface
         $publishers->children()->scalarNode('routing_key')->defaultValue('');
         $publishers->children()->booleanNode('mandatory')->defaultFalse();
         $publishers->children()->booleanNode('immediate')->defaultFalse();
+        $publishers->children()->booleanNode('persistent')->defaultFalse();
+        $publishers->children()->booleanNode('acknowledge')->defaultFalse();
 
         return $node;
     }

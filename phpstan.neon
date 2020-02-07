@@ -5,7 +5,6 @@ parameters:
     symfony:
         container_xml_path: %rootDir%/../../../var/cache/test/RabbitBundleTests_app_KernelTestDebugContainer.xml
     ignoreErrors:
-        - '#Unreachable statement - code above always terminates#'
         -
             message: '#Variable method call on PhpAmqpLib\\Channel\\AMQPChannel#'
             path: tests/*
@@ -17,3 +16,6 @@ parameters:
             paths:
                 - src/Consumer/Callback/DumpCallback.php
                 - src/Consumer/Callback/DumpAsyncCallback.php
+        -
+            message: '#Negated boolean expression is always true#'
+            path: src/Publisher/Publisher.php

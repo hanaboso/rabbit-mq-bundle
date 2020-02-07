@@ -4,6 +4,7 @@ namespace RabbitMqBundle\Publisher;
 
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -62,6 +63,21 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     private string $exchange;
 
     /**
+     * @var bool
+     */
+    private bool $persistent;
+
+    /**
+     * @var bool
+     */
+    private bool $acknowledge;
+
+    /**
+     * @var bool[]
+     */
+    private array $isAcknowledged;
+
+    /**
      * Publisher constructor.
      *
      * @param ConnectionManager $connectionManager
@@ -70,6 +86,8 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      * @param string            $exchange
      * @param bool              $mandatory
      * @param bool              $immediate
+     * @param bool              $persistent
+     * @param bool              $acknowledge
      */
     public function __construct(
         ConnectionManager $connectionManager,
@@ -77,7 +95,9 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
         string $routingKey = '',
         string $exchange = '',
         bool $mandatory = FALSE,
-        bool $immediate = FALSE
+        bool $immediate = FALSE,
+        bool $persistent = FALSE,
+        bool $acknowledge = FALSE
     )
     {
         $this->connectionManager = $connectionManager;
@@ -86,6 +106,9 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
         $this->exchange          = $exchange;
         $this->mandatory         = $mandatory;
         $this->immediate         = $immediate;
+        $this->persistent        = $persistent;
+        $this->acknowledge       = $acknowledge;
+        $this->isAcknowledged    = [];
         $this->logger            = new NullLogger();
     }
 
@@ -145,11 +168,16 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     {
         $this->setup();
 
-        $content = $this->beforePublishContent($content);
-        $headers = $this->beforePublishHeaders($headers);
+        $content                  = $this->beforePublishContent($content);
+        $headers                  = $this->beforePublishHeaders($headers);
+        $headers['delivery-mode'] = $this->persistent ? AMQPMessage::DELIVERY_MODE_PERSISTENT : AMQPMessage::DELIVERY_MODE_NON_PERSISTENT;
 
         try {
-            $this->getChannel()->basic_publish(
+            $key                        = bin2hex(random_bytes(25));
+            $this->isAcknowledged[$key] = FALSE;
+
+            $channel = $this->getChannel($key);
+            $channel->basic_publish(
                 Message::create($content, $headers),
                 $this->exchange,
                 $this->routingKey,
@@ -157,6 +185,15 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
                 $this->immediate,
                 NULL
             );
+
+            if ($this->acknowledge) {
+                $channel->wait_for_pending_acks();
+
+                if (!$this->isAcknowledged[$key]) {
+                    $this->logger->error('Publish error: Message was not acknowledged!');
+                    $this->publish($content, $headers);
+                }
+            }
         } catch (Throwable $e) {
             $this->logger->error(sprintf('Publish error: %s', $e->getMessage()), ['exception' => $e]);
             $this->connectionManager->getConnection()->reconnect();
@@ -204,16 +241,38 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     }
 
     /**
+     * @param string $key
+     *
      * @return AMQPChannel
      * @throws Exception
      */
-    private function getChannel(): AMQPChannel
+    private function getChannel(?string $key = NULL): AMQPChannel
     {
         if ($this->channelId === NULL) {
             $this->channelId = $this->connectionManager->getConnection()->createChannel();
+
+            if ($this->acknowledge) {
+                $channel = $this->connectionManager->getConnection()->getChannel($this->channelId);
+                $channel->confirm_select();
+            }
         }
 
-        return $this->connectionManager->getConnection()->getChannel($this->channelId);
+        $channel = $this->connectionManager->getConnection()->getChannel($this->channelId);
+
+        if ($this->acknowledge && $key) {
+            $channel->set_ack_handler(
+                function () use ($key): void {
+                    $this->isAcknowledged[$key] = TRUE;
+                }
+            );
+            $channel->set_nack_handler(
+                function () use ($key): void {
+                    $this->isAcknowledged[$key] = FALSE;
+                }
+            );
+        }
+
+        return $channel;
     }
 
 }

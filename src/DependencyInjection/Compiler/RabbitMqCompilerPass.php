@@ -60,6 +60,8 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
                     $publisher['exchange'],
                     $publisher['mandatory'],
                     $publisher['immediate'],
+                    $publisher['persistent'],
+                    $publisher['acknowledge'],
                 ]
             );
 

@@ -30,6 +30,9 @@ services:
     publisher:
         alias: 'rabbit_mq.publisher.my-publisher'
 
+    publisher-safe:
+        alias: 'rabbit_mq.publisher.my-safe-publisher'
+
     consumer:
         alias: 'rabbit_mq.consumer.my-second-consumer'
 

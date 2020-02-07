@@ -231,20 +231,20 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     }
 
     /**
+     * @param AMQPChannel|MockObject $channel
+     * @param string                 $method
+     */
+    protected function useRealChannel($channel, string $method): void
+    {
+        $channel->method($method)->willReturnCallback(fn(...$arguments) => $this->channel->$method(...$arguments));
+    }
+
+    /**
      *
      */
     protected static function sleep(): void
     {
         usleep(100_000);
-    }
-
-    /**
-     * @param AMQPChannel|MockObject $channel
-     * @param string                 $method
-     */
-    private function useRealChannel($channel, string $method): void
-    {
-        $channel->method($method)->willReturnCallback(fn(...$arguments) => $this->channel->$method(...$arguments));
     }
 
 }

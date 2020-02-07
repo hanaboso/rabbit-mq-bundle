@@ -35,6 +35,10 @@ rabbit_mq:
                   routing_key: 'routing-key'
                   arguments:
                     my-arg: 'my-value'
+        my-safe-queue:
+            durable: true
+            arguments:
+                x-queue-type: 'quorum'
 
     exchanges:
         my-exchange:
@@ -56,6 +60,11 @@ rabbit_mq:
        my-publisher:
             routing_key: 'routing-key' # queue name or routing key
             exchange: 'my-exchange'
+        my-safe-publisher:
+            routing_key: 'routing-key'
+            exchange: 'my-exchange'
+            persistent: true
+            acknowledge: true
 
     consumers:
         my-consumer:
