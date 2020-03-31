@@ -143,17 +143,28 @@ final class ConnectionTest extends KernelTestCaseAbstract
         );
 
         $connection->expects(self::exactly(10))->method('isConnected')->willReturnOnConsecutiveCalls(
-            FALSE, // createChannel - 1
-            TRUE,  // createChannel - 2
-            TRUE,  // createChannel - 3
-            TRUE,  // getChannel - 1
-            FALSE, // getChannel - 2
-            TRUE,  // restore
-            TRUE,  // getChannel - 3
-            TRUE,  // getChannel - 1 - after reconnect
-            TRUE,  // getChannel - 2 - after reconnect
-            TRUE   // getChannel - 3 - after reconnect
+            FALSE,
+            TRUE,
+            TRUE,
+            TRUE,
+            FALSE,
+            TRUE,
+            TRUE,
+            TRUE,
+            TRUE,
+            TRUE
         );
+
+        //            FALSE, // createChannel - 1
+        //            TRUE,  // createChannel - 2
+        //            TRUE,  // createChannel - 3
+        //            TRUE,  // getChannel - 1
+        //            FALSE, // getChannel - 2
+        //            TRUE,  // restore
+        //            TRUE,  // getChannel - 3
+        //            TRUE,  // getChannel - 1 - after reconnect
+        //            TRUE,  // getChannel - 2 - after reconnect
+        //            TRUE   // getChannel - 3 - after reconnect
 
         $iterator = 0;
         $connection->method('reconnect')->willReturnCallback(
@@ -183,7 +194,8 @@ final class ConnectionTest extends KernelTestCaseAbstract
         $channelThree = $connection->createChannel();
 
         $connection->getChannel($channelOne);
-        $connection->getChannel($channelTwo); // Reconnecting...
+        // Reconnecting...
+        $connection->getChannel($channelTwo);
         $connection->getChannel($channelThree);
 
         $connection->getChannel($channelOne);
