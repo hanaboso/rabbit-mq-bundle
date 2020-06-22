@@ -4,7 +4,6 @@ namespace RabbitBundleTests\Integration\Consumer\Callback;
 
 use Exception;
 use RabbitMqBundle\Consumer\Callback\NullAsyncCallback;
-use React\EventLoop\Factory;
 
 /**
  * Class NullAsyncCallbackTest
@@ -30,7 +29,6 @@ final class NullAsyncCallbackTest extends CallbackAbstractTest
             $this->createMessage(),
             $this->connection,
             $this->connection->createChannel(),
-            Factory::create()
         );
 
         self::assertFake();

@@ -4,7 +4,6 @@ namespace RabbitBundleTests\Integration\Publisher;
 
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\Configurator;
@@ -122,7 +121,6 @@ final class PublisherTest extends KernelTestCaseAbstract
      */
     public function testSetupException(): void
     {
-        /** @var Configurator|MockObject $configurator */
         $configurator = self::createMock(Configurator::class);
         $configurator->method('setup')->willReturnCallback($this->prepareOneException());
 
@@ -187,7 +185,6 @@ final class PublisherTest extends KernelTestCaseAbstract
             }
         );
 
-        /** @var Connection|MockObject $connection */
         $connection = self::createMock(Connection::class);
         $connection->method('getChannel')->willReturn($channel);
         $connection->method('createChannel')->willReturn(1);

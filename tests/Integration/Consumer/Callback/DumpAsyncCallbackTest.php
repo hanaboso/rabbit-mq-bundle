@@ -4,7 +4,6 @@ namespace RabbitBundleTests\Integration\Consumer\Callback;
 
 use Exception;
 use RabbitMqBundle\Consumer\Callback\DumpAsyncCallback;
-use React\EventLoop\Factory;
 
 /**
  * Class DumpAsyncCallbackTest
@@ -31,7 +30,6 @@ final class DumpAsyncCallbackTest extends CallbackAbstractTest
             $this->createMessage(),
             $this->connection,
             $this->connection->createChannel(),
-            Factory::create()
         );
 
         self::assertEquals(

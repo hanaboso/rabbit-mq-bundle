@@ -8,8 +8,6 @@ use PhpAmqpLib\Wire\AMQPTable;
 use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
 use RabbitMqBundle\Consumer\Callback\Exception\CallbackException;
-use React\EventLoop\Factory;
-use React\EventLoop\LoopInterface;
 use Throwable;
 
 /**
@@ -26,11 +24,6 @@ class AsyncConsumer extends ConsumerAbstract
      * @var AsyncCallbackInterface
      */
     protected $callback;
-
-    /**
-     * @var LoopInterface
-     */
-    private LoopInterface $loop;
 
     /**
      * @var int
@@ -80,7 +73,6 @@ class AsyncConsumer extends ConsumerAbstract
         );
 
         $this->callback = $callback;
-        $this->loop     = Factory::create();
     }
 
     /**
@@ -89,14 +81,6 @@ class AsyncConsumer extends ConsumerAbstract
     public function consume(): void
     {
         $this->runAsyncConsumer();
-
-        try {
-            $this->loop->run();
-        } catch (Exception $e) {
-            $this->logger->error(sprintf('Loop crashed: %s', $e->getMessage()), ['exception' => $e]);
-
-            $this->restart();
-        }
     }
 
     /**
@@ -104,9 +88,7 @@ class AsyncConsumer extends ConsumerAbstract
      */
     public function restart(): void
     {
-        $this->loop->stop();
         $this->wait();
-        $this->loop = Factory::create();
         $this->consume();
     }
 
@@ -130,8 +112,7 @@ class AsyncConsumer extends ConsumerAbstract
                     $this->callback->processMessage(
                         $message,
                         $this->connectionManager->getConnection(),
-                        (int) $this->channelId,
-                        $this->loop
+                        (int) $this->channelId
                     );
                 } catch (Throwable $e) {
                     throw new CallbackException(

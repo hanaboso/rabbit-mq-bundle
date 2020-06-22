@@ -4,7 +4,6 @@ namespace RabbitBundleTests\Integration\Consumer;
 
 use Exception;
 use PhpAmqpLib\Message\AMQPMessage;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\Configurator;
@@ -101,7 +100,6 @@ final class ConsumerTest extends KernelTestCaseAbstract
      */
     public function testSetupException(): void
     {
-        /** @var Configurator|MockObject $configurator */
         $configurator = self::createMock(Configurator::class);
         $configurator->method('setup')->willReturnCallback($this->prepareOneException());
 

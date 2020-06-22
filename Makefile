@@ -28,6 +28,7 @@ composer-update:
 
 composer-outdated:
 	$(DE) composer outdated
+	$(DE) normalize
 
 # Console
 clear-cache:

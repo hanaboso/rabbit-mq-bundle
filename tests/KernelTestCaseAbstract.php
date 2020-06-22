@@ -13,7 +13,6 @@ use RabbitMqBundle\Consumer\AsyncCallbackInterface;
 use RabbitMqBundle\Consumer\CallbackInterface;
 use RabbitMqBundle\Consumer\ConsumerAbstract;
 use RabbitMqBundle\Publisher\Publisher;
-use React\EventLoop\LoopInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -97,7 +96,6 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
         ?int $channelId = NULL
     ): AMQPChannel
     {
-        /** @var AMQPChannel|MockObject $channel */
         $channel = self::createMock(AMQPChannel::class);
 
         if ($isConsuming) {
@@ -129,7 +127,6 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
      * @param ConsumerAbstract                              $consumer
      * @param Closure|null                                  $isConsuming
      * @param CallbackInterface|AsyncCallbackInterface|null $callback
-     * @param LoopInterface|null                            $loop
      *
      * @return ConsumerAbstract
      * @throws Exception
@@ -137,14 +134,12 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     protected function prepareConsumer(
         ConsumerAbstract $consumer,
         ?Closure $isConsuming = NULL,
-        $callback = NULL,
-        ?LoopInterface $loop = NULL
+        $callback = NULL
     ): ConsumerAbstract
     {
         $manager     = $this->getProperty($consumer, 'connectionManager');
         $connections = $this->getProperty($manager, 'connections');
 
-        /** @var Connection|MockObject $connection */
         $connection = self::createMock(Connection::class);
         $connection->method('getChannel')->willReturn($this->prepareChannel($isConsuming));
         $connection->method('createChannel')->willReturn(1);
@@ -161,11 +156,6 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
             $this->setProperty($consumer, 'callback', $callback);
         }
 
-        if ($loop) {
-            $this->setProperty($consumer, 'loop', $loop);
-            $this->setProperty($consumer, 'timer', 9);
-        }
-
         return $consumer;
     }
 
@@ -180,7 +170,6 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
         $manager     = $this->getProperty($publisher, 'connectionManager');
         $connections = $this->getProperty($manager, 'connections');
 
-        /** @var Connection|MockObject $connection */
         $connection = self::createMock(Connection::class);
         $connection->method('getChannel')->willReturn($this->prepareChannel(NULL, $this->prepareOneException()));
         $connection->method('createChannel')->willReturn(1);

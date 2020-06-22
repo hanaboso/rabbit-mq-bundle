@@ -131,7 +131,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
      */
     public function testConnection(): void
     {
-        /** @var AMQPSocketConnection|MockObject $connection */
         $connection = self::createMock(AMQPSocketConnection::class);
         $connection->expects(self::exactly(6))->method('channel')->willReturnOnConsecutiveCalls(
             $this->prepareChannel(NULL, NULL, 1),
@@ -177,7 +176,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
             }
         );
 
-        /** @var ClientFactory|MockObject $clientFactory */
         $clientFactory = self::createMock(ClientFactory::class);
         $clientFactory->method('getConfig')->willReturn(
             [
@@ -212,16 +210,15 @@ final class ConnectionTest extends KernelTestCaseAbstract
      */
     public function testReconnectException(): void
     {
-        /** @var AMQPSocketConnection|MockObject $connection */
         $connection = self::createMock(AMQPSocketConnection::class);
         $connection->method('isConnected')->willReturn(FALSE);
 
-        /** @var ClientFactory|MockObject $factory */
         $factory = self::createMock(ClientFactory::class);
         $factory->expects(self::at(0))->method('create')->willThrowException(new Exception('Something gone wrong!'));
         $factory->expects(self::at(1))->method('create')->willReturn($connection);
         $factory->expects(self::at(2))->method('create')->willReturn($this->connection->getClient());
-        $factory->method('getConfig')
+        $factory
+            ->method('getConfig')
             ->willReturn([ClientFactory::RECONNECT_TRIES => 1, ClientFactory::RECONNECT_TIMEOUT => 1]);
         $this->setProperty($this->connection, 'clientFactory', $factory);
 
@@ -238,10 +235,10 @@ final class ConnectionTest extends KernelTestCaseAbstract
      */
     public function testReconnectExceptionExceeded(): void
     {
-        /** @var ClientFactory|MockObject $factory */
         $factory = self::createMock(ClientFactory::class);
         $factory->expects(self::at(0))->method('create')->willThrowException(new Exception('Something gone wrong!'));
-        $factory->method('getConfig')
+        $factory
+            ->method('getConfig')
             ->willReturn([ClientFactory::RECONNECT_TRIES => 1, ClientFactory::RECONNECT_TIMEOUT => 1]);
         $this->setProperty($this->connection, 'clientFactory', $factory);
 

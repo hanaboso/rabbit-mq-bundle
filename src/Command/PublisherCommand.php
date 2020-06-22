@@ -3,6 +3,7 @@
 namespace RabbitMqBundle\Command;
 
 use Hanaboso\Utils\String\Json;
+use JsonException;
 use RabbitMqBundle\Publisher\Publisher;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -56,6 +57,7 @@ final class PublisherCommand extends Command
      * @param OutputInterface $output
      *
      * @return int
+     * @throws JsonException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
