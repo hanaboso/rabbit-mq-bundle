@@ -8,6 +8,7 @@ use PhpAmqpLib\Wire\AMQPTable;
 use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\ConnectionManager;
 use RabbitMqBundle\Consumer\Callback\Exception\CallbackException;
+use RabbitMqBundle\Utils\Message;
 use Throwable;
 
 /**
@@ -109,17 +110,19 @@ class AsyncConsumer extends ConsumerAbstract
             $this->nowait,
             function (AMQPMessage $message): void {
                 try {
-                    $this->callback->processMessage(
-                        $message,
-                        $this->connectionManager->getConnection(),
-                        (int) $this->channelId
-                    );
+                    $this->callback
+                        ->processMessage(
+                            $message,
+                            $this->connectionManager->getConnection(),
+                            (int) $this->channelId
+                        )
+                        ->wait();
                 } catch (Throwable $e) {
-                    throw new CallbackException(
-                        sprintf('RabbitMq callback error: %s', $e->getMessage()),
-                        $e->getCode(),
-                        $e
-                    );
+                    $m = sprintf('RabbitMq callback error: %s', $e->getMessage());
+                    $this->logger->error($m, ['Message' => $message]);
+                    Message::nack($message, $this->connectionManager->getConnection(), (int) $this->channelId, TRUE);
+
+                    throw new CallbackException($m, $e->getCode(), $e);
                 }
             },
             NULL,

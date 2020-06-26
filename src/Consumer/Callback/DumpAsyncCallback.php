@@ -29,14 +29,19 @@ final class DumpAsyncCallback implements AsyncCallbackInterface
     public function processMessage(AMQPMessage $message, Connection $connection, int $channelId): PromiseInterface
     {
         var_dump(['body' => Message::getBody($message), 'headers' => Message::getHeaders($message)]);
-        $promise = new Promise();
+        $promise = new Promise(
+            static function () use (&$promise): void {
+                if ($promise) {
+                    $promise->resolve('waited');
+                }
+            },
+        );
         $promise
             ->then(
-                static function (AMQPMessage $message) use ($connection, $channelId): void {
+                static function () use (&$message, $connection, $channelId): void {
                     Message::ack($message, $connection, $channelId);
                 }
-            )
-            ->resolve($message);
+            );
 
         return $promise;
     }
