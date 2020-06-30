@@ -3,6 +3,7 @@
 namespace RabbitMqBundle\Consumer;
 
 use Exception;
+use Hanaboso\Utils\System\PipesHeaders;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Wire\AMQPTable;
@@ -167,7 +168,13 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
                         );
                     } catch (Throwable $e) {
                         $m = sprintf('RabbitMq callback error: %s', $e->getMessage());
-                        $this->logger->error($m, ['Message' => $message]);
+                        $this->logger->error(
+                            $m,
+                            array_merge(
+                                ['message' => $message],
+                                PipesHeaders::debugInfo(Message::getHeaders($message))
+                            )
+                        );
                         Message::nack(
                             $message,
                             $this->connectionManager->getConnection(),

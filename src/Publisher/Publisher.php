@@ -3,6 +3,7 @@
 namespace RabbitMqBundle\Publisher;
 
 use Exception;
+use Hanaboso\Utils\System\PipesHeaders;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerAwareInterface;
@@ -195,7 +196,10 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
                 }
             }
         } catch (Throwable $e) {
-            $this->logger->error(sprintf('Publish error: %s', $e->getMessage()), ['exception' => $e]);
+            $this->logger->error(
+                sprintf('Publish error: %s', $e->getMessage()),
+                array_merge(['exception' => $e], PipesHeaders::debugInfo($headers))
+            );
             $this->connectionManager->getConnection()->reconnect();
             $this->configurator->setConfigured(FALSE);
             $this->setup();
