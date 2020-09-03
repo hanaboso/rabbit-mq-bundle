@@ -3,18 +3,27 @@
 DC= docker-compose
 DE= docker-compose exec -T php-dev
 
+ALIAS?=alias
+Darwin:
+	sudo ifconfig lo0 $(ALIAS) $(shell awk '$$1 ~ /^DEV_IP/' .env.dist | sed -e "s/^DEV_IP=//")
+Linux:
+	@echo 'skipping ...'
+.lo0-up:
+	-@make `uname`
+.lo0-down:
+	-@make `uname` ALIAS='-alias'
 .env:
-	sed -e "s|{DEV_UID}|$(shell id -u)|g" \
-		-e "s|{DEV_GID}|$(shell id -u)|g" \
-		-e "s/{SSH_AUTH}/$(shell if [ "$(shell uname)" = "Linux" ]; then echo "\/tmp\/.ssh-auth-sock"; else echo '\/tmp\/.nope'; fi)/g" \
-		.env.dist >> .env;
+	sed -e "s/{DEV_UID}/$(shell if [ "$(shell uname)" = "Linux" ]; then echo $(shell id -u); else echo '1001'; fi)/g" \
+		-e "s/{DEV_GID}/$(shell if [ "$(shell uname)" = "Linux" ]; then echo $(shell id -g); else echo '1001'; fi)/g" \
+		-e "s/{SSH_AUTH}/$(shell if [ "$(shell uname)" = "Linux" ]; then echo '${SSH_AUTH_SOCK}' | sed 's/\//\\\//g'; else echo '\/run\/host-services\/ssh-auth.sock'; fi)/g" \
+		.env.dist > .env; \
 
 # Docker
-docker-up-force: .env
+docker-up-force: .env .lo0-up
 	$(DC) pull
 	$(DC) up -d --force-recreate --remove-orphans
 
-docker-down-clean: .env
+docker-down-clean: .env .lo0-down
 	$(DC) down -v
 
 # Composer
@@ -24,6 +33,7 @@ composer-install:
 
 composer-update:
 	$(DE) composer update --no-suggest
+	$(DE) composer normalize
 	$(DE) composer update --dry-run roave/security-advisories
 
 composer-outdated:
@@ -40,7 +50,7 @@ clear-cache:
 init-dev: docker-up-force composer-install
 
 phpcodesniffer:
-	$(DE) ./vendor/bin/phpcs --standard=./ruleset.xml src tests
+	$(DE) ./vendor/bin/phpcs --parallel=$$(nproc) --standard=./ruleset.xml src tests
 
 phpstan:
 	$(DE) ./vendor/bin/phpstan analyse -c ./phpstan.neon -l 8 src tests

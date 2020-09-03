@@ -1,21 +1,29 @@
 includes:
-    - vendor/hanaboso/php-check-utils/phpstan.neon
+	- vendor/hanaboso/php-check-utils/phpstan.neon
 
 parameters:
-    symfony:
-        container_xml_path: %rootDir%/../../../var/cache/test/RabbitBundleTests_app_KernelTestDebugContainer.xml
-    ignoreErrors:
-        -
-            message: '#Variable method call on PhpAmqpLib\\Channel\\AMQPChannel#'
-            path: tests/*
-        -
-            message: '#PHPDoc tag @var for variable \$.+ contains unresolvable type#'
-            path: tests/*
-        -
-            message: '#Calling var_dump\(\) is forbidden, use logger instead#'
-            paths:
-                - src/Consumer/Callback/DumpCallback.php
-                - src/Consumer/Callback/DumpAsyncCallback.php
-        -
-            message: '#Negated boolean expression is always true#'
-            path: src/Publisher/Publisher.php
+	symfony:
+		container_xml_path: %rootDir%/../../../var/cache/test/RabbitBundleTests_app_KernelTestDebugContainer.xml
+	ignoreErrors:
+		-
+			message: '#Variable method call on PhpAmqpLib\\Channel\\AMQPChannel#'
+			path: tests/KernelTestCaseAbstract.php
+		-
+			message: '#Calling var_dump\(\) is forbidden, use logger instead#'
+			paths:
+				- src/Consumer/Callback/DumpCallback.php
+				- src/Consumer/Callback/DumpAsyncCallback.php
+		-
+			message: '#Negated boolean expression is always true#'
+			path: src/Publisher/Publisher.php
+	ergebnis:
+		classesNotRequiredToBeAbstractOrFinal:
+			- RabbitMqBundle\Publisher\Publisher
+			- RabbitMqBundle\Consumer\Consumer
+			- RabbitMqBundle\Consumer\AsyncConsumer
+		classesAllowedToBeExtended:
+			- RabbitBundleTests\KernelTestCaseAbstract
+			- RabbitMqBundle\Consumer\ConsumerAbstract
+			- RabbitBundleTests\Integration\Consumer\Callback\CallbackAbstractTest
+			- Symfony\Component\DependencyInjection\Extension\Extension
+			- Hanaboso\Utils\Exception\PipesFrameworkExceptionAbstract

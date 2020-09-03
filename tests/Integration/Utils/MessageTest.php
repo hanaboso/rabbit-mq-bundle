@@ -90,12 +90,7 @@ final class MessageTest extends KernelTestCaseAbstract
     private function createMessage(): AMQPMessage
     {
         $message = Message::create('{}');
-
-        // phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
-        $message->delivery_info['exchange']     = 'exchange';
-        $message->delivery_info['routing_key']  = 'routingKey';
-        $message->delivery_info['delivery_tag'] = 'deliveryTag';
-        // phpcs:enable
+        $message->setDeliveryInfo(1, FALSE, 'exchange', 'routingKey');
 
         return $message;
     }

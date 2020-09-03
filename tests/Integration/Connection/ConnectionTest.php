@@ -5,7 +5,7 @@ namespace RabbitBundleTests\Integration\Connection;
 use Exception;
 use InvalidArgumentException;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub\Exception as MockException;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\ClientFactory;
@@ -88,13 +88,13 @@ final class ConnectionTest extends KernelTestCaseAbstract
      */
     public function testGetChannelException(): void
     {
-        $channel = $this->connection->createChannel();
-
-        /** @var AMQPSocketConnection|MockObject $connection */
+        $channel    = $this->connection->createChannel();
         $connection = self::createMock(AMQPSocketConnection::class);
         $connection->method('reconnect')->willThrowException(new Exception('Something gone wrong!'));
-        $connection->expects(self::at(0))->method('isConnected')->willReturn(FALSE);
-        $connection->expects(self::at(1))->method('isConnected')->willReturn(TRUE);
+        $connection
+            ->expects(self::exactly(1))
+            ->method('isConnected')
+            ->willReturn(TRUE);
         $this->setProperty($this->connection, 'client', $connection);
 
         $this->connection->getChannel($channel);
@@ -214,9 +214,14 @@ final class ConnectionTest extends KernelTestCaseAbstract
         $connection->method('isConnected')->willReturn(FALSE);
 
         $factory = self::createMock(ClientFactory::class);
-        $factory->expects(self::at(0))->method('create')->willThrowException(new Exception('Something gone wrong!'));
-        $factory->expects(self::at(1))->method('create')->willReturn($connection);
-        $factory->expects(self::at(2))->method('create')->willReturn($this->connection->getClient());
+        $factory
+            ->expects(self::exactly(2))
+            ->method('create')
+            ->willReturnOnConsecutiveCalls(
+                new MockException(new Exception('Something gone wrong!')),
+                $connection,
+                $this->connection->getClient()
+            );
         $factory
             ->method('getConfig')
             ->willReturn([ClientFactory::RECONNECT_TRIES => 1, ClientFactory::RECONNECT_TIMEOUT => 1]);
@@ -236,13 +241,18 @@ final class ConnectionTest extends KernelTestCaseAbstract
     public function testReconnectExceptionExceeded(): void
     {
         $factory = self::createMock(ClientFactory::class);
-        $factory->expects(self::at(0))->method('create')->willThrowException(new Exception('Something gone wrong!'));
+        $factory
+            ->expects(self::exactly(2))
+            ->method('create')
+            ->willThrowException(new Exception('Something gone wrong!'));
         $factory
             ->method('getConfig')
             ->willReturn([ClientFactory::RECONNECT_TRIES => 1, ClientFactory::RECONNECT_TIMEOUT => 1]);
         $this->setProperty($this->connection, 'clientFactory', $factory);
 
         $this->connection->reconnect();
+
+        self::assertFake();
     }
 
 }

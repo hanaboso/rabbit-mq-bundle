@@ -20,9 +20,7 @@ abstract class CallbackAbstractTest extends KernelTestCaseAbstract
     protected function createMessage(): AMQPMessage
     {
         $message = Message::create('{}');
-        // phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
-        $message->delivery_info['delivery_tag'] = 'Delivery Tag';
-        // phpcs:enable
+        $message->setDeliveryTag(1);
 
         return $message;
     }

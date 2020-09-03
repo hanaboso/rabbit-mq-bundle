@@ -98,12 +98,7 @@ final class Configurator implements LoggerAwareInterface
                         $bind['exchange']
                     )
                 );
-                $channel->exchange_bind(
-                    $name,
-                    $bind['exchange'],
-                    $bind['routing_key'],
-                    $bind['no_wait'] ?? FALSE
-                );
+                $channel->exchange_bind($name, $bind['exchange'], $bind['routing_key'], $bind['no_wait'] ?? FALSE);
             }
         }
 
