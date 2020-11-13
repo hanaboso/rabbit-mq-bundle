@@ -28,12 +28,12 @@ docker-down-clean: .env .lo0-down
 
 # Composer
 composer-install:
-	$(DE) composer install --no-suggest
+	$(DE) composer install
 	$(DE) composer update --dry-run roave/security-advisories
 
 composer-update:
-	$(DE) composer update --no-suggest
-	$(DE) composer normalize
+	$(DE) composer update
+#	$(DE) composer normalize
 	$(DE) composer update --dry-run roave/security-advisories
 
 composer-outdated:
