@@ -1,6 +1,6 @@
 {
     "name": "hanaboso/rabbit-mq-bundle",
-    "version": "1.4.4",
+    "version": "1.4.5",
     "license": "Apache-2.0",
     "require": {
         "php": "^7.4",
@@ -11,7 +11,7 @@
         "hanaboso/utils": "^1.0",
         "php-amqplib/php-amqplib": "^2.12",
         "symfony/monolog-bundle": "^3.6",
-        "symfony/yaml": "^5.1"
+        "symfony/yaml": "^5.2"
     },
     "require-dev": {
         "hanaboso/php-check-utils": "^1.1"

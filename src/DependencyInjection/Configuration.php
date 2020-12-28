@@ -46,7 +46,6 @@ final class Configuration implements ConfigurationInterface
         $rootNode->children()->scalarNode('publisher')->defaultValue(Publisher::class);
         $rootNode->children()->scalarNode('logger')->defaultNull();
         $rootNode->children()->scalarNode('configurator')->defaultValue(Configurator::class);
-        $rootNode->children()->booleanNode('configure_monolog')->defaultValue(FALSE);
 
         $rootNode->append($this->getConnections());
         $rootNode->append($this->getQueues());
