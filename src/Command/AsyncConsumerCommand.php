@@ -17,21 +17,14 @@ final class AsyncConsumerCommand extends Command
 {
 
     /**
-     * @var AsyncConsumer
-     */
-    private AsyncConsumer $consumer;
-
-    /**
      * AsyncConsumerCommand constructor.
      *
      * @param AsyncConsumer $consumer
      * @param string|NULL   $name
      */
-    public function __construct(AsyncConsumer $consumer, ?string $name = NULL)
+    public function __construct(private AsyncConsumer $consumer, ?string $name = NULL)
     {
         parent::__construct();
-
-        $this->consumer = $consumer;
 
         if ($name) {
             $this->setName($name);

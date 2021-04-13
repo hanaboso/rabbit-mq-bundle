@@ -24,16 +24,6 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
 {
 
     /**
-     * @var ConnectionManager
-     */
-    private ConnectionManager $connectionManager;
-
-    /**
-     * @var Configurator
-     */
-    private Configurator $configurator;
-
-    /**
      * @var LoggerInterface
      */
     private LoggerInterface $logger;
@@ -42,36 +32,6 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      * @var int|NULL
      */
     private ?int $channelId = NULL;
-
-    /**
-     * @var bool
-     */
-    private bool $mandatory;
-
-    /**
-     * @var bool
-     */
-    private bool $immediate;
-
-    /**
-     * @var string
-     */
-    private string $routingKey;
-
-    /**
-     * @var string
-     */
-    private string $exchange;
-
-    /**
-     * @var bool
-     */
-    private bool $persistent;
-
-    /**
-     * @var bool
-     */
-    private bool $acknowledge;
 
     /**
      * @var bool[]
@@ -91,26 +51,18 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      * @param bool              $acknowledge
      */
     public function __construct(
-        ConnectionManager $connectionManager,
-        Configurator $configurator,
-        string $routingKey = '',
-        string $exchange = '',
-        bool $mandatory = FALSE,
-        bool $immediate = FALSE,
-        bool $persistent = FALSE,
-        bool $acknowledge = FALSE
+        private ConnectionManager $connectionManager,
+        private Configurator $configurator,
+        private string $routingKey = '',
+        private string $exchange = '',
+        private bool $mandatory = FALSE,
+        private bool $immediate = FALSE,
+        private bool $persistent = FALSE,
+        private bool $acknowledge = FALSE
     )
     {
-        $this->connectionManager = $connectionManager;
-        $this->configurator      = $configurator;
-        $this->routingKey        = $routingKey;
-        $this->exchange          = $exchange;
-        $this->mandatory         = $mandatory;
-        $this->immediate         = $immediate;
-        $this->persistent        = $persistent;
-        $this->acknowledge       = $acknowledge;
-        $this->isAcknowledged    = [];
-        $this->logger            = new NullLogger();
+        $this->isAcknowledged = [];
+        $this->logger         = new NullLogger();
     }
 
     /**
@@ -183,8 +135,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
                 $this->exchange,
                 $this->routingKey,
                 $this->mandatory,
-                $this->immediate,
-                NULL
+                $this->immediate
             );
 
             if ($this->acknowledge) {
@@ -229,7 +180,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      *
      * @return string
      */
-    protected function beforePublishContent($content): string
+    protected function beforePublishContent(mixed $content): string
     {
         return (string) $content;
     }
@@ -245,7 +196,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
     }
 
     /**
-     * @param string $key
+     * @param string|null $key
      *
      * @return AMQPChannel
      * @throws Exception

@@ -20,16 +20,6 @@ final class Connection implements LoggerAwareInterface
 {
 
     /**
-     * @var string
-     */
-    private string $name;
-
-    /**
-     * @var ClientFactory
-     */
-    private ClientFactory $clientFactory;
-
-    /**
      * @var AMQPSocketConnection|NULL
      */
     private ?AMQPSocketConnection $client = NULL;
@@ -50,11 +40,9 @@ final class Connection implements LoggerAwareInterface
      * @param string        $name
      * @param ClientFactory $clientFactory
      */
-    public function __construct(string $name, ClientFactory $clientFactory)
+    public function __construct(private string $name, private ClientFactory $clientFactory)
     {
-        $this->name          = $name;
-        $this->clientFactory = $clientFactory;
-        $this->logger        = new NullLogger();
+        $this->logger = new NullLogger();
     }
 
     /**
@@ -112,7 +100,7 @@ final class Connection implements LoggerAwareInterface
         }
 
         $channel                    = $client->channel();
-        $channelId                  = (int) $channel->getChannelId();
+        $channelId                  = $channel->getChannelId();
         $this->channels[$channelId] = $channel;
 
         return $channelId;

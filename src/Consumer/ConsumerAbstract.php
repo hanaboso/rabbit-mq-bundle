@@ -26,16 +26,6 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
 {
 
     /**
-     * @var ConnectionManager
-     */
-    protected ConnectionManager $connectionManager;
-
-    /**
-     * @var Configurator
-     */
-    protected Configurator $configurator;
-
-    /**
      * @var LoggerInterface
      */
     protected LoggerInterface $logger;
@@ -46,54 +36,14 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     protected ?int $channelId = NULL;
 
     /**
-     * @var CallbackInterface
+     * @var CallbackInterface|AsyncCallbackInterface
      */
-    protected $callback;
-
-    /**
-     * @var string
-     */
-    protected string $queue;
-
-    /**
-     * @var string
-     */
-    protected string $consumerTag = '';
-
-    /**
-     * @var bool
-     */
-    protected bool $noLocal = FALSE;
-
-    /**
-     * @var bool
-     */
-    protected bool $noAck = FALSE;
-
-    /**
-     * @var bool
-     */
-    protected bool $exclusive = FALSE;
-
-    /**
-     * @var bool
-     */
-    protected bool $nowait = FALSE;
+    protected CallbackInterface|AsyncCallbackInterface $callback;
 
     /**
      * @var mixed[]
      */
     protected array $arguments = [];
-
-    /**
-     * @var int
-     */
-    protected int $prefetchCount = 0;
-
-    /**
-     * @var int
-     */
-    protected int $prefetchSize = 0;
 
     /**
      * ConsumerAbstract constructor.
@@ -110,29 +60,19 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
      * @param int               $prefetchSize
      */
     public function __construct(
-        ConnectionManager $connectionManager,
-        Configurator $configurator,
-        string $queue = '',
-        string $consumerTag = '',
-        bool $noLocal = FALSE,
-        bool $noAck = FALSE,
-        bool $exclusive = FALSE,
-        bool $nowait = FALSE,
-        int $prefetchCount = 0,
-        int $prefetchSize = 0
+        protected ConnectionManager $connectionManager,
+        protected Configurator $configurator,
+        protected string $queue = '',
+        protected string $consumerTag = '',
+        protected bool $noLocal = FALSE,
+        protected bool $noAck = FALSE,
+        protected bool $exclusive = FALSE,
+        protected bool $nowait = FALSE,
+        protected int $prefetchCount = 0,
+        protected int $prefetchSize = 0
     )
     {
-        $this->connectionManager = $connectionManager;
-        $this->configurator      = $configurator;
-        $this->queue             = $queue;
-        $this->consumerTag       = $consumerTag;
-        $this->noLocal           = $noLocal;
-        $this->noAck             = $noAck;
-        $this->exclusive         = $exclusive;
-        $this->nowait            = $nowait;
-        $this->prefetchCount     = $prefetchCount;
-        $this->prefetchSize      = $prefetchSize;
-        $this->logger            = new NullLogger();
+        $this->logger = new NullLogger();
     }
 
     /**

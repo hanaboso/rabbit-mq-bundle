@@ -14,6 +14,6 @@ interface PublisherInterface
      * @param mixed   $content
      * @param mixed[] $headers
      */
-    public function publish($content, array $headers = []): void;
+    public function publish(mixed $content, array $headers = []): void;
 
 }

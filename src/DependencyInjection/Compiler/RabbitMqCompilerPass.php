@@ -30,6 +30,7 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container): void
     {
+        /** @var mixed[] $config */
         $config        = $container->getParameter(RabbitMqBundle::KEY);
         $clientFactory = new Definition($config['client_factory'], [$config['connections']]);
         $container->setDefinition($this->createKey('client_factory'), $clientFactory);

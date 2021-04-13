@@ -23,11 +23,6 @@ class AsyncConsumer extends ConsumerAbstract
     use DebugMessageTrait;
 
     /**
-     * @var AsyncCallbackInterface
-     */
-    protected $callback;
-
-    /**
      * @var int
      */
     private int $timer = 2;
@@ -35,22 +30,22 @@ class AsyncConsumer extends ConsumerAbstract
     /**
      * AsyncConsumer constructor.
      *
-     * @param ConnectionManager      $connectionManager
-     * @param Configurator           $configurator
-     * @param AsyncCallbackInterface $callback
-     * @param string                 $queue
-     * @param string                 $consumerTag
-     * @param bool                   $noLocal
-     * @param bool                   $noAck
-     * @param bool                   $exclusive
-     * @param bool                   $nowait
-     * @param int                    $prefetchCount
-     * @param int                    $prefetchSize
+     * @param ConnectionManager                        $connectionManager
+     * @param Configurator                             $configurator
+     * @param CallbackInterface|AsyncCallbackInterface $callback
+     * @param string                                   $queue
+     * @param string                                   $consumerTag
+     * @param bool                                     $noLocal
+     * @param bool                                     $noAck
+     * @param bool                                     $exclusive
+     * @param bool                                     $nowait
+     * @param int                                      $prefetchCount
+     * @param int                                      $prefetchSize
      */
     public function __construct(
         ConnectionManager $connectionManager,
         Configurator $configurator,
-        AsyncCallbackInterface $callback,
+        protected CallbackInterface|AsyncCallbackInterface $callback,
         string $queue = '',
         string $consumerTag = '',
         bool $noLocal = FALSE,
@@ -73,8 +68,6 @@ class AsyncConsumer extends ConsumerAbstract
             $prefetchCount,
             $prefetchSize
         );
-
-        $this->callback = $callback;
     }
 
     /**
@@ -111,7 +104,9 @@ class AsyncConsumer extends ConsumerAbstract
             $this->nowait,
             function (AMQPMessage $message): void {
                 try {
-                    $this->callback
+                    /** @var AsyncCallbackInterface $callback */
+                    $callback = $this->callback;
+                    $callback
                         ->processMessage(
                             $message,
                             $this->connectionManager->getConnection(),

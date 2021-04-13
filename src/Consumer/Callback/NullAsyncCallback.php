@@ -33,7 +33,7 @@ final class NullAsyncCallback implements AsyncCallbackInterface
                 if ($promise) {
                     $promise->resolve('waited');
                 }
-            },
+            }
         );
         $promise
             ->then(

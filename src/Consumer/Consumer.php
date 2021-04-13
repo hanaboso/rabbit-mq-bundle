@@ -16,22 +16,22 @@ class Consumer extends ConsumerAbstract
     /**
      * Consumer constructor.
      *
-     * @param ConnectionManager $connectionManager
-     * @param Configurator      $configurator
-     * @param CallbackInterface $callback
-     * @param string            $queue
-     * @param string            $consumerTag
-     * @param bool              $noLocal
-     * @param bool              $noAck
-     * @param bool              $exclusive
-     * @param bool              $nowait
-     * @param int               $prefetchCount
-     * @param int               $prefetchSize
+     * @param ConnectionManager                        $connectionManager
+     * @param Configurator                             $configurator
+     * @param CallbackInterface|AsyncCallbackInterface $callback
+     * @param string                                   $queue
+     * @param string                                   $consumerTag
+     * @param bool                                     $noLocal
+     * @param bool                                     $noAck
+     * @param bool                                     $exclusive
+     * @param bool                                     $nowait
+     * @param int                                      $prefetchCount
+     * @param int                                      $prefetchSize
      */
     public function __construct(
         ConnectionManager $connectionManager,
         Configurator $configurator,
-        CallbackInterface $callback,
+        protected CallbackInterface|AsyncCallbackInterface $callback,
         string $queue = '',
         string $consumerTag = '',
         bool $noLocal = FALSE,
@@ -54,8 +54,6 @@ class Consumer extends ConsumerAbstract
             $prefetchCount,
             $prefetchSize
         );
-
-        $this->callback = $callback;
     }
 
 }

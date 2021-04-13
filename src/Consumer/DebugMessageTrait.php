@@ -66,7 +66,7 @@ trait DebugMessageTrait
     {
         return $this->prepareMessage(
             Message::getBody($message),
-            // phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
+            // phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
             $message->delivery_info['exchange'] ?? '',
             $message->delivery_info['routing_key'] ?? '',
             // phpcs:enable

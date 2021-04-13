@@ -223,7 +223,7 @@ final class Configuration implements ConfigurationInterface
      *
      * @return ArrayNodeDefinition|NodeDefinition
      */
-    private function createNode(string $name)
+    private function createNode(string $name): ArrayNodeDefinition|NodeDefinition
     {
         return (new TreeBuilder($name))->getRootNode();
     }

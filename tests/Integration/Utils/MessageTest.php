@@ -55,7 +55,7 @@ final class MessageTest extends KernelTestCaseAbstract
      */
     public function testAck(): void
     {
-        Message::ack($this->createMessage(), $this->connection, (int) $this->channel->getChannelId());
+        Message::ack($this->createMessage(), $this->connection, $this->channel->getChannelId());
 
         self::assertFake();
     }
@@ -67,7 +67,7 @@ final class MessageTest extends KernelTestCaseAbstract
      */
     public function testNack(): void
     {
-        Message::nack($this->createMessage(), $this->connection, (int) $this->channel->getChannelId());
+        Message::nack($this->createMessage(), $this->connection, $this->channel->getChannelId());
 
         self::assertFake();
     }
@@ -79,7 +79,7 @@ final class MessageTest extends KernelTestCaseAbstract
      */
     public function testReject(): void
     {
-        Message::reject($this->createMessage(), $this->connection, (int) $this->channel->getChannelId());
+        Message::reject($this->createMessage(), $this->connection, $this->channel->getChannelId());
 
         self::assertFake();
     }

@@ -17,21 +17,14 @@ final class ConsumerCommand extends Command
 {
 
     /**
-     * @var Consumer
-     */
-    private Consumer $consumer;
-
-    /**
      * ConsumerCommand constructor.
      *
      * @param Consumer    $consumer
      * @param string|NULL $name
      */
-    public function __construct(Consumer $consumer, ?string $name = NULL)
+    public function __construct(private Consumer $consumer, ?string $name = NULL)
     {
         parent::__construct();
-
-        $this->consumer = $consumer;
 
         if ($name) {
             $this->setName($name);

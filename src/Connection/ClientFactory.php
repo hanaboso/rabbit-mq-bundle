@@ -97,7 +97,7 @@ final class ClientFactory
             FALSE,
             $this->config[$name][self::TIMEOUT],
             $this->config[$name][self::HEARTBEAT],
-            $this->config[$name][self::TIMEOUT],
+            $this->config[$name][self::TIMEOUT]
         );
     }
 

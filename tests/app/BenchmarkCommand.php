@@ -20,20 +20,13 @@ final class BenchmarkCommand extends Command
     private const COUNT = 'count';
 
     /**
-     * @var Publisher
-     */
-    private Publisher $publisher;
-
-    /**
      * BenchmarkCommand constructor.
      *
      * @param Publisher $publisher
      */
-    public function __construct(Publisher $publisher)
+    public function __construct(private Publisher $publisher)
     {
         parent::__construct();
-
-        $this->publisher = $publisher;
     }
 
     /**

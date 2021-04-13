@@ -3,7 +3,6 @@
 namespace RabbitMqBundle\Command;
 
 use Hanaboso\Utils\String\Json;
-use JsonException;
 use RabbitMqBundle\Publisher\Publisher;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,21 +21,14 @@ final class PublisherCommand extends Command
     private const HEADERS = 'headers';
 
     /**
-     * @var Publisher
-     */
-    private Publisher $publisher;
-
-    /**
      * PublisherCommand constructor.
      *
      * @param Publisher   $publisher
      * @param string|NULL $name
      */
-    public function __construct(Publisher $publisher, ?string $name = NULL)
+    public function __construct(private Publisher $publisher, ?string $name = NULL)
     {
         parent::__construct();
-
-        $this->publisher = $publisher;
 
         if ($name) {
             $this->setName($name);
@@ -48,7 +40,7 @@ final class PublisherCommand extends Command
      */
     protected function configure(): void
     {
-        $this->addArgument(self::CONTENT, InputArgument::OPTIONAL, 'Message content', '{}',);
+        $this->addArgument(self::CONTENT, InputArgument::OPTIONAL, 'Message content', '{}');
         $this->addArgument(self::HEADERS, InputArgument::OPTIONAL, 'Message headers in JSON format', '{}');
     }
 
@@ -57,7 +49,6 @@ final class PublisherCommand extends Command
      * @param OutputInterface $output
      *
      * @return int
-     * @throws JsonException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

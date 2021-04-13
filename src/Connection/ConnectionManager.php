@@ -15,11 +15,6 @@ final class ConnectionManager implements LoggerAwareInterface
 {
 
     /**
-     * @var ClientFactory
-     */
-    private ClientFactory $clientFactory;
-
-    /**
      * @var Connection[]
      */
     private array $connections = [];
@@ -34,10 +29,9 @@ final class ConnectionManager implements LoggerAwareInterface
      *
      * @param ClientFactory $clientFactory
      */
-    public function __construct(ClientFactory $clientFactory)
+    public function __construct(private ClientFactory $clientFactory)
     {
-        $this->clientFactory = $clientFactory;
-        $this->logger        = new NullLogger();
+        $this->logger = new NullLogger();
     }
 
     /**

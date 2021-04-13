@@ -59,7 +59,7 @@ final class Message
         unset($properties[self::APPLICATION_HEADERS]);
 
         foreach ($properties as $key => $value) {
-            if (strpos($key, self::UNDERSCORE) !== FALSE) {
+            if (str_contains($key, self::UNDERSCORE)) {
                 unset($properties[$key]);
                 $properties[str_replace(self::UNDERSCORE, self::DASH, $key)] = $value;
             }
@@ -74,7 +74,7 @@ final class Message
      *
      * @return AMQPMessage
      */
-    public static function create($body, array $properties = []): AMQPMessage
+    public static function create(mixed $body, array $properties = []): AMQPMessage
     {
         $message = new AMQPMessage(is_array($body) ? Json::encode($body) : $body);
         $headers = [];
@@ -101,7 +101,7 @@ final class Message
      */
     public static function ack(AMQPMessage $message, Connection $connection, int $channel): void
     {
-        $connection->getChannel($channel)->basic_ack((string) $message->getDeliveryTag());
+        $connection->getChannel($channel)->basic_ack($message->getDeliveryTag());
     }
 
     /**
@@ -114,7 +114,7 @@ final class Message
      */
     public static function nack(AMQPMessage $message, Connection $connection, int $channel, bool $requeue = FALSE): void
     {
-        $connection->getChannel($channel)->basic_nack((string) $message->getDeliveryTag(), FALSE, $requeue);
+        $connection->getChannel($channel)->basic_nack($message->getDeliveryTag(), FALSE, $requeue);
     }
 
     /**
@@ -132,7 +132,7 @@ final class Message
         bool $requeue = FALSE
     ): void
     {
-        $connection->getChannel($channel)->basic_reject((string) $message->getDeliveryTag(), $requeue);
+        $connection->getChannel($channel)->basic_reject($message->getDeliveryTag(), $requeue);
     }
 
 }
