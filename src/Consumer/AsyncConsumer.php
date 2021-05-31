@@ -53,7 +53,7 @@ class AsyncConsumer extends ConsumerAbstract
         bool $exclusive = FALSE,
         bool $nowait = FALSE,
         int $prefetchCount = 0,
-        int $prefetchSize = 0
+        int $prefetchSize = 0,
     )
     {
         parent::__construct(
@@ -66,7 +66,7 @@ class AsyncConsumer extends ConsumerAbstract
             $exclusive,
             $nowait,
             $prefetchCount,
-            $prefetchSize
+            $prefetchSize,
         );
     }
 
@@ -110,14 +110,14 @@ class AsyncConsumer extends ConsumerAbstract
                         ->processMessage(
                             $message,
                             $this->connectionManager->getConnection(),
-                            (int) $this->channelId
+                            (int) $this->channelId,
                         )
                         ->wait();
                 } catch (Throwable $e) {
                     $m = sprintf('RabbitMq callback error: %s', $e->getMessage());
                     $this->logger->error(
                         $m,
-                        array_merge(['message' => $message], PipesHeaders::debugInfo(Message::getHeaders($message)))
+                        array_merge(['message' => $message], PipesHeaders::debugInfo(Message::getHeaders($message))),
                     );
                     Message::nack($message, $this->connectionManager->getConnection(), (int) $this->channelId, TRUE);
 
@@ -125,7 +125,7 @@ class AsyncConsumer extends ConsumerAbstract
                 }
             },
             NULL,
-            $arguments
+            $arguments,
         );
 
         while ($channel->is_consuming()) {

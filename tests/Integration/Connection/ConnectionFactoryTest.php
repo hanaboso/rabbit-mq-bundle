@@ -41,7 +41,7 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
                 'reconnect_tries'   => 3_600,
                 'reconnect_timeout' => 1,
             ],
-            $this->factory->getConfig()
+            $this->factory->getConfig(),
         );
     }
 
@@ -72,7 +72,7 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
     {
         parent::setUp();
 
-        $this->factory = self::$container->get('factory');
+        $this->factory = self::getContainer()->get('factory');
     }
 
 }

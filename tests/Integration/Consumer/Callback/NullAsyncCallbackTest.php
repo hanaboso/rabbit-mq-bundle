@@ -28,7 +28,7 @@ final class NullAsyncCallbackTest extends CallbackAbstractTest
         $this->callback->processMessage(
             $this->createMessage(),
             $this->connection,
-            $this->connection->createChannel()
+            $this->connection->createChannel(),
         );
 
         self::assertFake();

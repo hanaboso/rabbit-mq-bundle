@@ -79,7 +79,7 @@ final class ConfiguratorTest extends KernelTestCaseAbstract
     {
         parent::setUp();
 
-        $this->configurator = self::$container->get('configurator');
+        $this->configurator = self::getContainer()->get('configurator');
     }
 
 }

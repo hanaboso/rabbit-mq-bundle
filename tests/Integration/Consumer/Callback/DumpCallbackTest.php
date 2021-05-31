@@ -37,7 +37,7 @@ final class DumpCallbackTest extends CallbackAbstractTest
   }
 }
 ',
-            ob_get_clean()
+            ob_get_clean(),
         );
     }
 

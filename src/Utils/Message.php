@@ -129,7 +129,7 @@ final class Message
         AMQPMessage $message,
         Connection $connection,
         int $channel,
-        bool $requeue = FALSE
+        bool $requeue = FALSE,
     ): void
     {
         $connection->getChannel($channel)->basic_reject($message->getDeliveryTag(), $requeue);

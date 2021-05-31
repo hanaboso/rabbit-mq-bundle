@@ -58,7 +58,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
         private bool $mandatory = FALSE,
         private bool $immediate = FALSE,
         private bool $persistent = FALSE,
-        private bool $acknowledge = FALSE
+        private bool $acknowledge = FALSE,
     )
     {
         $this->isAcknowledged = [];
@@ -135,7 +135,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
                 $this->exchange,
                 $this->routingKey,
                 $this->mandatory,
-                $this->immediate
+                $this->immediate,
             );
 
             if ($this->acknowledge) {
@@ -149,7 +149,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
         } catch (Throwable $e) {
             $this->logger->error(
                 sprintf('Publish error: %s', $e->getMessage()),
-                array_merge(['exception' => $e], PipesHeaders::debugInfo($headers))
+                array_merge(['exception' => $e], PipesHeaders::debugInfo($headers)),
             );
             $this->connectionManager->getConnection()->reconnect();
             $this->configurator->setConfigured(FALSE);
@@ -218,12 +218,12 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
             $channel->set_ack_handler(
                 function () use ($key): void {
                     $this->isAcknowledged[$key] = TRUE;
-                }
+                },
             );
             $channel->set_nack_handler(
                 function () use ($key): void {
                     $this->isAcknowledged[$key] = FALSE;
-                }
+                },
             );
         }
 

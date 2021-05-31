@@ -138,7 +138,7 @@ final class ConnectionTest extends KernelTestCaseAbstract
             $this->prepareChannel(NULL, NULL, 3),
             $this->prepareChannel(NULL, NULL, 1),
             $this->prepareChannel(NULL, NULL, 2),
-            $this->prepareChannel(NULL, NULL, 3)
+            $this->prepareChannel(NULL, NULL, 3),
         );
 
         $connection->expects(self::exactly(10))->method('isConnected')->willReturnOnConsecutiveCalls(
@@ -151,7 +151,7 @@ final class ConnectionTest extends KernelTestCaseAbstract
             TRUE,
             TRUE,
             TRUE,
-            TRUE
+            TRUE,
         );
 
         //            FALSE, // createChannel - 1
@@ -173,7 +173,7 @@ final class ConnectionTest extends KernelTestCaseAbstract
                 }
 
                 return TRUE;
-            }
+            },
         );
 
         $clientFactory = self::createMock(ClientFactory::class);
@@ -181,7 +181,7 @@ final class ConnectionTest extends KernelTestCaseAbstract
             [
                 ClientFactory::RECONNECT_TIMEOUT => 1,
                 ClientFactory::RECONNECT_TRIES   => 1,
-            ]
+            ],
         );
         $clientFactory->method('create')->willReturn($connection);
 
@@ -220,7 +220,7 @@ final class ConnectionTest extends KernelTestCaseAbstract
             ->willReturnOnConsecutiveCalls(
                 new MockException(new Exception('Something gone wrong!')),
                 $connection,
-                $this->connection->getClient()
+                $this->connection->getClient(),
             );
         $factory
             ->method('getConfig')

@@ -77,7 +77,7 @@ final class ConsumerTest extends KernelTestCaseAbstract
                     throw new Exception('Something gone wrong!');
                 }
 
-            }
+            },
         )->consume();
 
         self::assertMessages(0);
@@ -116,7 +116,7 @@ final class ConsumerTest extends KernelTestCaseAbstract
     {
         parent::setUp();
 
-        $this->consumer = self::$container->get('consumer');
+        $this->consumer = self::getContainer()->get('consumer');
     }
 
 }

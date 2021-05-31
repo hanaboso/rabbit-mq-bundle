@@ -79,7 +79,7 @@ final class Configurator implements LoggerAwareInterface
                 $exchange['auto_delete'] ?? FALSE,
                 $exchange['internal'] ?? FALSE,
                 $exchange['nowait'] ?? FALSE,
-                $arguments
+                $arguments,
             );
         }
 
@@ -89,8 +89,8 @@ final class Configurator implements LoggerAwareInterface
                     sprintf(
                         'RabbitMQ setup: binding exchange "%s" to exchange "%s".',
                         $name,
-                        $bind['exchange']
-                    )
+                        $bind['exchange'],
+                    ),
                 );
                 $channel->exchange_bind($name, $bind['exchange'], $bind['routing_key'], $bind['no_wait'] ?? FALSE);
             }
@@ -107,7 +107,7 @@ final class Configurator implements LoggerAwareInterface
                 $queue['exclusive'] ?? FALSE,
                 $queue['auto_delete'] ?? FALSE,
                 $queue['no_wait'] ?? FALSE,
-                $arguments
+                $arguments,
             );
 
             foreach ($queue['bindings'] ?? [] as $bind) {
@@ -115,8 +115,8 @@ final class Configurator implements LoggerAwareInterface
                     sprintf(
                         'RabbitMQ setup: binding queue "%s" to exchange "%s".',
                         $name,
-                        $bind['exchange']
-                    )
+                        $bind['exchange'],
+                    ),
                 );
                 /** @var mixed[] $arguments */
                 $arguments = new AMQPTable($bind['arguments'] ?? []);
@@ -125,7 +125,7 @@ final class Configurator implements LoggerAwareInterface
                     $bind['exchange'],
                     $bind['routing_key'],
                     $bind['no_wait'] ?? FALSE,
-                    $arguments
+                    $arguments,
                 );
             }
         }

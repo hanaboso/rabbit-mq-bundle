@@ -26,7 +26,7 @@ final class BenchmarkCallback implements CallbackInterface
     /**
      * @var int|float
      */
-    private static $start = 0;
+    private static int|float $start = 0;
 
     /**
      * BenchmarkCallback constructor.
@@ -53,7 +53,7 @@ final class BenchmarkCallback implements CallbackInterface
                 self::COUNT,
                 $time / 1e9,
                 self::COUNT / $time * 1e9,
-                PHP_EOL
+                PHP_EOL,
             );
 
             Message::ack($message, $connection, $channelId);

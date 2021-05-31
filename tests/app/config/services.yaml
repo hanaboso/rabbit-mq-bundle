@@ -1,6 +1,9 @@
 parameters:
     kernel.secret: ''
 
+framework:
+    test: true
+
 services:
     _defaults:
         autoconfigure: false

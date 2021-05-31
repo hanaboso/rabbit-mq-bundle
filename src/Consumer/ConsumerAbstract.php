@@ -69,7 +69,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
         protected bool $exclusive = FALSE,
         protected bool $nowait = FALSE,
         protected int $prefetchCount = 0,
-        protected int $prefetchSize = 0
+        protected int $prefetchSize = 0,
     )
     {
         $this->logger = new NullLogger();
@@ -104,7 +104,7 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
                         $this->callback->processMessage(
                             $message,
                             $this->connectionManager->getConnection(),
-                            (int) $this->channelId
+                            (int) $this->channelId,
                         );
                     } catch (Throwable $e) {
                         $m = sprintf('RabbitMq callback error: %s', $e->getMessage());
@@ -112,21 +112,21 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
                             $m,
                             array_merge(
                                 ['message' => $message],
-                                PipesHeaders::debugInfo(Message::getHeaders($message))
-                            )
+                                PipesHeaders::debugInfo(Message::getHeaders($message)),
+                            ),
                         );
                         Message::nack(
                             $message,
                             $this->connectionManager->getConnection(),
                             (int) $this->channelId,
-                            TRUE
+                            TRUE,
                         );
 
                         throw new CallbackException($m, $e->getCode(), $e);
                     }
                 },
                 NULL,
-                $arguments
+                $arguments,
             );
 
             while ($channel->is_consuming()) {

@@ -58,7 +58,7 @@ final class BenchmarkCommand extends Command
         $time = hrtime(TRUE) - $time;
 
         $output->writeln(
-            sprintf('Published %s messages in %ss: %s messages per second', $count, $time / 1e9, $count / $time * 1e9)
+            sprintf('Published %s messages in %ss: %s messages per second', $count, $time / 1e9, $count / $time * 1e9),
         );
 
         return 0;

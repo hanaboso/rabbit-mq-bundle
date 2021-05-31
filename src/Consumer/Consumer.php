@@ -39,7 +39,7 @@ class Consumer extends ConsumerAbstract
         bool $exclusive = FALSE,
         bool $nowait = FALSE,
         int $prefetchCount = 0,
-        int $prefetchSize = 0
+        int $prefetchSize = 0,
     )
     {
         parent::__construct(
@@ -52,7 +52,7 @@ class Consumer extends ConsumerAbstract
             $exclusive,
             $nowait,
             $prefetchCount,
-            $prefetchSize
+            $prefetchSize,
         );
     }
 

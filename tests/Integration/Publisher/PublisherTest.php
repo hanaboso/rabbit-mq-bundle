@@ -137,8 +137,8 @@ final class PublisherTest extends KernelTestCaseAbstract
     {
         parent::setUp();
 
-        $this->publisher     = self::$container->get('publisher');
-        $this->safePublisher = self::$container->get('publisher-safe');
+        $this->publisher     = self::getContainer()->get('publisher');
+        $this->safePublisher = self::getContainer()->get('publisher-safe');
     }
 
     /**
@@ -163,7 +163,7 @@ final class PublisherTest extends KernelTestCaseAbstract
                 'wait_for_pending_acks',
                 'confirm_select',
                 'basic_publish',
-            ]
+            ],
         );
 
         $this->useRealChannel($channel, 'exchange_declare');
@@ -182,7 +182,7 @@ final class PublisherTest extends KernelTestCaseAbstract
                 $nack = $this->getProperty($channel, 'nack_handler');
 
                 $this->invokeMethod($channel, 'dispatch_to_handler', [$i++ === 1 ? $nack : $ack, []]);
-            }
+            },
         );
 
         $connection = self::createMock(Connection::class);

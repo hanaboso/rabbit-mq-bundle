@@ -47,7 +47,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
 
         self::bootKernel();
 
-        $this->connection = self::$container->get('connection')->getConnection();
+        $this->connection = self::getContainer()->get('connection')->getConnection();
         $this->channel    = $this->connection->getChannel($this->connection->createChannel());
 
         try {
@@ -93,7 +93,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     protected function prepareChannel(
         ?Closure $isConsuming = NULL,
         ?Closure $publish = NULL,
-        ?int $channelId = NULL
+        ?int $channelId = NULL,
     ): AMQPChannel
     {
         $channel = self::createMock(AMQPChannel::class);
@@ -134,7 +134,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     protected function prepareConsumer(
         ConsumerAbstract $consumer,
         ?Closure $isConsuming = NULL,
-        $callback = NULL
+        $callback = NULL,
     ): ConsumerAbstract
     {
         $manager     = $this->getProperty($consumer, 'connectionManager');
@@ -204,7 +204,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
      *
      * @return Closure
      */
-    protected function prepareConsumerWait($consume = FALSE): Closure
+    protected function prepareConsumerWait(bool $consume = FALSE): Closure
     {
         $iterator = 0;
 

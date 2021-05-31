@@ -33,13 +33,13 @@ final class NullAsyncCallback implements AsyncCallbackInterface
                 if ($promise) {
                     $promise->resolve('waited');
                 }
-            }
+            },
         );
         $promise
             ->then(
                 static function () use (&$message, $connection, $channelId): void {
                     Message::ack($message, $connection, $channelId);
-                }
+                },
             );
 
         return $promise;

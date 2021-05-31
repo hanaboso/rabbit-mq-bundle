@@ -29,7 +29,7 @@ final class DumpAsyncCallbackTest extends CallbackAbstractTest
         $this->callback->processMessage(
             $this->createMessage(),
             $this->connection,
-            $this->connection->createChannel()
+            $this->connection->createChannel(),
         );
 
         self::assertEquals(
@@ -41,7 +41,7 @@ final class DumpAsyncCallbackTest extends CallbackAbstractTest
   }
 }
 ',
-            ob_get_clean()
+            ob_get_clean(),
         );
     }
 

@@ -48,7 +48,7 @@ final class AsyncConsumerTest extends KernelTestCaseAbstract
     {
         $this->createQueueWithMessages();
 
-        $this->prepareConsumer($this->consumer, $this->prepareConsumerWait(TRUE), NULL)->consume();
+        $this->prepareConsumer($this->consumer, $this->prepareConsumerWait(TRUE))->consume();
 
         self::assertFake();
     }
@@ -78,7 +78,7 @@ final class AsyncConsumerTest extends KernelTestCaseAbstract
                 public function processMessage(
                     AMQPMessage $message,
                     Connection $connection,
-                    int $channelId
+                    int $channelId,
                 ): PromiseInterface
                 {
                     $message;
@@ -88,7 +88,7 @@ final class AsyncConsumerTest extends KernelTestCaseAbstract
                     throw new Exception('Something gone wrong!');
                 }
 
-            }
+            },
         )->consume();
     }
 
@@ -99,7 +99,7 @@ final class AsyncConsumerTest extends KernelTestCaseAbstract
     {
         parent::setUp();
 
-        $this->consumer = self::$container->get('consumer-async');
+        $this->consumer = self::getContainer()->get('consumer-async');
     }
 
 }

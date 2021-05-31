@@ -26,7 +26,7 @@ trait DebugMessageTrait
         ?string $string = NULL,
         ?string $exchange = NULL,
         ?string $routingKey = NULL,
-        ?array $headers = []
+        ?array $headers = [],
     ): array
     {
         $context = [];
@@ -70,7 +70,7 @@ trait DebugMessageTrait
             $message->delivery_info['exchange'] ?? '',
             $message->delivery_info['routing_key'] ?? '',
             // phpcs:enable
-            Message::getHeaders($message)
+            Message::getHeaders($message),
         );
     }
 

@@ -34,14 +34,14 @@ final class DebugMessageTraitTest extends KernelTestCaseAbstract
                 'routing_key' => 'routingKey',
                 'headers'     => sprintf(
                     'timestamp=%s@key=value',
-                    DateTimeUtils::getUtcDateTime('today')->getTimestamp()
+                    DateTimeUtils::getUtcDateTime('today')->getTimestamp(),
                 ),
             ],
             (new class {
 
                 use DebugMessageTrait;
 
-            })->prepareBunnyMessage($message)
+            })->prepareBunnyMessage($message),
         );
     }
 

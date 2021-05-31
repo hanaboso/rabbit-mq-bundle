@@ -42,9 +42,9 @@ final class MessageTest extends KernelTestCaseAbstract
                     [
                         'key'      => 'Value',
                         'reply-to' => 'Reply To',
-                    ]
-                )
-            )
+                    ],
+                ),
+            ),
         );
     }
 

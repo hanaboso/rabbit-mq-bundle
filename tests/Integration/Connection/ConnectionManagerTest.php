@@ -51,7 +51,7 @@ final class ConnectionManagerTest extends KernelTestCaseAbstract
     {
         parent::setUp();
 
-        $this->manager = self::$container->get('connection');
+        $this->manager = self::getContainer()->get('connection');
     }
 
 }

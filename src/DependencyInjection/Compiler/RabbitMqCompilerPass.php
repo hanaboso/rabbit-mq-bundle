@@ -63,7 +63,7 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
                     $publisher['immediate'],
                     $publisher['persistent'],
                     $publisher['acknowledge'],
-                ]
+                ],
             );
 
             // Add logger
@@ -106,7 +106,7 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
                     $consumer['no_wait'],
                     $consumer['prefetch_count'],
                     $consumer['prefetch_size'],
-                ]
+                ],
             );
 
             // Add logger

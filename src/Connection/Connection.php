@@ -80,7 +80,7 @@ final class Connection implements LoggerAwareInterface
 
         if (!array_key_exists($id, $this->channels)) {
             throw new InvalidArgumentException(
-                sprintf('The channel with id "%s" does not exist. You must call createChannel.', $id)
+                sprintf('The channel with id "%s" does not exist. You must call createChannel.', $id),
             );
         }
 
