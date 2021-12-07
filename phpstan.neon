@@ -16,6 +16,15 @@ parameters:
 		-
 			message: '#Negated boolean expression is always true#'
 			path: src/Publisher/Publisher.php
+		-
+			message: '#Calling var_dump\(\) is forbidden, use some logger instead#'
+			path: src/Consumer/Callback/DumpAsyncCallback.php
+		-
+			message: '#Calling var_dump\(\) is forbidden, use some logger instead#'
+			path:  src/Consumer/Callback/DumpCallback.php
+		-
+			message: '#Calling exec\(\) is forbidden, because reasons#'
+			path:  tests/KernelTestCaseAbstract.php
 	ergebnis:
 		classesNotRequiredToBeAbstractOrFinal:
 			- RabbitMqBundle\Publisher\Publisher
