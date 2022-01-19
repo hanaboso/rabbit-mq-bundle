@@ -2,7 +2,7 @@
     "name": "hanaboso/rabbit-mq-bundle",
     "description": "Hanaboso - rabbit-mq-bundle",
     "license": "Apache-2.0",
-    "version": "1.5.2",
+    "version": "1.5.3",
     "require": {
         "php": "^8.0",
         "ext-ctype": "*",
