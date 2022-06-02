@@ -99,8 +99,12 @@ final class Connection implements LoggerAwareInterface
             $this->connect();
         }
 
-        $channel                    = $client->channel();
-        $channelId                  = $channel->getChannelId();
+        $channel   = $client->channel();
+        $channelId = $channel->getChannelId();
+        if(!$channelId){
+            throw new Exception('Channel ID has not been returned.');
+        }
+
         $this->channels[$channelId] = $channel;
 
         return $channelId;
