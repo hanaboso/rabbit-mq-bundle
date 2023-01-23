@@ -26,7 +26,7 @@ final class PublisherCommand extends Command
      * @param Publisher   $publisher
      * @param string|NULL $name
      */
-    public function __construct(private Publisher $publisher, ?string $name = NULL)
+    public function __construct(private readonly Publisher $publisher, ?string $name = NULL)
     {
         parent::__construct();
 

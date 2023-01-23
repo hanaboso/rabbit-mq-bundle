@@ -29,7 +29,7 @@ final class ConnectionManager implements LoggerAwareInterface
      *
      * @param ClientFactory $clientFactory
      */
-    public function __construct(private ClientFactory $clientFactory)
+    public function __construct(private readonly ClientFactory $clientFactory)
     {
         $this->logger = new NullLogger();
     }

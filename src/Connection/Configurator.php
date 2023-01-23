@@ -31,7 +31,7 @@ final class Configurator implements LoggerAwareInterface
      *
      * @param mixed[] $config
      */
-    public function __construct(private array $config)
+    public function __construct(private readonly array $config)
     {
         $this->logger = new NullLogger();
     }

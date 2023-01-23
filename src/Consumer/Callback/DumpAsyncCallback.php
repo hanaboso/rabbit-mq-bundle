@@ -31,9 +31,7 @@ final class DumpAsyncCallback implements AsyncCallbackInterface
         var_dump(['body' => Message::getBody($message), 'headers' => Message::getHeaders($message)]);
         $promise = new Promise(
             static function () use (&$promise): void {
-                if ($promise) {
-                    $promise->resolve('waited');
-                }
+                $promise?->resolve('waited');
             },
         );
         $promise

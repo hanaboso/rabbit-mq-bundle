@@ -36,7 +36,7 @@ final class ClientFactory
      *
      * @param mixed $connections
      */
-    public function __construct($connections = [])
+    public function __construct(mixed $connections = [])
     {
         foreach ($connections as $name => $connectionDsn) {
             $settings                      = DsnParser::rabbitParser($connectionDsn['dsn']);

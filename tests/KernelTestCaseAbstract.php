@@ -126,7 +126,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     /**
      * @param ConsumerAbstract                              $consumer
      * @param Closure|null                                  $isConsuming
-     * @param CallbackInterface|AsyncCallbackInterface|null $callback
+     * @param AsyncCallbackInterface|CallbackInterface|null $callback
      *
      * @return ConsumerAbstract
      * @throws Exception
@@ -134,7 +134,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     protected function prepareConsumer(
         ConsumerAbstract $consumer,
         ?Closure $isConsuming = NULL,
-        $callback = NULL,
+        AsyncCallbackInterface|CallbackInterface|null $callback = NULL,
     ): ConsumerAbstract
     {
         $manager     = $this->getProperty($consumer, 'connectionManager');

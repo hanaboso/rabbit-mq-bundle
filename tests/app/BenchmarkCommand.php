@@ -24,7 +24,7 @@ final class BenchmarkCommand extends Command
      *
      * @param Publisher $publisher
      */
-    public function __construct(private Publisher $publisher)
+    public function __construct(private readonly Publisher $publisher)
     {
         parent::__construct();
     }

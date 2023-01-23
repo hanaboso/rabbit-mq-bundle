@@ -40,7 +40,7 @@ final class Connection implements LoggerAwareInterface
      * @param string        $name
      * @param ClientFactory $clientFactory
      */
-    public function __construct(private string $name, private ClientFactory $clientFactory)
+    public function __construct(private readonly string $name, private ClientFactory $clientFactory)
     {
         $this->logger = new NullLogger();
     }

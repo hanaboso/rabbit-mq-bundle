@@ -55,10 +55,10 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
         private Configurator $configurator,
         private string $routingKey = '',
         private string $exchange = '',
-        private bool $mandatory = FALSE,
-        private bool $immediate = FALSE,
-        private bool $persistent = FALSE,
-        private bool $acknowledge = FALSE,
+        private readonly bool $mandatory = FALSE,
+        private readonly bool $immediate = FALSE,
+        private readonly bool $persistent = FALSE,
+        private readonly bool $acknowledge = FALSE,
     )
     {
         $this->isAcknowledged = [];
@@ -117,7 +117,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      * @param mixed   $content
      * @param mixed[] $headers
      */
-    public function publish($content, array $headers = []): void
+    public function publish(mixed $content, array $headers = []): void
     {
         $this->setup();
 
