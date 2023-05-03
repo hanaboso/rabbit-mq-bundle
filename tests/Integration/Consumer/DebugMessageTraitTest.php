@@ -31,11 +31,11 @@ final class DebugMessageTraitTest extends KernelTestCaseAbstract
             [
                 'body'        => '{}',
                 'exchange'    => 'exchange',
-                'routing_key' => 'routingKey',
                 'headers'     => sprintf(
                     'timestamp=%s@key=value',
                     DateTimeUtils::getUtcDateTime('today')->getTimestamp(),
                 ),
+                'routing_key' => 'routingKey',
             ],
             (new class {
 

@@ -30,16 +30,16 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
         $parsed = DsnParser::rabbitParser(getenv('RABBITMQ_DSN') ?: '');
         self::assertEquals(
             [
-                'user'              => 'guest',
-                'password'          => 'guest',
-                'host'              => $parsed['host'],
-                'port'              => '5672',
-                'vhost'             => '/',
                 'heartbeat'         => 30,
-                'timeout'           => 60,
+                'host'              => $parsed['host'],
+                'password'          => 'guest',
+                'port'              => '5672',
                 'reconnect'         => TRUE,
-                'reconnect_tries'   => 3_600,
                 'reconnect_timeout' => 1,
+                'reconnect_tries'   => 3_600,
+                'timeout'           => 60,
+                'user'              => 'guest',
+                'vhost'             => '/',
             ],
             $this->factory->getConfig(),
         );

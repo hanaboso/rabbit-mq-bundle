@@ -69,7 +69,6 @@ final class Configurator implements LoggerAwareInterface
 
         foreach ($this->config['exchanges'] as $name => $exchange) {
             $this->logger->info(sprintf('RabbitMQ setup: declare exchange "%s".', $name));
-            /** @var mixed[] $arguments */
             $arguments = new AMQPTable($exchange['arguments'] ?? []);
             $channel->exchange_declare(
                 $name,
@@ -98,7 +97,6 @@ final class Configurator implements LoggerAwareInterface
 
         foreach ($this->config['queues'] as $name => $queue) {
             $this->logger->info(sprintf('RabbitMQ setup: declare queue "%s".', $name));
-            /** @var mixed[] $arguments */
             $arguments = new AMQPTable($queue['arguments'] ?? []);
             $channel->queue_declare(
                 $name,
@@ -118,7 +116,6 @@ final class Configurator implements LoggerAwareInterface
                         $bind['exchange'],
                     ),
                 );
-                /** @var mixed[] $arguments */
                 $arguments = new AMQPTable($bind['arguments'] ?? []);
                 $channel->queue_bind(
                     $name,

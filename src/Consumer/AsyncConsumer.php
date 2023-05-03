@@ -92,7 +92,6 @@ class AsyncConsumer extends ConsumerAbstract
      */
     private function runAsyncConsumer(): void
     {
-        /** @var mixed[] $arguments */
         $arguments = new AMQPTable($this->arguments);
         $channel   = $this->getChannel();
         $channel->basic_consume(

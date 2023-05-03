@@ -33,6 +33,6 @@ parameters:
 		classesAllowedToBeExtended:
 			- RabbitBundleTests\KernelTestCaseAbstract
 			- RabbitMqBundle\Consumer\ConsumerAbstract
-			- RabbitBundleTests\Integration\Consumer\Callback\CallbackAbstractTest
+			- RabbitBundleTests\Integration\Consumer\Callback\CallbackTestAbstract
 			- Symfony\Component\DependencyInjection\Extension\Extension
 			- Hanaboso\Utils\Exception\PipesFrameworkExceptionAbstract

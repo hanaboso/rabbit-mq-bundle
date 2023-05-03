@@ -12,7 +12,7 @@ use RabbitMqBundle\Consumer\Callback\DumpAsyncCallback;
  *
  * @covers  \RabbitMqBundle\Consumer\Callback\DumpAsyncCallback
  */
-final class DumpAsyncCallbackTest extends CallbackAbstractTest
+final class DumpAsyncCallbackTest extends CallbackTestAbstract
 {
 
     /**

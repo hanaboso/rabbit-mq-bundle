@@ -89,7 +89,6 @@ abstract class ConsumerAbstract implements ConsumerInterface, SetupInterface, Lo
     public function consume(): void
     {
         try {
-            /** @var mixed[] $arguments */
             $arguments = new AMQPTable($this->arguments);
             $channel   = $this->getChannel();
             $channel->basic_consume(

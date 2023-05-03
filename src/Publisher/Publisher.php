@@ -86,7 +86,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      *
      * @return Publisher
      */
-    public function setRoutingKey(string $routingKey): Publisher
+    public function setRoutingKey(string $routingKey): self
     {
         $this->routingKey = $routingKey;
 
@@ -106,7 +106,7 @@ class Publisher implements PublisherInterface, SetupInterface, LoggerAwareInterf
      *
      * @return Publisher
      */
-    public function setExchange(string $exchange): Publisher
+    public function setExchange(string $exchange): self
     {
         $this->exchange = $exchange;
 

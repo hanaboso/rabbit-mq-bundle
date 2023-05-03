@@ -12,7 +12,7 @@ use RabbitMqBundle\Consumer\Callback\NullCallback;
  *
  * @covers  \RabbitMqBundle\Consumer\Callback\NullCallback
  */
-final class NullCallbackTest extends CallbackAbstractTest
+final class NullCallbackTest extends CallbackTestAbstract
 {
 
     /**

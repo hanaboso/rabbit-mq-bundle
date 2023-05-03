@@ -7,11 +7,11 @@ use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Utils\Message;
 
 /**
- * Class CallbackAbstractTest
+ * Class CallbackTestAbstract
  *
  * @package RabbitBundleTests\Integration\Consumer\Callback
  */
-abstract class CallbackAbstractTest extends KernelTestCaseAbstract
+abstract class CallbackTestAbstract extends KernelTestCaseAbstract
 {
 
     /**
