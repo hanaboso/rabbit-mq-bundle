@@ -30,22 +30,24 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container): void
     {
-        /** @var mixed[] $config */
         $config        = $container->getParameter(RabbitMqBundle::KEY);
         $clientFactory = new Definition($config['client_factory'], [$config['connections']]);
         $container->setDefinition($this->createKey('client_factory'), $clientFactory);
 
+        /** @var string|NULL $logger */
+        $logger = $config['logger'];
+
         $connectionManager = new Definition($config['connection_manager'], [new Reference('rabbit_mq.client_factory')]);
         // Add logger
-        if ($config['logger'] !== NULL) {
-            $connectionManager->addMethodCall('setLogger', [new Reference($config['logger'])]);
+        if ($logger !== NULL) {
+            $connectionManager->addMethodCall('setLogger', [new Reference($logger)]);
         }
         $container->setDefinition($this->createKey('connection_manager'), $connectionManager);
 
         $configurator = new Definition($config['configurator'], [$config]);
         // Add logger
-        if ($config['logger'] !== NULL) {
-            $configurator->addMethodCall('setLogger', [new Reference($config['logger'])]);
+        if ($logger !== NULL) {
+            $configurator->addMethodCall('setLogger', [new Reference($logger)]);
         }
         $container->setDefinition($this->createKey('configurator'), $configurator);
 
@@ -67,8 +69,8 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
             );
 
             // Add logger
-            if ($config['logger'] !== NULL) {
-                $publisherDef->addMethodCall('setLogger', [new Reference($config['logger'])]);
+            if ($logger !== NULL) {
+                $publisherDef->addMethodCall('setLogger', [new Reference($logger)]);
             }
 
             $container->setDefinition($publisherName, $publisherDef);
@@ -110,8 +112,8 @@ final class RabbitMqCompilerPass implements CompilerPassInterface
             );
 
             // Add logger
-            if ($config['logger'] !== NULL) {
-                $consumerDef->addMethodCall('setLogger', [new Reference($config['logger'])]);
+            if ($logger !== NULL) {
+                $consumerDef->addMethodCall('setLogger', [new Reference($logger)]);
             }
 
             $container->setDefinition($consumerName, $consumerDef);

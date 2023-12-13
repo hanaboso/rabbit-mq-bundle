@@ -6,6 +6,7 @@ use Exception;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Class AsyncConsumerCommandTest
@@ -49,7 +50,9 @@ final class AsyncConsumerCommandTest extends KernelTestCaseAbstract
     {
         parent::setUp();
 
-        $this->tester = new CommandTester((new Application(self::$kernel))->get(self::COMMAND));
+        /** @var KernelInterface $kernel */
+        $kernel       = self::$kernel;
+        $this->tester = new CommandTester((new Application($kernel))->get(self::COMMAND));
     }
 
 }

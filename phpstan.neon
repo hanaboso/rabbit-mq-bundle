@@ -6,6 +6,9 @@ parameters:
 		container_xml_path: %rootDir%/../../../var/cache/test/RabbitBundleTests_app_KernelTestDebugContainer.xml
 	ignoreErrors:
 		-
+			message: '#PHPDoc tag @var with type string\|null is not subtype of type string#'
+			path: src/DependencyInjection/Compiler/RabbitMqCompilerPass.php
+		-
 			message: '#Variable method call on PhpAmqpLib\\Channel\\AMQPChannel#'
 			path: tests/KernelTestCaseAbstract.php
 		-
