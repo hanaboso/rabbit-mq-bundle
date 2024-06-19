@@ -4,6 +4,7 @@ namespace RabbitBundleTests\Integration\Utils;
 
 use Exception;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\Attributes\CoversClass;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Utils\Message;
 
@@ -11,14 +12,13 @@ use RabbitMqBundle\Utils\Message;
  * Class MessageTest
  *
  * @package RabbitBundleTests\Integration\Utils
- *
- * @covers  \RabbitMqBundle\Utils\Message
  */
+#[CoversClass(Message::class)]
 final class MessageTest extends KernelTestCaseAbstract
 {
 
     /**
-     * @covers \RabbitMqBundle\Utils\Message::getBody
+     * @return void
      */
     public function testBody(): void
     {
@@ -26,8 +26,7 @@ final class MessageTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \RabbitMqBundle\Utils\Message::create
-     * @covers \RabbitMqBundle\Utils\Message::getHeaders
+     * @return void
      */
     public function testHeaders(): void
     {
@@ -50,8 +49,6 @@ final class MessageTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Utils\Message::ack
      */
     public function testAck(): void
     {
@@ -62,8 +59,6 @@ final class MessageTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Utils\Message::nack
      */
     public function testNack(): void
     {
@@ -74,8 +69,6 @@ final class MessageTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Utils\Message::reject
      */
     public function testReject(): void
     {

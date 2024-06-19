@@ -3,7 +3,9 @@
 namespace RabbitBundleTests\Integration\Command;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use RabbitBundleTests\KernelTestCaseAbstract;
+use RabbitMqBundle\Command\ConsumerCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -12,9 +14,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
  * Class ConsumerCommandTest
  *
  * @package RabbitBundleTests\Integration\Command
- *
- * @covers  \RabbitMqBundle\Command\ConsumerCommand
  */
+#[CoversClass(ConsumerCommand::class)]
 final class ConsumerCommandTest extends KernelTestCaseAbstract
 {
 
@@ -27,8 +28,6 @@ final class ConsumerCommandTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Command\ConsumerCommand::execute
      */
     public function testExecute(): void
     {

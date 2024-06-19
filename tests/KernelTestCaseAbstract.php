@@ -6,6 +6,7 @@ use Closure;
 use Exception;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\CustomAssertTrait;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\PrivateTrait;
+use Hanaboso\PhpCheckUtils\PhpUnit\Traits\RestoreErrorHandlersTrait;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PHPUnit\Framework\MockObject\MockObject;
 use RabbitMqBundle\Connection\Connection;
@@ -25,6 +26,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
 
     use PrivateTrait;
     use CustomAssertTrait;
+    use RestoreErrorHandlersTrait;
 
     protected const QUEUE = 'my-queue';
 
@@ -65,6 +67,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     protected function createQueueWithMessages(int $messages = 1): void
     {
         for ($i = 0; $i < $messages; $i++) {
+            // @phpstan-ignore-next-line
             self::assertEmpty(exec('tests/bin/console rabbit_mq:publisher:my-publisher'));
         }
 
@@ -226,6 +229,16 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     protected function useRealChannel($channel, string $method): void
     {
         $channel->method($method)->willReturnCallback(fn(...$arguments) => $this->channel->$method(...$arguments));
+    }
+
+    /**
+     * @return void
+     */
+    protected function tearDown(): void {
+        parent::tearDown();
+
+        $this->restoreErrorHandler();
+        $this->restoreExceptionHandler();
     }
 
     /**

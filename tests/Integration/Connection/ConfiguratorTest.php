@@ -3,6 +3,7 @@
 namespace RabbitBundleTests\Integration\Connection;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\Configurator;
@@ -11,9 +12,8 @@ use RabbitMqBundle\Connection\Configurator;
  * Class ConfiguratorTest
  *
  * @package RabbitBundleTests\Integration\Connection
- *
- * @covers  \RabbitMqBundle\Connection\Configurator
  */
+#[CoversClass(Configurator::class)]
 final class ConfiguratorTest extends KernelTestCaseAbstract
 {
 
@@ -25,7 +25,7 @@ final class ConfiguratorTest extends KernelTestCaseAbstract
     private Configurator $configurator;
 
     /**
-     * @covers \RabbitMqBundle\Connection\Configurator::setLogger
+     * @return void
      */
     public function testLogger(): void
     {
@@ -36,8 +36,6 @@ final class ConfiguratorTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Configurator::setConfigured
      */
     public function testSetConfigured(): void
     {
@@ -48,8 +46,6 @@ final class ConfiguratorTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Configurator::setup
      */
     public function testSetup(): void
     {
@@ -60,8 +56,6 @@ final class ConfiguratorTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Configurator::setup
      */
     public function testSetupConfigured(): void
     {

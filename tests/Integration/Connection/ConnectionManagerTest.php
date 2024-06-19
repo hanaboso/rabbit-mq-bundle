@@ -3,6 +3,7 @@
 namespace RabbitBundleTests\Integration\Connection;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\ConnectionManager;
@@ -11,9 +12,8 @@ use RabbitMqBundle\Connection\ConnectionManager;
  * Class ConnectionManagerTest
  *
  * @package RabbitBundleTests\Integration\Connection
- *
- * @covers  \RabbitMqBundle\Connection\ConnectionManager
  */
+#[CoversClass(ConnectionManager::class)]
 final class ConnectionManagerTest extends KernelTestCaseAbstract
 {
 
@@ -23,7 +23,7 @@ final class ConnectionManagerTest extends KernelTestCaseAbstract
     private ConnectionManager $manager;
 
     /**
-     * @covers \RabbitMqBundle\Connection\ConnectionManager::setLogger
+     * @return void
      */
     public function testLogger(): void
     {
@@ -34,8 +34,6 @@ final class ConnectionManagerTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\ConnectionManager::getConnection
      */
     public function testGetConnection(): void
     {

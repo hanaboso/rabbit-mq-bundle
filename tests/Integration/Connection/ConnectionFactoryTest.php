@@ -4,6 +4,7 @@ namespace RabbitBundleTests\Integration\Connection;
 
 use Exception;
 use Hanaboso\Utils\String\DsnParser;
+use PHPUnit\Framework\Attributes\CoversClass;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\ClientFactory;
 
@@ -11,9 +12,8 @@ use RabbitMqBundle\Connection\ClientFactory;
  * Class ConnectionFactoryTest
  *
  * @package RabbitBundleTests\Integration\Connection
- *
- * @covers  \RabbitMqBundle\Connection\ClientFactory
  */
+#[CoversClass(ClientFactory::class)]
 final class ConnectionFactoryTest extends KernelTestCaseAbstract
 {
 
@@ -23,7 +23,7 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
     private ClientFactory $factory;
 
     /**
-     * @covers \RabbitMqBundle\Connection\ClientFactory::getConfig
+     * @return void
      */
     public function testGetConfig(): void
     {
@@ -46,7 +46,7 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \RabbitMqBundle\Connection\ClientFactory::getConfigByKey
+     * @return void
      */
     public function testGetConfigByKey(): void
     {
@@ -55,8 +55,6 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\ClientFactory::create
      */
     public function testCreate(): void
     {

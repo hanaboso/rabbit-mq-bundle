@@ -3,7 +3,9 @@
 namespace RabbitBundleTests\Integration\Command;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use RabbitBundleTests\KernelTestCaseAbstract;
+use RabbitMqBundle\Command\PublisherCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -12,9 +14,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
  * Class PublisherCommandTest
  *
  * @package RabbitBundleTests\Integration\Command
- *
- * @covers  \RabbitMqBundle\Command\PublisherCommand
  */
+#[CoversClass(PublisherCommand::class)]
 final class PublisherCommandTest extends KernelTestCaseAbstract
 {
 
@@ -27,8 +28,6 @@ final class PublisherCommandTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Command\PublisherCommand::execute
      */
     public function testExecute(): void
     {

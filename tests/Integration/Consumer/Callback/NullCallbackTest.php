@@ -3,15 +3,15 @@
 namespace RabbitBundleTests\Integration\Consumer\Callback;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use RabbitMqBundle\Consumer\Callback\NullCallback;
 
 /**
  * Class NullCallbackTest
  *
  * @package RabbitBundleTests\Integration\Consumer\Callback
- *
- * @covers  \RabbitMqBundle\Consumer\Callback\NullCallback
  */
+#[CoversClass(NullCallback::class)]
 final class NullCallbackTest extends CallbackTestAbstract
 {
 

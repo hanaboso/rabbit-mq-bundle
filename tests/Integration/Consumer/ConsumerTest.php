@@ -4,21 +4,22 @@ namespace RabbitBundleTests\Integration\Consumer;
 
 use Exception;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\Configurator;
 use RabbitMqBundle\Connection\Connection;
 use RabbitMqBundle\Consumer\CallbackInterface;
 use RabbitMqBundle\Consumer\Consumer;
+use RabbitMqBundle\Consumer\ConsumerAbstract;
 
 /**
  * Class ConsumerTest
  *
  * @package RabbitBundleTests\Integration\Consumer
- *
- * @covers  \RabbitMqBundle\Consumer\Consumer
- * @covers  \RabbitMqBundle\Consumer\ConsumerAbstract
  */
+#[CoversClass(Consumer::class)]
+#[CoversClass(ConsumerAbstract::class)]
 final class ConsumerTest extends KernelTestCaseAbstract
 {
 
@@ -28,7 +29,7 @@ final class ConsumerTest extends KernelTestCaseAbstract
     private Consumer $consumer;
 
     /**
-     * @covers \RabbitMqBundle\Consumer\Consumer::setLogger
+     * @return void
      */
     public function testLogger(): void
     {
@@ -39,8 +40,6 @@ final class ConsumerTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Consumer\Consumer::consume
      */
     public function testConsume(): void
     {
@@ -52,8 +51,6 @@ final class ConsumerTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Consumer\Consumer::consume
      */
     public function testConsumeException(): void
     {
@@ -84,7 +81,7 @@ final class ConsumerTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \RabbitMqBundle\Consumer\Consumer::setup
+     * @return void
      */
     public function testSetup(): void
     {
@@ -95,8 +92,6 @@ final class ConsumerTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Consumer\Consumer::setup
      */
     public function testSetupException(): void
     {

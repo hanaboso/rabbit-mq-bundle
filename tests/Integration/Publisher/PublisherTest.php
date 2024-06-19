@@ -4,6 +4,7 @@ namespace RabbitBundleTests\Integration\Publisher;
 
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\Configurator;
@@ -14,9 +15,8 @@ use RabbitMqBundle\Publisher\Publisher;
  * Class PublisherTest
  *
  * @package RabbitBundleTests\Integration\Publisher
- *
- * @covers  \RabbitMqBundle\Publisher\Publisher
  */
+#[CoversClass(Publisher::class)]
 final class PublisherTest extends KernelTestCaseAbstract
 {
 
@@ -31,7 +31,7 @@ final class PublisherTest extends KernelTestCaseAbstract
     private Publisher $safePublisher;
 
     /**
-     * @covers \RabbitMqBundle\Publisher\Publisher::setLogger
+     * @return void
      */
     public function testLogger(): void
     {
@@ -42,8 +42,6 @@ final class PublisherTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Publisher\Publisher::publish
      */
     public function testPublish(): void
     {
@@ -58,8 +56,6 @@ final class PublisherTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Publisher\Publisher::publish
      */
     public function testSavePublish(): void
     {
@@ -74,8 +70,6 @@ final class PublisherTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Publisher\Publisher::publish
      */
     public function testPublishException(): void
     {
@@ -90,8 +84,6 @@ final class PublisherTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Publisher\Publisher::publish
      */
     public function testSavePublishException(): void
     {
@@ -105,7 +97,7 @@ final class PublisherTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \RabbitMqBundle\Publisher\Publisher::setup
+     * @return void
      */
     public function testSetup(): void
     {
@@ -116,8 +108,6 @@ final class PublisherTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Publisher\Publisher::setup
      */
     public function testSetupException(): void
     {

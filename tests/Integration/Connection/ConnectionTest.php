@@ -5,24 +5,25 @@ namespace RabbitBundleTests\Integration\Connection;
 use Exception;
 use InvalidArgumentException;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\Stub\Exception as MockException;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\ClientFactory;
+use RabbitMqBundle\Connection\Connection;
 use RabbitMqBundle\Connection\ConnectionManager;
 
 /**
  * Class ConnectionTest
  *
  * @package RabbitBundleTests\Integration\Connection
- *
- * @covers  \RabbitMqBundle\Connection\Connection
  */
+#[CoversClass(Connection::class)]
 final class ConnectionTest extends KernelTestCaseAbstract
 {
 
     /**
-     * @covers \RabbitMqBundle\Connection\Connection::setLogger
+     * @return void
      */
     public function testLogger(): void
     {
@@ -33,8 +34,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Connection::getClient
      */
     public function testGetClient(): void
     {
@@ -45,8 +44,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Connection::getChannel
      */
     public function testGetChannel(): void
     {
@@ -57,8 +54,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Connection::getChannel
      */
     public function testGetChannelNotConnected(): void
     {
@@ -71,8 +66,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Connection::getChannel
      */
     public function testGetChannelUnknown(): void
     {
@@ -83,8 +76,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Connection::getChannel
      */
     public function testGetChannelException(): void
     {
@@ -104,8 +95,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Connection::createChannel
      */
     public function testCreateChannel(): void
     {
@@ -114,8 +103,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Connection::createChannel
      */
     public function testCreateChannelNotConnected(): void
     {
@@ -125,8 +112,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
     }
 
     /**
-     * @covers \RabbitMqBundle\Connection\Connection::reconnect
-     *
      * @throws Exception
      */
     public function testConnection(): void
@@ -205,8 +190,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Connection::reconnect
      */
     public function testReconnectException(): void
     {
@@ -235,8 +218,6 @@ final class ConnectionTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Connection\Connection::reconnect
      */
     public function testReconnectExceptionExceeded(): void
     {

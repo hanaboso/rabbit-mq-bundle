@@ -5,6 +5,7 @@ namespace RabbitBundleTests\Integration\Consumer;
 use Exception;
 use GuzzleHttp\Promise\PromiseInterface;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\Attributes\CoversClass;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\Connection;
 use RabbitMqBundle\Consumer\AsyncCallbackInterface;
@@ -15,9 +16,8 @@ use RabbitMqBundle\Consumer\Callback\Exception\CallbackException;
  * Class AsyncConsumerTest
  *
  * @package RabbitBundleTests\Integration\Consumer
- *
- * @covers  \RabbitMqBundle\Consumer\AsyncConsumer
  */
+#[CoversClass(AsyncConsumer::class)]
 final class AsyncConsumerTest extends KernelTestCaseAbstract
 {
 
@@ -28,8 +28,6 @@ final class AsyncConsumerTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Consumer\AsyncConsumer::consume
      */
     public function testConsume(): void
     {
@@ -41,8 +39,6 @@ final class AsyncConsumerTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Consumer\AsyncConsumer::consume
      */
     public function testConsumeException(): void
     {
@@ -55,8 +51,6 @@ final class AsyncConsumerTest extends KernelTestCaseAbstract
 
     /**
      * @throws Exception
-     *
-     * @covers \RabbitMqBundle\Consumer\AsyncConsumer::consume
      */
     public function testConsumeCallbackException(): void
     {

@@ -3,15 +3,15 @@
 namespace RabbitBundleTests\Integration\Consumer\Callback;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use RabbitMqBundle\Consumer\Callback\DumpAsyncCallback;
 
 /**
  * Class DumpAsyncCallbackTest
  *
  * @package RabbitBundleTests\Integration\Consumer\Callback
- *
- * @covers  \RabbitMqBundle\Consumer\Callback\DumpAsyncCallback
  */
+#[CoversClass(DumpAsyncCallback::class)]
 final class DumpAsyncCallbackTest extends CallbackTestAbstract
 {
 
