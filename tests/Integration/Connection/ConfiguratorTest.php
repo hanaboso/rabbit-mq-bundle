@@ -17,7 +17,7 @@ use RabbitMqBundle\Connection\Configurator;
 final class ConfiguratorTest extends KernelTestCaseAbstract
 {
 
-    private const CONFIGURED = 'configured';
+    private const string CONFIGURED = 'configured';
 
     /**
      * @var Configurator

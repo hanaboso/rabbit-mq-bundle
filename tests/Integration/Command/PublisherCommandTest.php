@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 final class PublisherCommandTest extends KernelTestCaseAbstract
 {
 
-    private const COMMAND = 'rabbit_mq:publisher:my-publisher';
+    private const string COMMAND = 'rabbit_mq:publisher:my-publisher';
 
     /**
      * @var CommandTester

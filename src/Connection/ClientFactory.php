@@ -15,16 +15,16 @@ final class ClientFactory
 {
 
     // Config keys
-    public const HOST              = 'host';
-    public const PORT              = 'port';
-    public const VHOST             = 'vhost';
-    public const USER              = 'user';
-    public const PASSWORD          = 'password';
-    public const HEARTBEAT         = 'heartbeat';
-    public const TIMEOUT           = 'timeout';
-    public const RECONNECT         = 'reconnect';
-    public const RECONNECT_TRIES   = 'reconnect_tries';
-    public const RECONNECT_TIMEOUT = 'reconnect_timeout';
+    public const string HOST              = 'host';
+    public const string PORT              = 'port';
+    public const string VHOST             = 'vhost';
+    public const string USER              = 'user';
+    public const string PASSWORD          = 'password';
+    public const string HEARTBEAT         = 'heartbeat';
+    public const string TIMEOUT           = 'timeout';
+    public const string RECONNECT         = 'reconnect';
+    public const string RECONNECT_TRIES   = 'reconnect_tries';
+    public const string RECONNECT_TIMEOUT = 'reconnect_timeout';
 
     /**
      * @var mixed[]

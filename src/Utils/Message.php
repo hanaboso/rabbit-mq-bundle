@@ -16,11 +16,11 @@ use RabbitMqBundle\Connection\Connection;
 final class Message
 {
 
-    public const APPLICATION_HEADERS = 'application_headers';
+    public const string APPLICATION_HEADERS = 'application_headers';
 
-    private const UNDERSCORE = '_';
-    private const DASH       = '-';
-    private const PROPERTIES = [
+    private const string UNDERSCORE = '_';
+    private const string DASH       = '-';
+    private const array PROPERTIES  = [
         'app-id',
         'cluster-id',
         'content-encoding',

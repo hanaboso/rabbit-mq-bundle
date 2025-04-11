@@ -17,8 +17,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class PublisherCommand extends Command
 {
 
-    private const CONTENT = 'content';
-    private const HEADERS = 'headers';
+    private const string CONTENT = 'content';
+    private const string HEADERS = 'headers';
 
     /**
      * PublisherCommand constructor.

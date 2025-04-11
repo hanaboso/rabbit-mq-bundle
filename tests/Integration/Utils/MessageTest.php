@@ -22,7 +22,7 @@ final class MessageTest extends KernelTestCaseAbstract
      */
     public function testBody(): void
     {
-        self::assertEquals('{}', Message::getBody(Message::create('{}')));
+        self::assertSame('{}', Message::getBody(Message::create('{}')));
     }
 
     /**

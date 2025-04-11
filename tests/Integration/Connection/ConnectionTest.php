@@ -98,7 +98,7 @@ final class ConnectionTest extends KernelTestCaseAbstract
      */
     public function testCreateChannel(): void
     {
-        self::assertEquals(2, $this->connection->createChannel());
+        self::assertSame(2, $this->connection->createChannel());
     }
 
     /**
@@ -108,7 +108,7 @@ final class ConnectionTest extends KernelTestCaseAbstract
     {
         $this->setProperty($this->connection->getClient(), 'is_connected', FALSE);
 
-        self::assertEquals(1, $this->connection->createChannel());
+        self::assertSame(1, $this->connection->createChannel());
     }
 
     /**

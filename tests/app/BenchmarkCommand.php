@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class BenchmarkCommand extends Command
 {
 
-    private const COUNT = 'count';
+    private const string COUNT = 'count';
 
     /**
      * BenchmarkCommand constructor.

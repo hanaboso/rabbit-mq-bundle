@@ -42,7 +42,7 @@ trait DebugMessageTrait
             $context['routing_key'] = $routingKey;
         }
 
-        if (!empty($headers)) {
+        if ($headers !== [] && $headers !== NULL) {
             $result = [];
             foreach ($headers as $key => $value) {
                 if ($key === 'timestamp' && !is_scalar($value)) {

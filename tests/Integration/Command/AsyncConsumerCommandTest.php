@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 final class AsyncConsumerCommandTest extends KernelTestCaseAbstract
 {
 
-    private const COMMAND = 'rabbit_mq:consumer:my-second-async-consumer';
+    private const string COMMAND = 'rabbit_mq:consumer:my-second-async-consumer';
 
     /**
      * @var CommandTester

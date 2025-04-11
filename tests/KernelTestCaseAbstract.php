@@ -28,7 +28,7 @@ abstract class KernelTestCaseAbstract extends KernelTestCase
     use CustomAssertTrait;
     use RestoreErrorHandlersTrait;
 
-    protected const QUEUE = 'my-queue';
+    protected const string QUEUE = 'my-queue';
 
     /**
      * @var Connection

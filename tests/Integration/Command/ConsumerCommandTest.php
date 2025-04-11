@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 final class ConsumerCommandTest extends KernelTestCaseAbstract
 {
 
-    private const COMMAND = 'rabbit_mq:consumer:my-second-consumer';
+    private const string COMMAND = 'rabbit_mq:consumer:my-second-consumer';
 
     /**
      * @var CommandTester

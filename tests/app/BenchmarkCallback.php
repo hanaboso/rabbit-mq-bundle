@@ -16,7 +16,7 @@ use RabbitMqBundle\Utils\Message;
 final class BenchmarkCallback implements CallbackInterface
 {
 
-    private const COUNT = 250_000;
+    private const int COUNT = 250_000;
 
     /**
      * @var int

@@ -50,7 +50,7 @@ final class ConnectionFactoryTest extends KernelTestCaseAbstract
      */
     public function testGetConfigByKey(): void
     {
-        self::assertEquals('guest', $this->factory->getConfigByKey('default', 'user'));
+        self::assertSame('guest', $this->factory->getConfigByKey('default', 'user'));
     }
 
     /**
