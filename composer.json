@@ -2,20 +2,20 @@
     "name": "hanaboso/rabbit-mq-bundle",
     "description": "Hanaboso - rabbit-mq-bundle",
     "license": "Apache-2.0",
-    "version": "1.9.0",
+    "version": "1.10.0",
     "require": {
         "php": "^8.4",
         "ext-ctype": "*",
         "ext-intl": "*",
         "ext-mbstring": "*",
-        "guzzlehttp/promises": "^2.2",
-        "hanaboso/utils": "^1.6",
+        "guzzlehttp/promises": "^2.3",
+        "hanaboso/utils": "^2.0",
         "php-amqplib/php-amqplib": "^3.7",
-        "symfony/monolog-bundle": "^3.10",
-        "symfony/yaml": "^7.2"
+        "symfony/monolog-bundle": "^4.0",
+        "symfony/yaml": "^8.0"
     },
     "require-dev": {
-        "hanaboso/php-check-utils": "^1.7"
+        "hanaboso/php-check-utils": "^2.0"
     },
     "autoload": {
         "psr-4": {

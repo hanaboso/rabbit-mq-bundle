@@ -1,5 +1,5 @@
 parameters:
-    kernel.secret: ''
+    kernel.secret: 'SomeSecretSomething'
 
 framework:
     test: true
