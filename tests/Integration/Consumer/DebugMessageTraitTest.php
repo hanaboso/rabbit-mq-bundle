@@ -22,10 +22,7 @@ final class DebugMessageTraitTest extends KernelTestCaseAbstract
     public function testPrepareMessage(): void
     {
         $message = Message::create('{}', ['key' => 'value', 'timestamp' => DateTimeUtils::getUtcDateTime('today')]);
-        // phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
-        $message->delivery_info['exchange']    = 'exchange';
-        $message->delivery_info['routing_key'] = 'routingKey';
-        // phpcs:enable
+        $message->setDeliveryInfo(0, FALSE, 'exchange', 'routingKey');
 
         self::assertEquals(
             [

@@ -4,6 +4,7 @@ namespace RabbitBundleTests\Integration\Consumer;
 
 use Exception;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
@@ -18,6 +19,7 @@ use RabbitMqBundle\Consumer\ConsumerAbstract;
  *
  * @package RabbitBundleTests\Integration\Consumer
  */
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(Consumer::class)]
 #[CoversClass(ConsumerAbstract::class)]
 final class ConsumerTest extends KernelTestCaseAbstract

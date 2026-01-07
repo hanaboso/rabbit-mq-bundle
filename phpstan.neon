@@ -31,6 +31,9 @@ parameters:
 		-
 			message: '#Construct empty\(\) is not allowed. Use more strict comparison#'
 			path:  src/Connection/ClientFactory.php
+		-
+			message: '#.*#'
+			path: tests/app/config/reference.php
 	ergebnis:
 		classesNotRequiredToBeAbstractOrFinal:
 			- RabbitMqBundle\Publisher\Publisher

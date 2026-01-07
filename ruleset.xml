@@ -9,4 +9,6 @@
             </property>
         </properties>
     </rule>
+
+    <exclude-pattern>tests/app/config/reference.php</exclude-pattern>
 </ruleset>

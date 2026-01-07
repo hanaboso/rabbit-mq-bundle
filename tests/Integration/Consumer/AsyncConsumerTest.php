@@ -5,6 +5,7 @@ namespace RabbitBundleTests\Integration\Consumer;
 use Exception;
 use GuzzleHttp\Promise\PromiseInterface;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\Connection;
@@ -17,6 +18,7 @@ use RabbitMqBundle\Consumer\Callback\Exception\CallbackException;
  *
  * @package RabbitBundleTests\Integration\Consumer
  */
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(AsyncConsumer::class)]
 final class AsyncConsumerTest extends KernelTestCaseAbstract
 {
