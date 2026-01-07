@@ -5,8 +5,8 @@ namespace RabbitBundleTests\Integration\Connection;
 use Exception;
 use InvalidArgumentException;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\MockObject\Stub\Exception as MockException;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Connection\ClientFactory;
@@ -18,6 +18,7 @@ use RabbitMqBundle\Connection\ConnectionManager;
  *
  * @package RabbitBundleTests\Integration\Connection
  */
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(Connection::class)]
 final class ConnectionTest extends KernelTestCaseAbstract
 {
@@ -201,9 +202,8 @@ final class ConnectionTest extends KernelTestCaseAbstract
             ->expects(self::exactly(2))
             ->method('create')
             ->willReturnOnConsecutiveCalls(
-                new MockException(new Exception('Something gone wrong!')),
+                self::throwException(new Exception('Something gone wrong!')),
                 $connection,
-                $this->connection->getClient(),
             );
         $factory
             ->method('getConfig')

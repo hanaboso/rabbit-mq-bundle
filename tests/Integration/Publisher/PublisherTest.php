@@ -4,6 +4,7 @@ namespace RabbitBundleTests\Integration\Publisher;
 
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Psr\Log\NullLogger;
 use RabbitBundleTests\KernelTestCaseAbstract;
@@ -16,6 +17,7 @@ use RabbitMqBundle\Publisher\Publisher;
  *
  * @package RabbitBundleTests\Integration\Publisher
  */
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(Publisher::class)]
 final class PublisherTest extends KernelTestCaseAbstract
 {

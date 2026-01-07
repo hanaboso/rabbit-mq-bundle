@@ -3,6 +3,7 @@
 namespace RabbitBundleTests\Integration\Command;
 
 use Exception;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
 use RabbitBundleTests\KernelTestCaseAbstract;
 use RabbitMqBundle\Command\ConsumerCommand;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * @package RabbitBundleTests\Integration\Command
  */
+#[AllowMockObjectsWithoutExpectations]
 #[CoversClass(ConsumerCommand::class)]
 final class ConsumerCommandTest extends KernelTestCaseAbstract
 {
