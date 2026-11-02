@@ -1,7 +1,7 @@
 .PHONY: init-dev test
 
-DC= docker-compose
-DE= docker-compose exec -T php-dev
+DC= docker compose
+DE= docker compose exec -T php-dev
 
 ALIAS?=alias
 Darwin:
