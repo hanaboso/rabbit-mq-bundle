@@ -40,7 +40,7 @@ final class AsyncConsumerCommandTest extends KernelTestCaseAbstract
 
         $this->tester->execute([]);
 
-        self::assertEmpty($this->tester->getDisplay());
+        self::assertSame('', $this->tester->getDisplay());
         self::assertMessages(0);
     }
 

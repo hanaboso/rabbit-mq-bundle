@@ -34,7 +34,7 @@ final class PublisherCommandTest extends KernelTestCaseAbstract
         $this->tester->execute([]);
 
         self::sleep();
-        self::assertEmpty($this->tester->getDisplay());
+        self::assertSame('', $this->tester->getDisplay());
         self::assertMessages(1);
     }
 
